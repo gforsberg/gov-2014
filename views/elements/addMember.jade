@@ -1,0 +1,89 @@
+.modal.hide.fade#add(tabindex='-1', role='dialog', aria-labelledby='addLabel', aria-hidden='true', style="width: 60%;")
+	form.form-horizontal(action="/api/addMember", method='post', style="margin-bottom: 0px")
+		.modal-header
+			.close(data-dismiss='modal', aria-hidden='true')
+				| x
+			h3#addLabel Add a New Member
+		.modal-body
+
+			// Member Info
+			fieldset
+				legend Member Info
+				.control-group
+					label.control-label Name
+					.controls
+						input(type='text', name='name', value="Unnamed Member", required)
+				.control-group
+					label.control-label Type
+					.controls
+						select(name='type', required)
+							option(value="") Please Select...
+							option(value="Youth") Youth (14-17 Yrs)
+							option(value="Young Adult") Young Adult (18-24 yrs)
+							option(value="Chaperone") Chaperone (21+ yrs)
+				.control-group
+					label.control-label Birth Date
+					.controls
+						input(type='text', name='birthDate', data-content="Youth <b>must</b> be fourteen (14) to attend this event. Any delegate seventeen (17) and under <b>must</b> be accompanied by a chaperone.<br> <b>Born After:</b> March 18, 1995 <br> <b>Born before:</b> March 19, 1999")
+						br
+						small Please use a format similar to "April 23 1990"
+				.control-group
+					label.control-label Gender
+					.controls
+						select(name='gender')
+							option(value="") Please Select...
+							option(value="Male") Male
+							option(value="Female") Female
+							option(value="Other") Other
+				.control-group
+					label.control-label Phone
+					.controls
+						input(type='text', name='phone', data-content="If you're coming to the conference you might want to consider using your cell number, that way we can get in touch with you during the event.")
+				.control-group
+					label.control-label Email
+					.controls
+						input(type='text', name='email')
+
+			// Emergency Info
+			fieldset
+				legend Emergency Info
+				.control-group
+					label.control-label Medical Number
+					.controls
+						input(type='text', name='emergencyInfo.medicalNum', data-content="This should be your 10-digit CareCard number.<br> If you are unable to provide this information immediately, please ensure that you have the medical number on hand at the conference.")
+				.control-group
+					label.control-label Allergies
+					.controls
+						input(type='text', name='emergencyInfo.allergies', data-content="Please enter a list of all allergies. If you have multiple allergies please comma separate them.")
+				.control-group
+					label.control-label Conditions
+					.controls
+						input(type='text', name='emergencyInfo.conditions', data-content="Please enter a list of medical conditions for the registrant, if you have multiple conditions to report, please use a comma to seperate them.")
+			
+			// Emergency Contact
+			fieldset
+				legend Emergency Contact
+				.control-group
+					label.control-label Name
+					.controls
+						input(type='text', name='emergencyInfo.name', data-content="Please list the phone # of the emergency contact person above who can advise us on medical conditions, doctors or vital information.")
+				.control-group
+					label.control-label Relation
+					.controls
+						input(type='text', name='emergencyInfo.relation', data-content="For example, 'Mother' or 'Babysitter'")
+				.control-group
+					label.control-label Phone
+					.controls
+						input(type='text', name='emergencyInfo.phone', data-content="Please list the phone # of the emergency contact person above who can advise us on medical conditions, doctors or vital information.")
+
+				.control-group
+					label.control-label Youth In Care
+					.controls
+						small This event is currently at capacity. We are exploring options for including additional diners. Please check with us on registration day.
+						br
+						hr
+						small One of the events taking place during the conference is a special feast to honour youth in care. If this delegate is or has been a youth in the care of the Ministry of Children and Family Development or an Aboriginal Delegated Agency and would like to attend the feast, please select this box.
+
+		.modal-footer
+			button.btn(data-dismiss='modal', aria-hidden='true') Cancel
+			input.btn.btn-primary(type='submit', value='Add!')

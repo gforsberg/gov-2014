@@ -1,0 +1,142 @@
+doctype 5
+html
+	head
+		title Gathering Our Voices 2013 - #{title}
+		meta(charset="utf-8")
+		meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		
+		// Info for Engines
+		meta(name="description", content="Gathering Our Voices is an annual conference in BC for Aboriginal Youth. This years conference theme will focus on Health and will be held from March 19-22, 2013 in Penticton, BC.")
+		meta(name="author", content="Andrew Hobden")
+
+
+		// HTML5 shim, because IE's are horrible.
+		//if lt IE 9
+			script(src='http://html5shim.googlecode.com/svn/trunk/html5.js')
+
+
+		// CSS Stuff
+		link(href="//netdna.bootstrapcdn.com/bootswatch/2.1.1/united/bootstrap.min.css", rel="stylesheet")
+		link(href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-responsive.min.css", rel="stylesheet")
+		style(type="text/css")
+			popover {
+				z-index: 99999;
+			}
+			@media (min-width:980px) {
+				body {
+						padding-top: 40px;
+				}
+			}
+
+		// Jquery
+		script(src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js")
+		
+		// Bootstrap
+		script(src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js")
+
+		// Google Analytics Tracker
+		script(type="text/javascript")
+				var _gaq = _gaq || [];
+				_gaq.push(['_setAccount', 'UA-35619549-1']);
+				_gaq.push(['_trackPageview']);
+
+				(function() {
+					var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+					ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				})();
+
+	body
+		// Navbar. This does not need a container.
+		.navbar.navbar-fixed-top
+			.navbar-inner
+				.container
+					a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+
+					a.brand(style="font-family: Rancho", href="/") Gathering Our Voices
+
+					.nav-collapse.collapse
+						ul.nav
+							li
+								a(href='/')
+									i.icon-home.icon-white
+									| Home
+
+							li.dropdown
+								a(href="/workshopHome")
+									i.icon-list-alt.icon-white
+									| Workshops
+							li
+								a(href="/privacy")
+									i.icon-eye-open.icon-white
+									| Privacy Policy
+							li
+								a(href="/help")
+									i.icon-question-sign.icon-white
+									| Help & FAQs
+						ul.nav.pull-right
+							if group
+								if group.internal.admin
+									li
+										a(href="/admin")
+											i.icon-hdd.icon-white
+											| Admin
+							if group
+								li.dropdown
+									a.dropdown-toggle#accountDrop(href='#', data-toggle="dropdown")
+										i.icon-edit.icon-white
+										| Account
+										b.caret
+									ul.dropdown-menu(aria-labelledby="accountDrop")
+										li
+											a(href="/account") Management
+										li
+											a(href="#add", data-toggle="modal") Add a member
+										li
+											a(href="/account#billing") Payment Details
+								li
+									a(href="/api/logout") Logout
+							else
+								li
+									form(action="/", style="text-align: center; margin: 0px 0px 0px 0px;")
+										input.btn.btn-success.btn-small(type="submit", value="Login")
+
+
+		.container-fluid
+			.row-fluid
+				div(style="text-align: center;")
+					img(src="/img/logos/gov.png")
+			block content
+			.row-fluid(style="text-align: center")
+				h4 For any questions of concerns, please contact:
+				p.muted BC Association of Aboriginal Friendship Centers
+				p.muted Phone: 250-385-5522 or 1-800-990-2432
+				p.muted Siku Allooloo, Conference Registration Coordinator
+				p.muted 
+					a(href="mailto:gatheringourvoices@bcaafc.com") gatheringourvoices@bcaafc.com
+				p.muted Vanessa Sloan Morgan, Workshop Registration Coordinator
+				p.muted
+					a(href="mailto:vsloanmorgan@bcaafc.com") vsloanmorgan@bcaafc.com
+			.row-fluid
+				.span6.offset4
+					h4 Proudly supported by the following Organizations:
+			.row-fluid
+				div(style="text-align: center;")
+					a(href="http://www.bcaafc.com")
+						img(src="/img/logos/bcaafc.png")
+					a(href="http://www.friendshipcentre.ca/")
+						img(src="/img/logos/ooknakane.png")
+		include elements/addMember
+		script
+			$(document).ready(function(){
+				$('a[href="' + window.location.hash + '"]').click()
+			});
+			$('input').popover({
+				placement: 'right',
+				trigger: 'focus',
+				html: 'true'
+			})

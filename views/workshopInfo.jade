@@ -1,0 +1,75 @@
+extends layout
+
+block content
+	.row-fluid
+		.span12
+			if workshop.session > 6
+				a.btn.btn-primary(href="/workshops/thursday") Back to Thursday, March 21, 2013
+			else
+				a.btn.btn-primary(href="/workshops/wednesday") Back to Wednesday, March 20, 2013
+			hr
+	.row-fluid
+		.span12
+			.well
+				h1= workshop.name
+				h3 Facilitator:
+					| #{workshop.host}
+				h3 Description: 
+				p= workshop.description
+				br
+				h3 Time Details
+				p Day: 
+					b= workshop.day
+				p Start: 
+					b= workshop.timeStart.toLocaleTimeString()
+				p End: 
+					b= workshop.timeEnd.toLocaleTimeString()
+				b Session:
+					|  
+					.badge #{workshop.session}
+				br
+				h3 Location Details
+				p Room: 
+					b= workshop.room
+				p Venue: 
+					b= workshop.venue
+				h3 Capacity: 
+				p Used: #{workshop.signedUp.length}
+				p Max: #{workshop.capacity}
+	if group
+		.row-fluid
+			.span12
+				.well
+					h1 Group Attendance
+					.alert.alert-warning
+						p Please do not register Chaperones in workshops unless it is explicitly stated in the workshop description or you have verified that you may with one of the Gathering Our Voices staff.
+					table.table-hover
+						thead(style="text-align: left")
+							th(style="width: 150px") Name
+							th(style="width: 150px") Type
+							th(style="width: 150px") Attending
+							th Actions
+						tbody
+							for member in group.groupMembers
+								tr
+									td= member.name
+									td= member.type
+									if member.workshops.indexOf(workshop._id) == -1
+										td
+											p.label.label-important Not Attending
+										td
+											.btn-group
+												if member.type == "Chaperone"
+													a.btn.btn-small.btn-warning(style="width: 150px",href='/api/workshop/attendees/add?member=#{member._id}&workshop=#{workshop._id}') Add Chaperone to Workshop 
+												else
+													a.btn.btn-small.btn-success(style="width: 150px",href='/api/workshop/attendees/add?member=#{member._id}&workshop=#{workshop._id}') Add to Workshop  
+												.disabled.btn.btn-small.btn-danger(href='/api/workshop/attendees/remove?member=#{member._id}&workshop=#{workshop._id}', style="width: 10px") -
+									else
+										td
+											p.label.label-success Attending
+										td
+											.btn-group
+												.disabled.btn.btn-small.btn-success(href='/api/workshop/attendees/add?member=#{member._id}&workshop=#{workshop._id}', style="width: 10px") +
+												a.btn.btn-small.btn-danger(href='/api/workshop/attendees/remove?member=#{member._id}&workshop=#{workshop._id}', style="width: 150px") Remove from Workshop
+										
+									td

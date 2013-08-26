@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+	if 5 * group.chaperones.length < group.youth.length
+		div.alert.alert-error
+			button.button(class="close", data-dismiss="alert") x
+			b Warning:
+			p Your group does not have enough Chaperones to support it's youth. Please remove some youth or add new chaperones.
+	ul.nav.nav-tabs#accountTabs
+		li.active
+			a(href="#groupinfo", data-toggle="tab") Group Info
+		li
+			a(href="#members", data-toggle="tab") Members
+		li
+			a(href="#billing", data-toggle="tab") Billing
+	.tab-content(style="")
+		.tab-pane.fade.active.in#groupinfo
+			include elements/groupInfo
+		.tab-pane.fade#members
+			include elements/members
+		.tab-pane.fade#billing
+			include elements/billing
+
+	!= js('account/main')

@@ -1,0 +1,82 @@
+form.form-horizontal.row-fluid(action="/api/editGroup", method='post')
+	.span6
+		fieldset 
+			legend Group Information
+			.control-group
+				label.control-label Affiliation: 
+				.controls
+					input(type='text', name='affiliation', required, value="#{group.groupInformation.affiliation}", data-content="Please list the name of the group/band/school/Friendship Centre etc. that you are registering.")
+			.control-group
+				label.control-label Address: 
+				.controls
+					input(type='text', name='address', required, value="#{group.groupInformation.address}", data-content="The First Line of your mailing address. For the VNFC, this would be '231 Regina Avenue', for example.")
+			.control-group
+				label.control-label City: 
+				.controls
+					input(type='text', name='city', required, value="#{group.groupInformation.city}")
+			.control-group
+				label.control-label Province: 
+				.controls
+					input(type='text', name='province', required, value="#{group.groupInformation.province}")
+			.control-group
+				label.control-label Postal Code: 
+				.controls
+					input(type='text', name='postalCode', required, value="#{group.groupInformation.postalCode}", data-content="Please include the space. For example, 'V8Z 1J6'")
+			.control-group
+				label.control-label Fax: 
+				.controls
+					input(type='text', name='fax', value="#{group.groupInformation.fax}", data-content="This is not required, but if you don't give us a fax number, all documents sent to you will be via email.")
+			.control-group
+				.controls
+					a.btn.btn-inverse(href="/account/printout")
+						i.icon-print.icon-white
+						| Group Information Printout
+
+	.span6
+		fieldset
+			legend Primary Contact Information
+			.control-group
+				label.control-label Name: 
+				.controls
+					input(type='text', name='name', required, value="#{group.primaryContact.name}")
+			.control-group
+				label.control-label Email: 
+				.controls
+					//input(type='text', name='email', required, value="#{group.primaryContact.email}")
+					p= group.primaryContact.email
+			.control-group
+				label.control-label Phone: 
+				.controls
+					input(type='text', name='phone', required, value="#{group.primaryContact.phone}")
+			.control-group
+				label.control-label Password Change: 
+				.controls
+					a.btn.btn-small.btn-info(href="http://gatheringourvoices.bcaafc.com/account/endRecovery?key=#{group._id}&email=#{group.primaryContact.email}") Change your password
+					br
+					small This will not save any other changes!
+
+
+		fieldset
+			legend Group Status
+			if 5 * group.chaperones.length < group.youth.length
+				.alert.alert-error
+					b Youth Attending: 
+					| #{group.youth.length}
+			else
+				b Youth Attending: 
+				| #{group.youth.length}
+				br
+			b Young Adults Attending: 
+			| #{group.youngAdults.length}
+			br
+			if 5 * group.chaperones.length < group.youth.length
+				.alert.alert-error
+					b Chaperones Attending: 
+					| #{group.chaperones.length}
+			else
+				b Chaperones Attending: 
+				| #{group.chaperones.length}
+				br
+	.row-fluid
+		.span12
+			input.btn.btn-primary.btn-block(type="submit", value="Submit Changes")

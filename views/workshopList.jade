@@ -1,0 +1,58 @@
+extends layout
+
+block content
+	.row-fluid
+		.span12
+			h1 Workshop Listing
+			h3 #{day}
+			table.table.table-hover
+				thead
+					tr
+						th Name
+						th Host
+						th Room
+						th Venue
+						th Start
+						th End
+						th Session
+						th Capacity
+						if group
+							if group.internal.admin
+								th Admin
+						if group
+							th Register
+				tbody
+					for workshop in workshops
+						tr(rowspan=2)
+							td= workshop.name
+							td= workshop.host
+							td= workshop.room
+							td= workshop.venue
+							td= workshop.timeStart.toLocaleTimeString()
+							td= workshop.timeEnd.toLocaleTimeString()
+							td
+								.badge.badge #{workshop.session}
+							td #{workshop.signedUp.length} / #{workshop.capacity}
+							if group
+								if group.internal.admin
+									td
+										.btn-group
+											a.btn.btn-small.btn-info.edit(data-id="#{workshop._id}", href="#workshop", data-toggle="modal") Edit
+											.btn.btn-small.btn-danger.disabled(href="/api/workshop/delete?workshop=#{workshop._id}") Del
+							td
+								a.btn.btn-small.btn-primary.info(href="/api/workshop/get?workshop=#{workshop._id}") More info...
+
+	!= js('workshops')
+
+	if day == "Wednesday"
+		a.btn.btn-primary(href="/workshops/thursday") Thursday, March 21, 2013
+	else
+		a.btn.btn-primary(href="/workshops/wednesday") Wednesday, March 20, 2013
+	
+	if group
+		if group.internal.admin
+			br
+			a.addWorkshop(href="#workshop", data-toggle="modal") Add a new workshop...
+			.modal.hide.fade#workshop(tabindex='-1', role='dialog', aria-hidden='true', aria-labelledby='workshopLabel')
+				include elements/workshop.jade
+			!= js('workshops')
