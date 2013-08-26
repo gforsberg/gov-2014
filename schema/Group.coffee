@@ -9,11 +9,10 @@ Group
 ###
 Setup
 ###
-# Imports
+# Third Party Dependencies
 mongoose = require("mongoose")
 bcrypt   = require("bcrypt")
-Q        = require("Q")
-#Aliases
+# Aliases
 Schema   = mongoose.Schema
 ObjectId = mongoose.Schema.ObjectId
 
@@ -29,14 +28,13 @@ GroupSchema = new Schema {
     required: true
     lowercase: true
     index:
-      unique: true
-      sparse: true
+      unique: true # No duplicates allowed.
   hash:
     type: String
   password: # NOTE: This isn't stored, it exists for our validation hook.
     type: String
     trim: true
-  primaryContact:
+  name:
     type: String
     trim: true
     required: true
@@ -138,9 +136,8 @@ GroupSchema = new Schema {
 Statics
   These are model based. So you'd call `User.model.foo()` if you had a static called `foo`
 ###
-GroupSchema.statics.register = (group) ->
-  deferred = Q.defer()
-  newGroup = new UserSchema {
+GroupSchema.statics.register = (group, next) ->
+  newGroup = new module.exports.model {
     email:        group.email
     password:     group.password
     name:         group.name
@@ -152,25 +149,22 @@ GroupSchema.statics.register = (group) ->
     fax:          group.fax
     phone:        group.phone
   }
-  newGroup.save (err, newGroup) ->
+  newGroup.save (err, newGroup) =>
     unless err
-      deferred.resolve(newGroup)
+      next null, newGroup
     else
-      deferred.reject(err)
-  return deferred.promise
+      next err, null
 
-GroupSchema.statics.login = (email, password) ->
-  deferred = Q.defer()
+GroupSchema.statics.login = (email, password, next) ->
   @.findOne email: email, (err, group) ->
-    unless err
-      bcrypt.compare password, @hash, (err, valid) ->
+    unless err or !group? or Object.keys(group).length is 0
+      bcrypt.compare password, group.hash, (err, valid) ->
         unless not valid
-          deferred.resolve(group)
+          next null, group
         else
-          deferred.reject(err)
+          next err or new Error("Wrong Password"), null
     else
-      deferred.reject(err)
-  return deferred.promise
+      next err or new Error("Doesn't exist!"), null
 
 
 ###
@@ -184,7 +178,7 @@ GroupSchema.pre 'validate', (next) ->
   # If the `password` attribute is set, hash it and clear it.
   if @password
     bcrypt.hash @password, 10, (err, @hash) =>
-      unless
+      unless err
         @password = undefined # Get rid of the password.
         next()
       else
@@ -196,6 +190,7 @@ GroupSchema.pre 'validate', (next) ->
 Export
 ###
 # We should export both, just in case.
+Group = mongoose.model("Group", GroupSchema)
 module.exports =
   schema: GroupSchema
-  model: mongoose.model("Group", GroupSchema)
+  model: Group

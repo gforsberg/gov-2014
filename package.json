@@ -1,9 +1,17 @@
 {
   "name": "gatheringourvoices",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "description": "The Gathering Our Voices Website for 2014 (Vancouver)",
   "private": true,
+  "bin": [],
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "node node_modules/.bin/mocha --compilers coffee:coffee-script --reporter spec"
+  },
+  "author": "Andrew Hobden <andrew@hoverbear.org>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hoverbear/gov-2014.git"
   },
   "engines": {
     "node": "~0.10.16",
@@ -23,6 +31,9 @@
     "marked": "~0.2.9",
     "nodemailer": "~0.5.2",
     "q": "~0.9.6",
-    "mocha": "~1.12.0"
+    "mocha": "~1.12.0",
+    "should": "~1.2.2",
+    "assert": "~0.4.9",
+    "bcrypt": "~0.7.6"
   }
 }
