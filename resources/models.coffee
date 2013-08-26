@@ -2,12 +2,10 @@
 # This file contains schema definitions for [Mongoose](http://mongoosejs.com). Make sure to check out the [Schema Docs](http://mongoosejs.com/docs/guide.html).
 
 # First we need to require Mongoose, as well as anything else we might use.
-mongoose = require 'mongoose'
+mongoose = require("mongoose")
 Schema = mongoose.Schema
 # Mongoose uses some strangly formatted ObjectId.
 ObjectId = Schema.Types.ObjectId
-
-# ## Schema & Models
 
 ###
 Mongoose Schemas
