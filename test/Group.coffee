@@ -49,7 +49,6 @@ describe "Group", ->
         should.exist group.fax
         should.equal group.phone, "(123) 123-1234"
         done()
-
     it "Should not register existing groups with valid info", (done) ->
       # This should exist from our first test.
       Group.model.register {
@@ -67,7 +66,6 @@ describe "Group", ->
         should.exist err
         should.not.exist group
         done()
-
     it "Should not register new groups with not valid info", (done) ->
       # This should exist from our first test.
       Group.model.register {
@@ -93,12 +91,10 @@ describe "Group", ->
         should.not.exist err
         should.equal group.email, "foo@bar.baz"
         done()
-
     it "Should not log in existing users with invalid info", (done) ->
       Group.model.login "foo@bar.baz", "wrong_password", (err, group) ->
         should.not.exist group
         done()
-
     it "Should not log in new users", (done) ->
       Group.model.login "new@user.ca", "", (err, group) ->
         should.not.exist group
