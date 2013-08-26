@@ -132,14 +132,14 @@ server.configure ->
 # ## Useful Middleware
 # TODO: Move to cookies
 requireAuthentication = (req, res, next) ->
-  if not req.session.group?
+  if not req.session?.group?
     res.send "This page requires authentication, please log in."
   else
     next()
 
 # TODO: Move to cookies
 populateGroupMembers = (req, res, next) ->
-  if not req.session.group?
+  if not req.session?.group?
     next()
   else
     Group.findById(req.session.group._id).populate('groupMembers').populate('payments').exec (err, group) ->
@@ -151,7 +151,7 @@ populateGroupMembers = (req, res, next) ->
         
 # TODO: Move to cookies
 populateGroup = (req, res, next) ->
-  if not req.session.group?
+  if not req.session?.group?
     next()
   else
     Group.findById(req.session.group._id).exec (err, group) ->
@@ -179,17 +179,17 @@ GET routes
 server.get '/', (req, res) ->
   res.render 'index',
     title: "Home"
-    group: req.session.group || null
+    group: req.session?.group || null
 
 server.get '/privacy', (req, res) ->
   res.render 'privacy',
     title: "Privacy Policy"
-    group: req.session.group || null
+    group: req.session?.group || null
     
 server.get '/help', (req, res) ->
   res.render 'help',
     title: "Help"
-    group: req.session.group || null
+    group: req.session?.group || null
 
 server.get '/account', requireAuthentication, (req, res) ->
   # Accumulate Bill and toss members into buckets for easy JADE-ing.
@@ -260,7 +260,7 @@ server.get '/account', requireAuthentication, (req, res) ->
 server.get '/account/signup', (req, res) ->
   res.render 'account/signup',
     title: "Signup"
-    group: req.session.group || null
+    group: req.session?.group || null
     
 server.get '/account/startRecovery', (req, res) ->
   res.render 'account/startRecovery',
@@ -889,7 +889,7 @@ server.post '/api/signup', (req, res) ->
 
 
 server.get '/api/logout', (req, res) ->
-  if req.session.group
+  if req.session?.group
     Group.findByIdAndUpdate req.session.group._id,
       $push: log: event: "LOGOUT: From #{req.ip}"
       (err, group) ->

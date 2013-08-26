@@ -19,7 +19,7 @@ html
 		// CSS Stuff
 		link(href="//netdna.bootstrapcdn.com/bootswatch/2.1.1/united/bootstrap.min.css", rel="stylesheet")
 		link(href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-responsive.min.css", rel="stylesheet")
-		style(type="text/css")
+		style(type="text/css").
 			popover {
 				z-index: 99999;
 			}
@@ -36,7 +36,7 @@ html
 		script(src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js")
 
 		// Google Analytics Tracker
-		script(type="text/javascript")
+		script(type="text/javascript").
 				var _gaq = _gaq || [];
 				_gaq.push(['_setAccount', 'UA-35619549-1']);
 				_gaq.push(['_trackPageview']);
@@ -131,7 +131,7 @@ html
 					a(href="http://www.friendshipcentre.ca/")
 						img(src="/img/logos/ooknakane.png")
 		include elements/addMember
-		script
+		script.
 			$(document).ready(function(){
 				$('a[href="' + window.location.hash + '"]').click()
 			});
