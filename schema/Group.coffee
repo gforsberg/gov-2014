@@ -12,6 +12,8 @@ Setup
 # Third Party Dependencies
 mongoose = require("mongoose")
 bcrypt   = require("bcrypt")
+# First Party Dependencies
+Member   = require("./Member")
 # Aliases
 Schema   = mongoose.Schema
 ObjectId = mongoose.Schema.ObjectId
@@ -85,10 +87,15 @@ GroupSchema = new Schema {
     type: Date
     default: Date.now
     required: true
+  # Private things we shouldn't accept values for during creation.
+  _notes:
+    type: String
+    trim: true
   # State variables
-  internal:
-    memberRegistration:
+  _state:
+    registration:
       type: String
+      default: "New group - Unchecked"
       # TODO: Change these to be meaningful.
       enum: [
         "New group - Unchecked",
@@ -97,18 +104,18 @@ GroupSchema = new Schema {
         "Group waiting for info",
         "Group - Complete"
       ]
-      default: "New group - Unchecked"
-    workshopRegistration:
+    workshops:
       type: String
+      default: "Not sent"
       # TODO: Change these to be meaningful
       enum: [
         "Not sent",
         "Sent",
         "Complete"
       ]
-      default: "Not sent"
-    paymentStatus:
+    payment:
       type: String
+      default: "Need to contact"
       # TODO: Change these to be meaningful
       enum: [
         "Need to contact",
@@ -117,43 +124,27 @@ GroupSchema = new Schema {
         "Invoice sent",
         "Payment recieved"
       ]
-      default: "Need to contact"
-    notes:
-      type: String
-      trim: true
   # Aggregations
-  _members: [
-    type: ObjectId
-    ref: "Member"
-  ]
-  _payments: [
-    type: ObjectId
-    ref: "Payment"
-  ]
+  _members: 
+    type: [
+      type: ObjectId
+      ref: "Member"
+    ]
+    default: []
+  _payments: 
+    type: [
+      type: ObjectId
+      ref: "Payment"
+    ]
+    default: []
 }
 
 ###
 Statics
   These are model based. So you'd call `User.model.foo()` if you had a static called `foo`
+  `MemberSchema.statics.foo =`
 ###
-GroupSchema.statics.register = (group, next) ->
-  newGroup = new module.exports.model {
-    email:        group.email
-    password:     group.password
-    name:         group.name
-    affiliation:  group.affiliation
-    address:      group.address
-    city:         group.city
-    province:     group.province
-    postalCode:   group.postalCode
-    fax:          group.fax
-    phone:        group.phone
-  }
-  newGroup.save (err, newGroup) =>
-    unless err
-      next null, newGroup
-    else
-      next err, null
+# None yet!
 
 GroupSchema.statics.login = (email, password, next) ->
   @.findOne email: email, (err, group) ->
@@ -166,13 +157,26 @@ GroupSchema.statics.login = (email, password, next) ->
     else
       next err or new Error("Doesn't exist!"), null
 
+###
+Methods
+  These are document based. So you'd call `fooMember.foo()` if you had a method called `foo`
+  `MemberSchema.methods.foo =`
+###
+# None yet!
+
+###
+Validators
+  Validators can be mapped to paths. It lets you validate on change.
+  `MemberSchema.path('foo').validate (value) ->`
+###
+# None yet!
 
 ###
 Pre/Post Middleware
   Middleware can be pre/post `init`, `validate`, `save`, `remove`
   NOTE: Atomic updates **do not** invoke middleware.
-
-  Make sure to properly call next()!
+  `MemberSchema.pre 'bar', (next) ->`
+  `MemberSchema.post 'bar', (next) ->`
 ###
 GroupSchema.pre 'validate', (next) ->
   # If the `password` attribute is set, hash it and clear it.

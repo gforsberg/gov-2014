@@ -13,20 +13,21 @@ Setup
   Necessary setup for tests.
 ###
 # We use an temp database for testing this.
-mongoose.connect "localhost/test", (err) ->
-  console.log err if err
+console.log mongoose.connections?.length
+unless mongoose.connections?.length > 1
+  mongoose.connect "localhost/test", (err) ->
+    console.log err if err
 
 ###
 Tests
 ###
 describe "Group", ->
   before (done) ->
-    mongoose.connection.on 'open', () ->
-      Group.model.remove {}, done
+    Group.model.remove {}, done
 
-  describe "Group.register", ->
+  describe "Group.create", ->
     it "Should register new groups with valid info", (done) ->
-      Group.model.register {
+      Group.model.create {
         email:          "foo@bar.baz"
         password:       "foo"
         name:           "foo bar"
@@ -51,7 +52,7 @@ describe "Group", ->
         done()
     it "Should not register existing groups with valid info", (done) ->
       # This should exist from our first test.
-      Group.model.register {
+      Group.model.create {
         email:          "foo@bar.baz"
         password:       "foo"
         name:           "foo bar"
@@ -68,13 +69,13 @@ describe "Group", ->
         done()
     it "Should not register new groups with not valid info", (done) ->
       # This should exist from our first test.
-      Group.model.register {
-        email:          "foobarbaz"
+      Group.model.create {
+        email:          "foo@bar.baz"
         password:       "foo"
         name:           "foo bar"
         affiliation:    "foo Native Friendship Centre"
-        address:        "123 Foo Ave"
-        city:           "Victoria"
+        #address:        "123 Foo Ave"
+        #city:           "Victoria"
         province:       "British Columbia"
         postalCode:     "A1B 2C3"
         fax:            ""
