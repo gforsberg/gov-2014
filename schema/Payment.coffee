@@ -1,10 +1,8 @@
 ###
-Member
-  People going to the conference.
+Payment
+  Payments for groups.
   Child Of:
     * 1..1 Group
-  Has:
-    * 1..6 Workshops
 ###
 
 ###
@@ -19,29 +17,9 @@ ObjectId = mongoose.Schema.ObjectId
 ###
 Schema
 ###
-MemberSchema = new Schema {
-  # Member Details
-  name:
-    type: String
-    trim: true
-    required: true
-  type:
-    type: String
-    required: true
-    enum: [
-      "Youth",
-      "Young Adult",
-      "Chaperone"
-    ]
-  gender:
-    type: String
-    required: true
-    enum: [
-      "Male",
-      "Female",
-      "Other"
-    ]
-  birthDate:
+PaymentSchema = new Schema {
+  # Payment details
+  date:
     # Why not use a Date? Because Javascript dates are gross.
     # Besides, we only care about day, month, year.
     day:
@@ -69,56 +47,27 @@ MemberSchema = new Schema {
     year:
       type: Number
       required: true
-      min: 1900 # TODO: Restrict these?
-      max: 2013
-  # Contact Details, these are optional.
-  phone:
+      min: 2013 # Payments are only 2013/2014 years
+      max: 2014
+  amount:
+    type: Number
+    min: 0
+    required: true
+  type:
+    type: String
+    required: true
+    enum: [
+      "Cheque",
+      "Money Order",
+      "Invoice",
+      "Credit Card",
+      "Paypal"
+    ]
+    required: true
+  description:
+    # Additional notes for the payment.
     type: String
     trim: true
-  email:
-    type: String
-    match: /.*@.*\..*/ # Should match most emails.
-    trim: true
-    lowercase: true
-  # Emergency Contact Info, Unlikely to be used but important!
-  emergencyContact:
-    name:
-      type: String
-      trim: true
-      required: true
-    relation:
-      type: String
-      trim: true
-      required: true
-    phone:
-      type: String
-      trim: true
-      required: true
-  emergencyInfo:
-    medicalNum:
-      type: String
-      trim: true
-      required: true
-    allergies:
-      type: [String]
-    conditions:
-      type: [String]
-  # State variables
-  _state:
-    # TODO: We may want to have a marker when people are done.
-    information:
-      type: Boolean
-      default: false
-  # Aggregations
-  _workshops: [ # Store both the session and the id itself.
-    session:    # This lets us do validation really quickly and easily.
-      type: Number
-      required: true
-    _id:
-      type: ObjectId
-      ref: "Workshop"
-      required: true
-  ]
   _group:
     type: ObjectId
     ref: "Group"
@@ -159,7 +108,7 @@ Validators
 Export
 ###
 # We should export both, just in case.
-Member = mongoose.model("Member", MemberSchema)
+Payment = mongoose.model("Payment", PaymentSchema)
 module.exports =
-  schema: MemberSchema
-  model: Member
+  schema: PaymentSchema
+  model: Payment

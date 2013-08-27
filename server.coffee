@@ -1368,7 +1368,7 @@ server.post '/api/payment/add', (req, res) ->
           group.payments.push payment._id
           group.save (err) ->
             if err
-              res.send "We couldn't save the pay`ment to the group, but we did save the payment. How strange."
+              res.send "We couldn't save the payment to the group, but we did save the payment. How strange."
             else
               Group.findByIdAndUpdate group._id,
                 $push:
