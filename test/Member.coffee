@@ -13,9 +13,8 @@ Setup
   Necessary setup for tests.
 ###
 # We use an temp database for testing this.
-unless mongoose.connections?.length > 1
-  mongoose.connect "localhost/test", (err) ->
-    console.log err if err
+mongoose.connect "localhost/test", (err) ->
+  
 
 ###
 Tests
