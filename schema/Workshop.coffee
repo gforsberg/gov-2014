@@ -52,10 +52,12 @@ WorkshopSchema = new Schema {
       min: 0
       max: 2000
       required: true
-    _registered: [
-      type: ObjectId
-      red: "Member"
-    ]
+    _registered: 
+      type: [
+        type: ObjectId
+        ref: "Member"
+      ]
+      default: []
   ]
 }
 

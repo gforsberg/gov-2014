@@ -14,6 +14,7 @@ Setup
 mongoose = require("mongoose")
 # First Party Dependencies
 Group    = require("./Group")
+Workshop    = require("./Workshop")
 # Aliases
 Schema   = mongoose.Schema
 ObjectId = mongoose.Schema.ObjectId
@@ -112,15 +113,17 @@ MemberSchema = new Schema {
       type: Boolean
       default: false
   # Aggregations
-  _workshops: [ # Store both the session and the id itself.
-    session:    # This lets us do validation really quickly and easily.
-      type: Number
-      required: true
-    _id:
-      type: ObjectId
-      ref: "Workshop"
-      required: true
-  ]
+  _workshops: 
+    type: [ # Store both the session and the id itself.
+      session:    # This lets us do validation really quickly and easily.
+        type: Number
+        required: true
+      _id:
+        type: ObjectId
+        ref: "Workshop"
+        required: true
+    ]
+    default: []
   _group:
     type: ObjectId
     ref: "Group"
@@ -164,6 +167,30 @@ MemberSchema.pre "save", (next) ->
     else
       # In the group already.
       next()
+MemberSchema.pre "save", (next) ->
+  # Make sure their workshops know that they're a part of them.
+  workshopIds = @_workshops.map (val) ->
+    return val._id
+  Workshop.model.find _id: {$in: workshopIds}, (err, workshops) =>
+    errors = [] # If we have any.
+    processor = (index) =>
+      if index < workshopIds.length
+        mapped = workshops[index].sessions.filter (val) =>
+          # Should **only** return the one session we want.
+          return val.session == @_workshops[index].session
+        if mapped[0]._registered.length < mapped[0].capacity
+          mapped[0]._registered.push @_id
+          workshops[index].save (err) ->
+            errors.push err if err
+            processor index+1
+        else
+          errors.push new Error("Session full.")
+          processor index+1
+    processor 0
+    unless errors.length > 0
+      next()
+    else
+      next err
 
 MemberSchema.pre "remove", (next) ->
   # Remove the member from the group
@@ -178,8 +205,29 @@ MemberSchema.pre "remove", (next) ->
             next()
           else
             next err
+MemberSchema.pre "remove", (next) ->
   # Remove the member from their workshops.
-  # TODO
+  workshopIds = @_workshops.map (val) ->
+      return val._id
+  Workshop.model.find _id: {$in: workshopIds}, (err, workshops) =>
+    errors = [] # If we have any.
+    processor = (index) =>
+      if index < workshopIds.length
+        mapped = workshops[index].sessions.filter (val) =>
+          # Should **only** return the one session we want.
+          return val.session == @_workshops[index].session
+        tosser = mapped[0]._registered.indexOf @_id
+        mapped[0]._registered.splice tosser, 1
+        workshops[index].save (err) ->
+          errors.push err if err
+          processor index+1
+    processor 0
+    unless errors.length > 0
+      next()
+    else
+      next err
+
+
 
 ###
 Validators

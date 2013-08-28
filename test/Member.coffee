@@ -8,6 +8,7 @@ mongoose = require("mongoose")
 # First Party Dependencies
 Member = require("../schema/Member")
 Group = require("../schema/Group")
+Workshop = require("../schema/Workshop")
 
 ###
 Setup
@@ -95,11 +96,60 @@ describe "Member", ->
         should.notEqual group._members.indexOf(vars.memberId), -1
         done()
 
+  describe "Member.find -> edit -> member.save()", ->
+    before (done) ->
+      # Make a workshop, since we don't have one.
+      Workshop.model.create {
+        name: "Test Member Workshop"
+        host: "Bob"
+        description: "Make some beaver hats, with Bob. It'll be fantastical."
+        sessions: [
+          session: 1
+          room: "Beaver"
+          venue: "Bear"
+          capacity: 50
+        ,
+          session: 2
+          room: "Beaver"
+          venue: "Horse"
+          capacity: 1900
+        ]
+        room: "Beaver"
+        venue: "The Beaverton Hotel"
+        capacity: 55
+      }, (err, workshop) =>
+        vars.workshopId = workshop._id
+        done()
+
+    it "Should add members to workshops they join", (done) ->
+      Member.model.findById vars.memberId, (err, member) ->
+        member._workshops.push 
+          _id: vars.workshopId
+          session: 2
+        member.save (err, member) ->
+          Workshop.model.findById vars.workshopId, (err, workshop) ->
+            should.not.exist err
+            should.equal member._workshops.length, 1
+            should.equal workshop.sessions[1]._registered.length, 1
+            done()
+
   describe "Member.find -> member.remove()", ->
-    it "Should remove a member from a group when they are deleted", (done) ->
-        Member.model.findById vars.memberId, (err, member) ->
-          member.remove (err) ->
-            Group.model.findById vars.groupId, (err, group) ->
-              should.not.exist err
-              should.equal group._members.indexOf(member._id), -1
-              done()
+    # We want to test for multiple removals. So just remove once, test many!
+    before (done) ->
+      Member.model.findById vars.memberId, (err, member) ->
+        vars.member = member
+        member.remove (err) ->
+          should.not.exist err
+          done()
+    it "Should remove a member from their group when they are deleted", (done) ->
+      Group.model.findById vars.groupId, (err, group) ->
+        should.not.exist err
+        should.exist group
+        should.equal group._members.indexOf(vars.member._id), -1
+        done()
+    it "Should remove a member from their workshops when they are deleted", (done) ->
+      Workshop.model.findById vars.workshopId, (err, workshop) ->
+        should.not.exist err
+        should.exist workshop
+        should.equal workshop.sessions[1]._registered.indexOf(vars.member._id), -1
+        done()
