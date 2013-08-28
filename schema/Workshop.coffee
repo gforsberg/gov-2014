@@ -33,9 +33,6 @@ WorkshopSchema = new Schema {
     type: String
     required: true
     trim: true
-  website:  # A new, optional field.
-    type: String
-    trim: true
   sessions: [ # Determines start/end time, as well as day.
     session:
       type: Number
@@ -74,7 +71,30 @@ Methods
   These are document based. So you'd call `fooMember.foo()` if you had a method called `foo`
   `MemberSchema.methods.foo =`
 ###
-# None yet!
+WorkshopSchema.methods.addMember = (memberId, session, next) ->
+  Member.findById memberId, (err, member) =>
+    unless err or !member? # No member
+      unless @_registered.length >= @capacity or !member.canRegister
+        # Add the member to the workshop.
+        @_registered.push memberId
+        @save (err, member) =>
+          unless err
+            # Add the workshop to the member
+            member._workshops.push {
+              session: @session
+              _id: @_id
+            }
+            member.save (err) ->
+              unless err
+                next null, @
+              else
+                next err, null
+          else
+            next err, null
+      else
+        next new Error("Can't register for this workshop"), null
+    else
+      next err or new Error("Member doesn't exist"), null
 
 ###
 Validators

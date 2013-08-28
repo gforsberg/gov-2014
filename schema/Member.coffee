@@ -12,6 +12,8 @@ Setup
 ###
 # Third Party Dependencies
 mongoose = require("mongoose")
+# First Party Dependencies
+Group    = require("./Group")
 # Aliases
 Schema   = mongoose.Schema
 ObjectId = mongoose.Schema.ObjectId
@@ -69,8 +71,8 @@ MemberSchema = new Schema {
     year:
       type: Number
       required: true
-      min: 1900 # TODO: Restrict these?
-      max: 2013
+      min: 1900
+      max: 2000 # 14 years old. Della signed off.
   # Contact Details, these are optional.
   phone:
     type: String
@@ -146,7 +148,38 @@ Pre/Post Middleware
   `MemberSchema.pre 'bar', (next) ->`
   `MemberSchema.post 'bar', (next) ->`
 ###
-# None yet!
+MemberSchema.pre "save", (next) ->
+  # Make sure their group knows they're part of them.
+  Group.model.findById @_group, (err, group) =>
+    if err or !group?
+      next err || new Error("Group doesn't exist")
+    else if group._members.indexOf(@_id) is -1
+      # Not in the group!
+      group._members.push @_id
+      group.save (err) ->
+        unless err
+          next()
+        else
+          next err
+    else
+      # In the group already.
+      next()
+
+MemberSchema.pre "remove", (next) ->
+  # Remove the member from the group
+  Group.model.findById @_group, (err, group) =>
+    unless !group?
+      index = group._members.indexOf @_id
+      unless index is -1
+        # Group exists, member is a part of it.
+        group._members.splice index, 1
+        group.save (err) =>
+          unless err
+            next()
+          else
+            next err
+  # Remove the member from their workshops.
+  # TODO
 
 ###
 Validators

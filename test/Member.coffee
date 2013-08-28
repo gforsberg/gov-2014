@@ -7,6 +7,7 @@ should = require("should")
 mongoose = require("mongoose")
 # First Party Dependencies
 Member = require("../schema/Member")
+Group = require("../schema/Group")
 
 ###
 Setup
@@ -15,12 +16,19 @@ Setup
 # We use an temp database for testing this.
 mongoose.connect "localhost/test", (err) ->
 
+
+# Test Variables
+vars = {}
+
 ###
 Tests
 ###
 describe "Member", ->
   before (done) ->
-    Member.model.remove {}, done
+    Member.model.remove {}, (err) ->
+      Group.model.findOne {}, (err, group) ->
+        vars.groupId = group._id
+        done()
   
   describe "Member.create", ->
     it "Should create a new member with valid info", (done) ->
@@ -42,7 +50,7 @@ describe "Member", ->
           medicalNum: "123 123 1234"
           allergies: ["Cake", "Potatoes"]
           conditions: ["Hacker"]
-        _group: new mongoose.Types.ObjectId
+        _group: vars.groupId
       }, (err, member) =>
         should.not.exist err
         should.equal member.name, "Foo"
@@ -55,6 +63,7 @@ describe "Member", ->
         should.equal member.email, "foo@bar.baz"
         should.exist member.emergencyContact
         should.exist member.emergencyInfo
+        vars.memberId = member._id
         done()
     it "Should not create a new member with not valid info", (done) ->
       Member.model.create {
@@ -75,8 +84,22 @@ describe "Member", ->
           medicalNum: "123 123 1234"
           allergies: ["Cake", "Potatoes"]
           conditions: ["Hacker"]
-        _group: new mongoose.Types.ObjectId
+        _group: vars.groupId
       }, (err, member) =>
         should.exist err
         should.not.exist member
         done()
+    it "Should add the new member to a group", (done) ->
+      Group.model.findById vars.groupId, (err, group) ->
+        should.not.exist err
+        should.notEqual group._members.indexOf(vars.memberId), -1
+        done()
+
+  describe "Member.find -> member.remove()", ->
+    it "Should remove a member from a group when they are deleted", (done) ->
+        Member.model.findById vars.memberId, (err, member) ->
+          member.remove (err) ->
+            Group.model.findById vars.groupId, (err, group) ->
+              should.not.exist err
+              should.equal group._members.indexOf(member._id), -1
+              done()

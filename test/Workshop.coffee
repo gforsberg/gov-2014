@@ -28,7 +28,6 @@ describe "Workshop", ->
         name: "Making Beaver Hats with Bob"
         host: "Bob"
         description: "Make some beaver hats, with Bob. It'll be fantastical."
-        website: "http://beaverhatswithbob.com"
         sessions: [
           session: 1
           room: "Beaver"
@@ -48,7 +47,6 @@ describe "Workshop", ->
         should.equal workshop.name, "Making Beaver Hats with Bob"
         should.equal workshop.host, "Bob"
         should.equal workshop.description, "Make some beaver hats, with Bob. It'll be fantastical."
-        should.equal workshop.website, "http://beaverhatswithbob.com"
         should.exist workshop.sessions[0]
         should.equal workshop.sessions[0].session, 1
         should.equal workshop.sessions[0].room, "Beaver"
@@ -61,7 +59,6 @@ describe "Workshop", ->
         #name: "Making Beaver Hats with Bob"
         #host: "Bob"
         description: "Make some beaver hats, with Bob. It'll be fantastical."
-        website: "http://beaverhatswithbob.com"
         sessions: [
           session:1
           room: "Beaver"

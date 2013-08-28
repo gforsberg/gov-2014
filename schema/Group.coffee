@@ -12,8 +12,6 @@ Setup
 # Third Party Dependencies
 mongoose = require("mongoose")
 bcrypt   = require("bcrypt")
-# First Party Dependencies
-Member   = require("./Member")
 # Aliases
 Schema   = mongoose.Schema
 ObjectId = mongoose.Schema.ObjectId
@@ -56,7 +54,7 @@ GroupSchema = new Schema {
     type: String
     trim: true
     required: true
-    enum: [
+    enum: [ # Must be one of these to work.
       "British Columbia",
       "Alberta",
       "Saskatchewan",
@@ -84,9 +82,39 @@ GroupSchema = new Schema {
     trim: true
     required: true
   registrationDate: 
-    type: Date
-    default: Date.now
-    required: true
+    # Why not use a Date? Because Javascript dates are gross.
+    # Besides, we only care about day, month, year.
+    day:
+      type: Number
+      required: true
+      min: 1
+      max: 31
+      default: (new Date).getDate() # Current Day of the month.
+    month:
+      type: String
+      required: true
+      enum: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ]
+      # Current Month
+      default: ["January","February","March","April","May","June","July","August","September","October","November","December"][(new Date).getMonth()]
+    year:
+      type: Number
+      required: true
+      min: 2013
+      max: 2014
+      default: (new Date()).getFullYear()
   # Private things we shouldn't accept values for during creation.
   _notes:
     type: String
@@ -125,18 +153,18 @@ GroupSchema = new Schema {
         "Payment recieved"
       ]
   # Aggregations
-  _members: 
+  _members: # A list of members.
     type: [
       type: ObjectId
       ref: "Member"
     ]
     default: []
   _payments: 
-    type: [
+    type: [ # A list of payments.
       type: ObjectId
       ref: "Payment"
     ]
-    default: []
+    default: [] # Default to none.
 }
 
 ###
@@ -144,13 +172,14 @@ Statics
   These are model based. So you'd call `User.model.foo()` if you had a static called `foo`
   `MemberSchema.statics.foo =`
 ###
-# None yet!
-
 GroupSchema.statics.login = (email, password, next) ->
+  # Find the group.
   @.findOne email: email, (err, group) ->
     unless err or !group? or Object.keys(group).length is 0
+      # Check their password.
       bcrypt.compare password, group.hash, (err, valid) ->
         unless not valid
+          # Pass along.
           next null, group
         else
           next err or new Error("Wrong Password"), null
@@ -162,7 +191,14 @@ Methods
   These are document based. So you'd call `fooMember.foo()` if you had a method called `foo`
   `MemberSchema.methods.foo =`
 ###
-# None yet!
+GroupSchema.methods.addMember = (memberId, next) ->
+  # You should create the member first, make sure it saves.
+  @_members.push memberId
+  @save (err, group) ->
+    unless err
+      next null, group
+    else
+      next err, null
 
 ###
 Validators

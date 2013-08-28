@@ -14,7 +14,6 @@ Setup
 ###
 # We use an temp database for testing this.
 mongoose.connect "localhost/test", (err) ->
-  
 
 ###
 Tests

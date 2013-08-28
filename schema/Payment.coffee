@@ -63,7 +63,6 @@ PaymentSchema = new Schema {
       "Credit Card",
       "Paypal"
     ]
-    required: true
   description:
     # Additional notes for the payment.
     type: String
