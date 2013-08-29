@@ -142,7 +142,38 @@ Methods
   These are document based. So you'd call `fooMember.foo()` if you had a method called `foo`
   `MemberSchema.methods.foo =`
 ###
-# None yet!
+MemberSchema.methods.hasConflicts = (workshopId, session) ->
+  if session % 3 is 1
+    blocks = [session..session+2]
+  else
+    blocks = [session, Math.floor(session / 4) + 1] 
+  conflicts = @_workshops.filter (val) ->
+    return blocks.indexOf(val.session) != -1 # Don't return blocks
+  if conflicts.length > 0
+    return true
+  else
+    return false
+
+MemberSchema.methods.addWorkshop = (workshopId, session, next) ->
+  if not @hasConflicts(workshopId, session)
+    # Check that the workshop isn't full, if not, add us there.
+    Workshop.model.findById workshopId, (err, workshop) =>
+      # Figure out the session we want, add the member.
+      for aSession in workshop.sessions
+        if aSession.session == session
+          aSession._registered.push @_id
+      workshop.save (err) =>
+        unless err
+          @_workshops.push {session: session, _id: workshop._id}
+          @save (err) =>
+            unless err
+              next null, @
+            else
+              next err, null
+        else
+          next err, null
+  else
+    next new Error("Can't register for this workshop, there is a conflict."), null
 
 ###
 Pre/Post Middleware
@@ -167,30 +198,6 @@ MemberSchema.pre "save", (next) ->
     else
       # In the group already.
       next()
-MemberSchema.pre "save", (next) ->
-  # Make sure their workshops know that they're a part of them.
-  workshopIds = @_workshops.map (val) ->
-    return val._id
-  Workshop.model.find _id: {$in: workshopIds}, (err, workshops) =>
-    errors = [] # If we have any.
-    processor = (index) =>
-      if index < workshopIds.length
-        mapped = workshops[index].sessions.filter (val) =>
-          # Should **only** return the one session we want.
-          return val.session == @_workshops[index].session
-        if mapped[0]._registered.length < mapped[0].capacity
-          mapped[0]._registered.push @_id
-          workshops[index].save (err) ->
-            errors.push err if err
-            processor index+1
-        else
-          errors.push new Error("Session full.")
-          processor index+1
-    processor 0
-    unless errors.length > 0
-      next()
-    else
-      next err
 
 MemberSchema.pre "remove", (next) ->
   # Remove the member from the group
@@ -208,7 +215,7 @@ MemberSchema.pre "remove", (next) ->
 MemberSchema.pre "remove", (next) ->
   # Remove the member from their workshops.
   workshopIds = @_workshops.map (val) ->
-      return val._id
+    return val._id
   Workshop.model.find _id: {$in: workshopIds}, (err, workshops) =>
     errors = [] # If we have any.
     processor = (index) =>

@@ -96,7 +96,90 @@ describe "Member", ->
         should.notEqual group._members.indexOf(vars.memberId), -1
         done()
 
-  describe "Member.find -> edit -> member.save()", ->
+  describe "Member.canRegister", ->
+    testWorkshop = 0
+    before (done) ->
+      Workshop.model.create {
+        name: "Test Member Workshop"
+        host: "Bob"
+        description: "Make some beaver hats, with Bob. It'll be fantastical."
+        sessions: [
+          session: 1
+          room: "Beaver"
+          venue: "Bear"
+          capacity: 1
+        ,
+          session: 2
+          room: "Beaver"
+          venue: "Bear"
+          capacity: 1
+        ,
+          session: 3
+          room: "Beaver"
+          venue: "Bear"
+          capacity: 1
+        ,
+          session: 4
+          room: "Beaver"
+          venue: "Bear"
+          capacity: 1
+        ,
+          session: 5
+          room: "Beaver"
+          venue: "Bear"
+          capacity: 1
+        ,
+          session: 6
+          room: "Beaver"
+          venue: "Bear"
+          capacity: 1
+        ]
+      }, (err, workshop) ->
+        testWorkshop = workshop._id
+        done()
+
+    it "Should properly block sessions", (done) ->
+      Member.model.create {
+        name: "Food"
+        type: "Youth"
+        gender: "Male"
+        birthDate:
+          day: 1
+          month: "January"
+          year: 1990
+        phone: "(123) 123-1234"
+        email: "food@bar.baz"
+        emergencyContact:
+          name: "Bar"
+          relation: "Also a random word."
+          phone: "(123) 123-1234"
+        emergencyInfo:
+          medicalNum: "123 123 1234"
+          allergies: ["Cake", "Potatoes"]
+          conditions: ["Hacker"]
+        _group: vars.groupId
+      }, (err, member) =>
+        member.hasConflicts(testWorkshop, 1).should.not.be.ok # False
+        member.hasConflicts(testWorkshop, 2).should.not.be.ok 
+        member.hasConflicts(testWorkshop, 3).should.not.be.ok 
+        member._workshops.push
+          _id: testWorkshop
+          session: 1
+        member.save (err) ->
+          member.hasConflicts(testWorkshop, 1).should.be.ok # True
+          member.hasConflicts(testWorkshop, 2).should.be.ok 
+          member.hasConflicts(testWorkshop, 3).should.be.ok 
+          member._workshops.push
+            _id: testWorkshop
+            session: 5
+          member.save (err) ->
+            member.hasConflicts(testWorkshop, 4).should.be.ok 
+            member.hasConflicts(testWorkshop, 5).should.be.ok 
+            member.hasConflicts(testWorkshop, 6).should.not.be.ok 
+            done()
+
+
+  describe "member.addWorkshop()", ->
     before (done) ->
       # Make a workshop, since we don't have one.
       Workshop.model.create {
@@ -114,30 +197,28 @@ describe "Member", ->
           venue: "Horse"
           capacity: 1900
         ]
-        room: "Beaver"
-        venue: "The Beaverton Hotel"
-        capacity: 55
       }, (err, workshop) =>
         vars.workshopId = workshop._id
         done()
 
     it "Should add members to workshops they join", (done) ->
       Member.model.findById vars.memberId, (err, member) ->
-        member._workshops.push 
-          _id: vars.workshopId
-          session: 2
-        member.save (err, member) ->
-          Workshop.model.findById vars.workshopId, (err, workshop) ->
-            should.not.exist err
-            should.equal member._workshops.length, 1
-            should.equal workshop.sessions[1]._registered.length, 1
-            done()
+        member.addWorkshop vars.workshopId, 2, (err, member) ->
+          should.not.exist err
+          should.notEqual member._workshops.length, 0
+          done()
+    it "Should not add members to workshops they can't join", (done) ->
+      Member.model.findById vars.memberId, (err, member) ->
+        member.addWorkshop vars.workshopId, 1, (err, member) ->
+          should.exist err
+          done()
 
   describe "Member.find -> member.remove()", ->
+    testMember = 0
     # We want to test for multiple removals. So just remove once, test many!
     before (done) ->
       Member.model.findById vars.memberId, (err, member) ->
-        vars.member = member
+        testMember = member._id
         member.remove (err) ->
           should.not.exist err
           done()
@@ -145,11 +226,11 @@ describe "Member", ->
       Group.model.findById vars.groupId, (err, group) ->
         should.not.exist err
         should.exist group
-        should.equal group._members.indexOf(vars.member._id), -1
+        should.equal group._members.indexOf(testMember), -1
         done()
     it "Should remove a member from their workshops when they are deleted", (done) ->
       Workshop.model.findById vars.workshopId, (err, workshop) ->
         should.not.exist err
         should.exist workshop
-        should.equal workshop.sessions[1]._registered.indexOf(vars.member._id), -1
+        should.equal workshop.sessions[1]._registered.indexOf(testMember), -1
         done()
