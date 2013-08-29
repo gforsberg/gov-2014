@@ -17,18 +17,15 @@ Setup
 # We use an temp database for testing this.
 mongoose.connect "localhost/test", (err) ->
 
-
-# Test Variables
-vars = {}
-
 ###
 Tests
 ###
 describe "Member", ->
+  testGroup = 0
   before (done) ->
     Member.model.remove {}, (err) ->
       Group.model.findOne {}, (err, group) ->
-        vars.groupId = group._id
+        testGroup = group._id
         done()
   
   describe "Member.create", ->
@@ -51,7 +48,7 @@ describe "Member", ->
           medicalNum: "123 123 1234"
           allergies: ["Cake", "Potatoes"]
           conditions: ["Hacker"]
-        _group: vars.groupId
+        _group: testGroup
       }, (err, member) =>
         should.not.exist err
         should.equal member.name, "Foo"
@@ -64,7 +61,6 @@ describe "Member", ->
         should.equal member.email, "foo@bar.baz"
         should.exist member.emergencyContact
         should.exist member.emergencyInfo
-        vars.memberId = member._id
         done()
     it "Should not create a new member with not valid info", (done) ->
       Member.model.create {
@@ -85,16 +81,18 @@ describe "Member", ->
           medicalNum: "123 123 1234"
           allergies: ["Cake", "Potatoes"]
           conditions: ["Hacker"]
-        _group: vars.groupId
+        _group: testGroup
       }, (err, member) =>
         should.exist err
         should.not.exist member
         done()
-    it "Should add the new member to a group", (done) ->
-      Group.model.findById vars.groupId, (err, group) ->
+    it "Should add the member to the group it is created with", (done) ->
+      Member.model.findOne email: "foo@bar.baz", (err, members) ->
         should.not.exist err
-        should.notEqual group._members.indexOf(vars.memberId), -1
-        done()
+        should.exist members._group
+        Group.model.findById members._group, (err, group) ->
+          should.notEqual group._members.indexOf(members._id), -1
+          done()
 
   describe "Member.canRegister", ->
     testWorkshop = 0
@@ -157,7 +155,7 @@ describe "Member", ->
           medicalNum: "123 123 1234"
           allergies: ["Cake", "Potatoes"]
           conditions: ["Hacker"]
-        _group: vars.groupId
+        _group: testGroup
       }, (err, member) =>
         member.hasConflicts(testWorkshop, 1).should.not.be.ok # False
         member.hasConflicts(testWorkshop, 2).should.not.be.ok 
@@ -181,6 +179,7 @@ describe "Member", ->
 
   describe "member.addWorkshop()", ->
     testWorkshop = 0
+    testMember = 0
     before (done) ->
       # Make a workshop, since we don't have one.
       Workshop.model.create {
@@ -200,16 +199,18 @@ describe "Member", ->
         ]
       }, (err, workshop) =>
         testWorkshop = workshop._id
+        Member.model.findOne email: "foo@bar.baz", (err, member) ->
+          testMember = member._id
         done()
 
     it "Should add members to workshops they join", (done) ->
-      Member.model.findById vars.memberId, (err, member) ->
+      Member.model.findById testMember, (err, member) ->
         member.addWorkshop testWorkshop, 2, (err, member) ->
           should.not.exist err
           should.notEqual member._workshops.length, 0
           done()
     it "Should not add members to workshops they can't join", (done) ->
-      Member.model.findById vars.memberId, (err, member) ->
+      Member.model.findById testMember, (err, member) ->
         member.addWorkshop testWorkshop, 1, (err, member) ->
           should.exist err
           done()
@@ -221,7 +222,7 @@ describe "Member", ->
     testSession = 0
     # We want to test for multiple removals. So just remove once, test many!
     before (done) ->
-      Member.model.findById vars.memberId, (err, member) ->
+      Member.model.findOne email: "foo@bar.baz" , (err, member) ->
         testMember = member._id
         testGroup = member._group
         testWorkshop = member._workshops[0]
