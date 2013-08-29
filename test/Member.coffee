@@ -17,6 +17,30 @@ Setup
 # We use an temp database for testing this.
 mongoose.connect "localhost/test", (err) ->
 
+boilerplate = {
+  member: (group, email) -> {
+    name: "Foo"
+    type: "Youth"
+    gender: "Male"
+    birthDate:
+      day: 1
+      month: "January"
+      year: 1990
+    phone: "(123) 123-1234"
+    email: email
+    emergencyContact:
+      name: "Bar"
+      relation: "Also a random word."
+      phone: "(123) 123-1234"
+    emergencyInfo:
+      medicalNum: "123 123 1234"
+      allergies: ["Cake", "Potatoes"]
+      conditions: ["Hacker"]
+    _group: group
+  }
+  group: () ->
+}
+
 ###
 Tests
 ###
@@ -30,26 +54,7 @@ describe "Member", ->
   
   describe "Member.create", ->
     it "Should create a new member with valid info", (done) ->
-      Member.model.create {
-        name: "Foo"
-        type: "Youth"
-        gender: "Male"
-        birthDate:
-          day: 1
-          month: "January"
-          year: 1990
-        phone: "(123) 123-1234"
-        email: "foo@bar.baz"
-        emergencyContact:
-          name: "Bar"
-          relation: "Also a random word."
-          phone: "(123) 123-1234"
-        emergencyInfo:
-          medicalNum: "123 123 1234"
-          allergies: ["Cake", "Potatoes"]
-          conditions: ["Hacker"]
-        _group: testGroup
-      }, (err, member) =>
+      Member.model.create boilerplate.member(testGroup, "foo@bar.baz"), (err, member) =>
         should.not.exist err
         should.equal member.name, "Foo"
         should.equal member.type, "Youth"
@@ -98,7 +103,7 @@ describe "Member", ->
     testWorkshop = 0
     before (done) ->
       Workshop.model.create {
-        name: "Test Member Workshop"
+        name: "canRegister test"
         host: "Bob"
         description: "Make some beaver hats, with Bob. It'll be fantastical."
         sessions: [
@@ -137,26 +142,7 @@ describe "Member", ->
         done()
 
     it "Should properly block sessions", (done) ->
-      Member.model.create {
-        name: "Food"
-        type: "Youth"
-        gender: "Male"
-        birthDate:
-          day: 1
-          month: "January"
-          year: 1990
-        phone: "(123) 123-1234"
-        email: "food@bar.baz"
-        emergencyContact:
-          name: "Bar"
-          relation: "Also a random word."
-          phone: "(123) 123-1234"
-        emergencyInfo:
-          medicalNum: "123 123 1234"
-          allergies: ["Cake", "Potatoes"]
-          conditions: ["Hacker"]
-        _group: testGroup
-      }, (err, member) =>
+      Member.model.create boilerplate.member(testGroup, "Food@bar.baz"), (err, member) =>
         member.hasConflicts(testWorkshop, 1).should.not.be.ok # False
         member.hasConflicts(testWorkshop, 2).should.not.be.ok 
         member.hasConflicts(testWorkshop, 3).should.not.be.ok 
@@ -183,52 +169,87 @@ describe "Member", ->
     before (done) ->
       # Make a workshop, since we don't have one.
       Workshop.model.create {
-        name: "Test Member Workshop"
+        name: "addWorkshop test"
         host: "Bob"
         description: "Make some beaver hats, with Bob. It'll be fantastical."
         sessions: [
           session: 1
           room: "Beaver"
           venue: "Bear"
-          capacity: 50
+          capacity: 1
         ,
-          session: 2
+          session: 6
           room: "Beaver"
           venue: "Horse"
-          capacity: 1900
+          capacity: 50
         ]
       }, (err, workshop) =>
         testWorkshop = workshop._id
-        Member.model.findOne email: "foo@bar.baz", (err, member) ->
+        Member.model.create boilerplate.member(testGroup, "addworkshop@bar.baz"), (err, member) ->
+          should.not.exist err
+          should.exist member
           testMember = member._id
-        done()
+          done()
 
     it "Should add members to workshops they join", (done) ->
       Member.model.findById testMember, (err, member) ->
-        member.addWorkshop testWorkshop, 2, (err, member) ->
+        member.addWorkshop testWorkshop, 6, (err, member) ->
           should.not.exist err
           should.notEqual member._workshops.length, 0
-          done()
+          Workshop.model.findById testWorkshop, (err, workshop) ->
+            should.notEqual workshop.sessions[1]._registered.indexOf(member._id), -1
+            done()
     it "Should not add members to workshops they can't join", (done) ->
       Member.model.findById testMember, (err, member) ->
-        member.addWorkshop testWorkshop, 1, (err, member) ->
+        member.addWorkshop testWorkshop, 4, (err, member) ->
           should.exist err
           done()
+    it "Should not allow members to join if the workshop is full", (done) ->
+      # Session 2 only can hold one person! Oh no!
+      Member.model.findById testMember, (err, member) ->
+        should.not.exist err
+        should.exist member
+        member.addWorkshop testWorkshop, 1, (err, member) ->
+          should.not.exist err
+          Member.model.create boilerplate.member(testGroup, "capTest@bar.baz"), (err, secondMember) ->
+            secondMember.addWorkshop testWorkshop, 1, (err, thisFails) ->
+              should.exist err
+              should.equal secondMember._workshops.indexOf(testWorkshop), -1
+              done()
+
 
   describe "Member.find -> member.remove()", ->
     testMember = 0
-    testGroup = 0
     testWorkshop = 0
     testSession = 0
     # We want to test for multiple removals. So just remove once, test many!
     before (done) ->
-      Member.model.findOne email: "foo@bar.baz" , (err, member) ->
+      Member.model.create boilerplate.member(testGroup, "remove@bar.baz") , (err, member) ->
         testMember = member._id
         testGroup = member._group
-        testWorkshop = member._workshops[0]
-        member.remove (err) ->
-          should.not.exist err
-          done()
+        # Make a workshop to model.
+        Workshop.model.create {
+          name: "removeWorkshop test"
+          host: "Bob"
+          description: "Make some beaver hats, with Bob. It'll be fantastical."
+          sessions: [
+            session: 1
+            room: "Beaver"
+            venue: "Bear"
+            capacity: 1
+          ,
+            session: 2
+            room: "Beaver"
+            venue: "Horse"
+            capacity: 50
+          ]
+        }, (err, workshop) =>
+          testWorkshop = workshop._id
+          member.addWorkshop testWorkshop, 1, (err, member) ->
+            should.not.exist err
+            member.remove (err) ->
+              should.not.exist err
+              done()
     it "Should remove a member from their group when they are deleted", (done) ->
       Group.model.findById testGroup, (err, group) ->
         should.not.exist err

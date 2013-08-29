@@ -161,7 +161,11 @@ MemberSchema.methods.addWorkshop = (workshopId, session, next) ->
       # Figure out the session we want, add the member.
       for aSession in workshop.sessions
         if aSession.session == session
-          aSession._registered.push @_id
+          if aSession.capacity > aSession._registered.length
+            aSession._registered.push @_id
+          else
+            next new Error("That workshop is at capacity"), null
+            return # End early.
       workshop.save (err) =>
         unless err
           @_workshops.push {session: session, _id: workshop._id}
