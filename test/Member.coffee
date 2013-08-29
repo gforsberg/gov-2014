@@ -180,6 +180,7 @@ describe "Member", ->
 
 
   describe "member.addWorkshop()", ->
+    testWorkshop = 0
     before (done) ->
       # Make a workshop, since we don't have one.
       Workshop.model.create {
@@ -198,39 +199,44 @@ describe "Member", ->
           capacity: 1900
         ]
       }, (err, workshop) =>
-        vars.workshopId = workshop._id
+        testWorkshop = workshop._id
         done()
 
     it "Should add members to workshops they join", (done) ->
       Member.model.findById vars.memberId, (err, member) ->
-        member.addWorkshop vars.workshopId, 2, (err, member) ->
+        member.addWorkshop testWorkshop, 2, (err, member) ->
           should.not.exist err
           should.notEqual member._workshops.length, 0
           done()
     it "Should not add members to workshops they can't join", (done) ->
       Member.model.findById vars.memberId, (err, member) ->
-        member.addWorkshop vars.workshopId, 1, (err, member) ->
+        member.addWorkshop testWorkshop, 1, (err, member) ->
           should.exist err
           done()
 
   describe "Member.find -> member.remove()", ->
     testMember = 0
+    testGroup = 0
+    testWorkshop = 0
+    testSession = 0
     # We want to test for multiple removals. So just remove once, test many!
     before (done) ->
       Member.model.findById vars.memberId, (err, member) ->
         testMember = member._id
+        testGroup = member._group
+        testWorkshop = member._workshops[0]
         member.remove (err) ->
           should.not.exist err
           done()
     it "Should remove a member from their group when they are deleted", (done) ->
-      Group.model.findById vars.groupId, (err, group) ->
+      Group.model.findById testGroup, (err, group) ->
         should.not.exist err
         should.exist group
         should.equal group._members.indexOf(testMember), -1
         done()
     it "Should remove a member from their workshops when they are deleted", (done) ->
-      Workshop.model.findById vars.workshopId, (err, workshop) ->
+      Workshop.model.findById testWorkshop, (err, workshop) ->
         should.not.exist err
         should.exist workshop
-        should.equal workshop.sessions[1]._registered.indexOf(testMember), -1
+        should.equal workshop.sessions[0]._registered.indexOf(testMember), -1
         done()
