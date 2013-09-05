@@ -204,6 +204,20 @@ GroupSchema.methods.addMember = (memberId, next) ->
     else
       next err, null
 
+GroupSchema.methods.getPaid = (next) ->
+  Payment = require("./Payment")
+  Payment.model.find _id: $in: @_payments, (err, payments) ->
+    sum = 0
+    for payment in payments
+      sum += payment.amount
+    next(sum)
+
+GroupSchema.methods.getDue = (next) ->
+  # TODO!
+
+GroupSchema.methods.getTotal = (next) ->
+  # TODO!
+
 ###
 Validators
   Validators can be mapped to paths. It lets you validate on change.
