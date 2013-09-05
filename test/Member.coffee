@@ -80,9 +80,9 @@ describe "Member", ->
         done()
     it "Should not create a new member with not valid info", (done) ->
       Member.model.create {
-        name: "Foo"
-        #type: "Youth"
-        #gender: "Male"
+        #name: "Foo"
+        type: "Youth"
+        gender: "Male"
         birthDate:
           day: 1
           month: "January"
@@ -172,6 +172,39 @@ describe "Member", ->
             member.hasConflicts(testWorkshop, 5).should.be.ok 
             member.hasConflicts(testWorkshop, 6).should.not.be.ok 
             done()
+
+  describe "Member.find -> member.save", ->
+    it "Should verify completeness", (done) ->
+      Member.model.create {
+        name: "Foo"
+        type: "Youth"
+        # gender: "Male"
+        birthDate:
+          day: 1
+          month: "January"
+          year: 1990
+        # phone: "(123) 123-1234"
+        email: "completeness@bar.baz"
+        emergencyContact:
+          # name: "Bar"
+          relation: "Also a random word."
+          phone: "(123) 123-1234"
+        emergencyInfo:
+          # medicalNum: "123 123 1234"
+          allergies: ["Cake", "Potatoes"]
+          conditions: ["Hacker"]
+        _group: testGroup
+      }, (err, member) ->
+        member._state.complete.should.be.false 
+        member.gender = "Male"
+        member.phone = "(123) 123-1234"
+        member.emergencyContact.name = "Bar"
+        member.emergencyInfo.medicalNum = "123 123 1234"
+        member.save (err) ->
+          should.not.exist err
+          member._state.complete.should.be.true
+          done()
+
 
 
   describe "Member.find -> member.addWorkshop()", ->

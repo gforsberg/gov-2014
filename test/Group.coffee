@@ -103,8 +103,24 @@ describe "Group", ->
         should.exist err
         done()
 
+  describe "Group.find -> Edit -> Group.save()", ->
+    it "Should allow the group to edit it's details, including password", (done) ->
+      Group.model.findById testGroup, (err, group) ->
+        should.not.exist err
+        should.exist group
+        group.password = "potato"
+        group.save (err) ->
+          should.not.exist err
+          Group.model.login "foo@bar.baz", "potato", (err, group) ->
+            should.not.exist err
+            should.exist group
+            group.password = "foo"
+            group.save (err) ->
+              should.not.exist err
+              done()
+
   describe "Group.find -> group.remove()", ->
-    it "Should remove the group, it's members, and payments.", (done) ->
+    it "Should remove the group, it's members, and payments", (done) ->
       Group.model.findById testGroup, (err, group) ->
         should.not.exist err
         should.exist group

@@ -24,13 +24,14 @@ Schema
 ###
 MemberSchema = new Schema {
   # Member Details
+  # Note that the commented out "required" is left so we know what is!
   name:
     type: String
     trim: true
     required: true
   type:
     type: String
-    required: true
+    # required: true
     enum: [
       "Youth",
       "Young Adult",
@@ -38,7 +39,7 @@ MemberSchema = new Schema {
     ]
   gender:
     type: String
-    required: true
+    # required: true
     enum: [
       "Male",
       "Female",
@@ -49,12 +50,12 @@ MemberSchema = new Schema {
     # Besides, we only care about day, month, year.
     day:
       type: Number
-      required: true
+      # required: true
       min: 1
       max: 31
     month:
       type: String
-      required: true
+      # required: true
       enum: [
         "January",
         "February",
@@ -71,7 +72,7 @@ MemberSchema = new Schema {
       ]
     year:
       type: Number
-      required: true
+      # required: true
       min: 1900
       max: 2000 # 14 years old. Della signed off.
   # Contact Details, these are optional.
@@ -88,27 +89,27 @@ MemberSchema = new Schema {
     name:
       type: String
       trim: true
-      required: true
+      # required: true
     relation:
       type: String
       trim: true
-      required: true
+      # required: true
     phone:
       type: String
       trim: true
-      required: true
+      # required: true
   emergencyInfo:
     medicalNum:
       type: String
       trim: true
-      required: true
+      # required: true
     allergies:
       type: [String]
     conditions:
       type: [String]
   # State variables
   _state:
-    # TODO: We may want to have a marker when people are done.
+    # This is checked via a middleware.
     complete:
       type: Boolean
       default: false
@@ -238,6 +239,31 @@ MemberSchema.pre "save", (next) ->
       # In the group already.
       next()
 
+MemberSchema.pre "save", (next) ->
+  complete = true
+  for item in ["type", "gender", "email", "phone"]
+    if not @[item]?
+      complete = false
+      break
+  # Birthdate
+  for item in ["day", "month", "year"]
+    if not @birthDate[item]?
+      complete = false
+      break
+  # Emergency Contact
+  for item in ["name", "relation", "phone"]
+    if not @emergencyContact[item]?
+      complete = false
+      break
+  # Emergency Info
+  for item in ["medicalNum"]
+    if not @emergencyInfo[item]?
+      complete = false
+      break
+  if complete
+    @_state.complete = true
+  next()
+
 MemberSchema.pre "remove", (next) ->
   # Remove the member from the group
   Group.model.findById @_group, (err, group) =>
@@ -251,7 +277,7 @@ MemberSchema.pre "remove", (next) ->
             next()
           else
             next err
-            
+
 MemberSchema.pre "remove", (next) ->
   # Remove the member from their workshops.
   workshopIds = @_workshops.map (val) ->
