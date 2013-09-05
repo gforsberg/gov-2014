@@ -260,8 +260,7 @@ MemberSchema.pre "save", (next) ->
     if not @emergencyInfo[item]?
       complete = false
       break
-  if complete
-    @_state.complete = true
+  @_state.complete = complete
   next()
 
 MemberSchema.pre "remove", (next) ->

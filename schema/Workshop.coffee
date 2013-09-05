@@ -25,6 +25,8 @@ WorkshopSchema = new Schema {
     type: String
     required: true
     trim: true
+    index:
+      unique: true
   host:
     type: String
     required: true

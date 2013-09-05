@@ -47,21 +47,22 @@ Tests
 describe "Member", ->
   testGroup = null
   before (done) ->
-    Member.model.remove {}, (err) ->
-      Group.model.create {
-        email:          "memberTest@bar.baz"
-        password:       "foo"
-        name:           "foo bar"
-        affiliation:    "foo Native Friendship Centre"
-        address:        "123 Foo Ave"
-        city:           "Victoria"
-        province:       "British Columbia"
-        postalCode:     "A1B 2C3"
-        fax:            ""
-        phone:          "(123) 123-1234"
-      }, (err, group) =>
-        testGroup = group._id
-        done()
+    Workshop.model.remove {}, (err) ->
+      Member.model.remove {}, (err) ->
+        Group.model.create {
+          email:          "memberTest@bar.baz"
+          password:       "foo"
+          name:           "foo bar"
+          affiliation:    "foo Native Friendship Centre"
+          address:        "123 Foo Ave"
+          city:           "Victoria"
+          province:       "British Columbia"
+          postalCode:     "A1B 2C3"
+          fax:            ""
+          phone:          "(123) 123-1234"
+        }, (err, group) =>
+          testGroup = group._id
+          done()
   
   describe "Member.create", ->
     it "Should create a new member with valid info", (done) ->
@@ -110,7 +111,7 @@ describe "Member", ->
           should.notEqual group._members.indexOf(members._id), -1
           done()
 
-  describe "Member.canRegister", ->
+  describe "Member.hasConflicts", ->
     testWorkshop = null
     before (done) ->
       Workshop.model.create {
@@ -317,7 +318,7 @@ describe "Member", ->
         testMember = member._id
         # Make a workshop to model.
         Workshop.model.create {
-          name: "removeWorkshop test"
+          name: "remove member test"
           host: "Bob"
           description: "Make some beaver hats, with Bob. It'll be fantastical."
           sessions: [
@@ -332,6 +333,8 @@ describe "Member", ->
             capacity: 50
           ]
         }, (err, workshop) =>
+          should.not.exist err
+          should.exist workshop
           testWorkshop = workshop._id
           member.addWorkshop testWorkshop, 1, (err, member) ->
             should.not.exist err
