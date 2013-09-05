@@ -77,3 +77,39 @@ describe "Workshop", ->
         should.exist err
         should.not.exist workshop
         done()
+
+  describe "Workshop.find -> workshop.session()", (done) ->
+    testWorkshop = null
+    before (done) ->
+      Workshop.model.create {
+        name: "Session test"
+        host: "Bob"
+        description: "Make some beaver hats, with Bob. It'll be fantastical."
+        sessions: [
+          session: 1
+          room: "Beaver"
+          venue: "Bear"
+          capacity: 50
+        ,
+          session: 2
+          room: "Beaver"
+          venue: "Horse"
+          capacity: 1900
+        ,
+          session: 11
+          room: "Potato"
+          venue: "Lick"
+          capacity: 55
+        ]
+        room: "Beaver"
+        venue: "The Beaverton Hotel"
+        capacity: 55
+      }, (err, workshop) =>
+        testWorkshop = workshop._id
+        done()
+    it "Should return the session of the workshop", (done) ->
+      Workshop.model.findById testWorkshop, (err, workshop) ->
+        should.equal workshop.session(1), workshop.sessions[0]
+        should.equal workshop.session(2), workshop.sessions[1]
+        should.equal workshop.session(11), workshop.sessions[2]
+        done()

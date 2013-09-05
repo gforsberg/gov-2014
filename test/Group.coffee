@@ -7,6 +7,8 @@ should = require("should")
 mongoose = require("mongoose")
 # First Party Dependencies
 Group = require("../schema/Group")
+Member = require("../schema/Member")
+Payment = require("../schema/Payment")
 
 ###
 Setup
@@ -19,6 +21,7 @@ mongoose.connect "localhost/test", (err) ->
 Tests
 ###
 describe "Group", ->
+  testGroup = null
   before (done) ->
     Group.model.remove {}, done
 
@@ -46,6 +49,7 @@ describe "Group", ->
         should.equal group.postalCode, "A1B 2C3"
         should.exist group.fax
         should.equal group.phone, "(123) 123-1234"
+        testGroup = group._id
         done()
     it "Should not register existing groups with valid info", (done) ->
       # This should exist from our first test.
@@ -98,3 +102,18 @@ describe "Group", ->
         should.not.exist group
         should.exist err
         done()
+
+  describe "Group.find -> group.remove()", ->
+    it "Should remove the group, it's members, and payments.", (done) ->
+      Group.model.findById testGroup, (err, group) ->
+        should.not.exist err
+        should.exist group
+        group.remove (err) ->
+          should.not.exist err
+          Member.model.find _group: testGroup, (err, members) ->
+            should.equal members.length, 0
+            should.not.exist err
+            Payment.model.find _group: testGroup, (err, payments) ->
+              should.equal payments.length, 0
+              should.not.exist err
+              done()

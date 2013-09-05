@@ -13,6 +13,7 @@ mongoose = require("mongoose")
 # Aliases
 Schema   = mongoose.Schema
 ObjectId = mongoose.Schema.ObjectId
+Group    = require("./Group")
 
 ###
 Schema
@@ -94,7 +95,35 @@ Pre/Post Middleware
   `MemberSchema.pre 'bar', (next) ->`
   `MemberSchema.post 'bar', (next) ->`
 ###
-# None yet!
+PaymentSchema.pre "save", (next) ->
+  # Make sure their group knows the payment exists
+  Group.model.findById @_group, (err, group) =>
+    if err or !group?
+      next err || new Error("Group doesn't exist")
+    else if group._payments.indexOf(@_id) is -1
+      # Not in the group!
+      group._payments.push @_id
+      group.save (err) ->
+        unless err
+          next()
+        else
+          next err
+    else
+      # In the group already.
+      next()
+PaymentSchema.pre "remove", (next) ->
+  # Remove the payment from the group
+  Group.model.findById @_group, (err, group) =>
+    unless !group?
+      index = group._payments.indexOf @_id
+      unless index is -1
+        # Group exists, member is a part of it.
+        group._payments.splice index, 1
+        group.save (err) =>
+          unless err
+            next()
+          else
+            next err
 
 ###
 Validators

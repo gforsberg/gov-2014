@@ -109,7 +109,20 @@ MemberSchema = new Schema {
   # State variables
   _state:
     # TODO: We may want to have a marker when people are done.
-    information:
+    complete:
+      type: Boolean
+      default: false
+    ticketType:
+      type: String
+      default: "Regular"
+      enum: [
+        "Early",
+        "Regular"
+      ]
+    registrationDate:
+      type: Date
+      default: Date.now
+    youthInCare:
       type: Boolean
       default: false
   # Aggregations
@@ -158,17 +171,39 @@ MemberSchema.methods.addWorkshop = (workshopId, session, next) ->
   if not @hasConflicts(workshopId, session)
     # Check that the workshop isn't full, if not, add us there.
     Workshop.model.findById workshopId, (err, workshop) =>
-      # Figure out the session we want, add the member.
-      for aSession in workshop.sessions
-        if aSession.session == session
-          if aSession.capacity > aSession._registered.length
-            aSession._registered.push @_id
+      unless err or !workshop?
+        # Figure out the session we want, add the member.
+        theSession = workshop.session(session)
+        if theSession.capacity > theSession._registered.length
+          theSession._registered.push @_id
+        else
+          next new Error("That workshop is at capacity"), null
+          return # End early.
+        workshop.save (err) =>
+          unless err
+            @_workshops.push {session: session, _id: workshop._id}
+            @save (err) =>
+              unless err
+                next null, @
+              else
+                next err, null
           else
-            next new Error("That workshop is at capacity"), null
-            return # End early.
+            next err, null
+      else
+        next err || new Error("No workshop found"), null
+  else
+    next new Error("Can't register for this workshop, there is a conflict"), null
+
+MemberSchema.methods.removeWorkshop = (workshopId, session, next) ->
+  Workshop.model.findById workshopId, (err, workshop) =>
+    unless err or !workshop
+      index = workshop.session(session)._registered.indexOf(@_id)
+      # Remove the member from the workshop.
+      workshop.session(session)._registered.splice(index, 1)
       workshop.save (err) =>
         unless err
-          @_workshops.push {session: session, _id: workshop._id}
+          @_workshops = @_workshops.filter (val) ->
+            return not (val.session == session and val._id.equals(workshopId))
           @save (err) =>
             unless err
               next null, @
@@ -176,8 +211,8 @@ MemberSchema.methods.addWorkshop = (workshopId, session, next) ->
               next err, null
         else
           next err, null
-  else
-    next new Error("Can't register for this workshop, there is a conflict."), null
+    else
+      next err, null
 
 ###
 Pre/Post Middleware
@@ -216,6 +251,7 @@ MemberSchema.pre "remove", (next) ->
             next()
           else
             next err
+            
 MemberSchema.pre "remove", (next) ->
   # Remove the member from their workshops.
   workshopIds = @_workshops.map (val) ->
@@ -224,11 +260,9 @@ MemberSchema.pre "remove", (next) ->
     errors = [] # If we have any.
     processor = (index) =>
       if index < workshopIds.length
-        mapped = workshops[index].sessions.filter (val) =>
-          # Should **only** return the one session we want.
-          return val.session == @_workshops[index].session
-        tosser = mapped[0]._registered.indexOf @_id
-        mapped[0]._registered.splice tosser, 1
+        theSession = workshops[index].session @_workshops[index].session
+        deleteThisMember = theSession._registered.indexOf @_id
+        theSession._registered.splice deleteThisMember, 1
         workshops[index].save (err) ->
           errors.push err if err
           processor index+1

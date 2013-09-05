@@ -45,10 +45,21 @@ boilerplate = {
 Tests
 ###
 describe "Member", ->
-  testGroup = 0
+  testGroup = null
   before (done) ->
     Member.model.remove {}, (err) ->
-      Group.model.findOne {}, (err, group) ->
+      Group.model.create {
+        email:          "memberTest@bar.baz"
+        password:       "foo"
+        name:           "foo bar"
+        affiliation:    "foo Native Friendship Centre"
+        address:        "123 Foo Ave"
+        city:           "Victoria"
+        province:       "British Columbia"
+        postalCode:     "A1B 2C3"
+        fax:            ""
+        phone:          "(123) 123-1234"
+      }, (err, group) =>
         testGroup = group._id
         done()
   
@@ -100,7 +111,7 @@ describe "Member", ->
           done()
 
   describe "Member.canRegister", ->
-    testWorkshop = 0
+    testWorkshop = null
     before (done) ->
       Workshop.model.create {
         name: "canRegister test"
@@ -163,9 +174,9 @@ describe "Member", ->
             done()
 
 
-  describe "member.addWorkshop()", ->
-    testWorkshop = 0
-    testMember = 0
+  describe "Member.find -> member.addWorkshop()", ->
+    testWorkshop = null
+    testMember = null
     before (done) ->
       # Make a workshop, since we don't have one.
       Workshop.model.create {
@@ -197,7 +208,7 @@ describe "Member", ->
           should.not.exist err
           should.notEqual member._workshops.length, 0
           Workshop.model.findById testWorkshop, (err, workshop) ->
-            should.notEqual workshop.sessions[1]._registered.indexOf(member._id), -1
+            should.notEqual workshop.session(6)._registered.indexOf(member._id), -1
             done()
     it "Should not add members to workshops they can't join", (done) ->
       Member.model.findById testMember, (err, member) ->
@@ -217,16 +228,60 @@ describe "Member", ->
               should.equal secondMember._workshops.indexOf(testWorkshop), -1
               done()
 
+  describe "Member.find -> member.removeWorkshop()", ->
+    testMember = null
+    testWorkshop = null
+    before (done) ->
+      Member.model.create boilerplate.member(testGroup, "removeWorkshop@bar.baz"), (err, member) ->
+        should.not.exist err
+        should.exist member
+        testMember = member._id
+        Workshop.model.create {
+          name: "removeWorkshop test"
+          host: "Bob"
+          description: "Make some beaver hats, with Bob. It'll be fantastical."
+          sessions: [
+            session: 1
+            room: "Beaver"
+            venue: "Bear"
+            capacity: 1
+          ,
+            session: 6
+            room: "Beaver"
+            venue: "Horse"
+            capacity: 50
+          ]
+        }, (err, workshop) ->
+          testWorkshop = workshop._id
+          should.not.exist err
+          should.exist workshop
+          done()
+    it "Should remove members from workshops.", (done) ->
+      Member.model.findById testMember, (err, member) ->
+        member.addWorkshop testWorkshop, 6, (err, member) ->
+          should.not.exist err
+          should.exist member
+          member.addWorkshop testWorkshop, 1, (err, member) ->
+            should.not.exist err
+            should.exist member
+            member.removeWorkshop testWorkshop, 6, (err, member) ->
+              should.not.exist err
+              should.equal member._workshops.filter( (val) ->
+                return not (val.session == 6 and val._id.equals(testWorkshop))
+              ).length, 1
+              Workshop.model.findById testWorkshop, (err, workshop) ->
+                should.equal workshop.session(6)._registered.indexOf(member._id), -1
+                done()
+
 
   describe "Member.find -> member.remove()", ->
-    testMember = 0
-    testWorkshop = 0
-    testSession = 0
+    testMember = null
+    testWorkshop = null
+    testSession = null
     # We want to test for multiple removals. So just remove once, test many!
     before (done) ->
       Member.model.create boilerplate.member(testGroup, "remove@bar.baz") , (err, member) ->
         testMember = member._id
-        testGroup = member._group
         # Make a workshop to model.
         Workshop.model.create {
           name: "removeWorkshop test"
@@ -260,5 +315,5 @@ describe "Member", ->
       Workshop.model.findById testWorkshop, (err, workshop) ->
         should.not.exist err
         should.exist workshop
-        should.equal workshop.sessions[0]._registered.indexOf(testMember), -1
+        should.equal workshop.session(1)._registered.indexOf(testMember), -1
         done()

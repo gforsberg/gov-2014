@@ -152,6 +152,10 @@ GroupSchema = new Schema {
         "Invoice sent",
         "Payment recieved"
       ]
+    checkedIn:
+      # Did the group check in on registration day?
+      type: Boolean
+      default: false
   # Aggregations
   _members: # A list of members.
     type: [
@@ -225,6 +229,35 @@ GroupSchema.pre 'validate', (next) ->
         next(err)
   else
     next()
+
+GroupSchema.pre "remove", (next) ->
+  Member = require("./Member")
+  # Remove all members and payments.
+  Member.model.find _id: $in: @_members, (err, members) =>
+    errs = []
+    looper = (index, member) =>
+      if index < @_members.length
+        member.remove (err) ->
+          if err
+            errs.push err
+          looper index+1, members[index+1]
+    looper(0, members[0])
+    Payment = require("./Payment")
+    Payment.model.find _id: $in: @_payments, (err, payments) =>
+      looper = (index, payment) =>
+        if index < @_payments.length
+          payment.remove (err) =>
+            if err
+              errs.push err
+            looper index+1, members[index+1]
+      looper(0, payments[0])
+      if errs
+        next errs[0]
+      else
+        next()
+
+
+
 
 ###
 Export

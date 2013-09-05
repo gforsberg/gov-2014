@@ -73,30 +73,12 @@ Methods
   These are document based. So you'd call `fooMember.foo()` if you had a method called `foo`
   `MemberSchema.methods.foo =`
 ###
-WorkshopSchema.methods.addMember = (memberId, session, next) ->
-  Member.findById memberId, (err, member) =>
-    unless err or !member? # No member
-      unless @_registered.length >= @capacity or !member.canRegister
-        # Add the member to the workshop.
-        @_registered.push memberId
-        @save (err, member) =>
-          unless err
-            # Add the workshop to the member
-            member._workshops.push {
-              session: @session
-              _id: @_id
-            }
-            member.save (err) ->
-              unless err
-                next null, @
-              else
-                next err, null
-          else
-            next err, null
-      else
-        next new Error("Can't register for this workshop"), null
-    else
-      next err or new Error("Member doesn't exist"), null
+WorkshopSchema.methods.session = (session) ->
+  for item in @sessions
+    if item.session == session
+      return item
+  # Didn't find anything?
+  return new Error("That session doesn't exist")
 
 ###
 Validators
