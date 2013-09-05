@@ -96,6 +96,29 @@ Pre/Post Middleware
   `MemberSchema.pre 'bar', (next) ->`
   `MemberSchema.post 'bar', (next) ->`
 ###
+WorkshopSchema.pre "remove", (next) ->
+  Member = require("./Member")
+  # Remove all members from the workshop
+  memberProcessor = (members, session, next) =>
+      if members.length != 0
+        theMember = members.shift()
+        theMember._workshops = theMember._workshops.filter (val) =>
+            return not (val.session == session and val._id.equals(@_id))
+        theMember.save (err, member) ->
+          memberProcessor members, session, next
+      else
+        next()
+  sessionProcessor = (sessions, next) =>
+    if sessions.length != 0
+      session = sessions.shift()
+      Member.model.find _id: $in: session._registered, (err, members) =>
+        memberProcessor members, session.session, () ->
+          sessionProcessor sessions, next
+    else
+      next()
+  sessionProcessor @sessions, () ->
+    next()
+
 
 ###
 Export

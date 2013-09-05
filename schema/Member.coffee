@@ -203,7 +203,7 @@ MemberSchema.methods.removeWorkshop = (workshopId, session, next) ->
       workshop.session(session)._registered.splice(index, 1)
       workshop.save (err) =>
         unless err
-          @_workshops = @_workshops.filter (val) ->
+          @_workshops = @_workshops.filter (val) =>
             return not (val.session == session and val._id.equals(workshopId))
           @save (err) =>
             unless err
@@ -213,7 +213,7 @@ MemberSchema.methods.removeWorkshop = (workshopId, session, next) ->
         else
           next err, null
     else
-      next err, null
+      next err || new Error("Workshop doesn't exist"), null
 
 ###
 Pre/Post Middleware
