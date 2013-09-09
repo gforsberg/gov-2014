@@ -207,16 +207,42 @@ GroupSchema.methods.addMember = (memberId, next) ->
 GroupSchema.methods.getPaid = (next) ->
   Payment = require("./Payment")
   Payment.model.find _id: $in: @_payments, (err, payments) ->
-    sum = 0
-    for payment in payments
-      sum += payment.amount
-    next(sum)
+    unless err
+      sum = 0
+      for payment in payments
+        sum += payment.amount
+      next err, sum
+    else
+      next err, -1
 
-GroupSchema.methods.getDue = (next) ->
-  # TODO!
+GroupSchema.methods.getCost = (next) ->
+  Member = require("./Member")
+  Member.model.find _id: $in: @_members, (err, members) ->
+    unless err
+      # Accumulate ticket prices.
+      due = members.map( (val) ->
+        if val._state.ticketType is "Early"
+          price = 125
+        else
+          price = 175
+        return price
+      ).reduce (sum, val, index) ->
+        unless (index+1) % 6 is 0
+          return sum + val
+        else
+          return sum # This ticket is free!
+      # Determine free tickets
+      next null, due
+    else
+      next err, -1
 
-GroupSchema.methods.getTotal = (next) ->
-  # TODO!
+GroupSchema.methods.getBalance = (next) ->
+  @getCost (err, cost) =>
+    @getPaid (err, paid) =>
+      unless err
+        next null, (cost - paid)
+      else
+        next err, -1
 
 ###
 Validators

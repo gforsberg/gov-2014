@@ -95,6 +95,7 @@ Pre/Post Middleware
   `MemberSchema.post 'bar', (next) ->`
 ###
 PaymentSchema.pre "save", (next) ->
+  Group = require("./Group")
   # Make sure their group knows the payment exists
   Group.model.findById @_group, (err, group) =>
     if err or !group?

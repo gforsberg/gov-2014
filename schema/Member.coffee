@@ -115,8 +115,8 @@ MemberSchema = new Schema {
       type: String
       default: "Regular"
       enum: [
-        "Early",
-        "Regular"
+        "Early",  # Before February 8th
+        "Regular" # After February 8th
       ]
     registrationDate:
       type: Date
@@ -262,6 +262,12 @@ MemberSchema.pre "save", (next) ->
       complete = false
       break
   @_state.complete = complete
+  next()
+
+MemberSchema.pre "save", (next) ->
+  # If their registration date is before February 8th, make them an early bird.
+  if @_state.registrationDate < Date.UTC(2014,2,8,5)
+    @_state.ticketType = "Early"
   next()
 
 MemberSchema.pre "remove", (next) ->

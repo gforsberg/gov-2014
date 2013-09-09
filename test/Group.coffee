@@ -17,6 +17,31 @@ Setup
 # We use an temp database for testing this.
 mongoose.connect "localhost/test", (err) ->
 
+boilerplate = {
+  member: (group, email) -> {
+    name: "Foo"
+    type: "Youth"
+    gender: "Male"
+    birthDate:
+      day: 1
+      month: "January"
+      year: 1990
+    phone: "(123) 123-1234"
+    email: email
+    emergencyContact:
+      name: "Bar"
+      relation: "Also a random word."
+      phone: "(123) 123-1234"
+    emergencyInfo:
+      medicalNum: "123 123 1234"
+      allergies: ["Cake", "Potatoes"]
+      conditions: ["Hacker"]
+    _group: group
+    _state:
+      ticketType: "Regular"
+  }
+}
+
 ###
 Tests
 ###
@@ -133,3 +158,199 @@ describe "Group", ->
               should.equal payments.length, 0
               should.not.exist err
               done()
+
+  describe "Group.find -> group.getCost", ->
+    before (done) ->
+      Group.model.create {
+        email:          "costTest@bar.baz"
+        password:       "foo"
+        name:           "foo bar"
+        affiliation:    "foo Native Friendship Centre"
+        address:        "123 Foo Ave"
+        city:           "Victoria"
+        province:       "British Columbia"
+        postalCode:     "A1B 2C3"
+        fax:            ""
+        phone:          "(123) 123-1234"
+      }, (err, group) =>
+        should.not.exist err
+        testGroup = group._id
+        done()
+    it "Should accurately price a single member", (done) ->
+      theMember = boilerplate.member(testGroup, "single@bar.baz")
+      theMember._state.ticketType = "Early"
+      Member.model.create theMember, (err, member) ->
+        should.not.exist err
+        should.exist member
+        Group.model.findById testGroup, (err, group) ->
+          group.getCost (err, cost) ->
+            should.equal cost, 125
+            done()
+    it "Should accurately price four members", (done) ->
+      # Add three more.
+      theMember = boilerplate.member(testGroup, "single@bar.baz")
+      theMember._state.ticketType = "Early"
+      Member.model.create theMember, (err, member) ->
+        should.not.exist err
+        should.exist member
+        theMember = boilerplate.member(testGroup, "single@bar.baz")
+        theMember._state.ticketType = "Early"
+        Member.model.create theMember, (err, member) ->
+          should.not.exist err
+          should.exist member
+          theMember = boilerplate.member(testGroup, "single@bar.baz")
+          theMember._state.ticketType = "Early"
+          Member.model.create theMember, (err, member) ->
+            should.not.exist err
+            should.exist member
+            # Test
+            Group.model.findById testGroup, (err, group) ->
+              group.getCost (err, cost) ->
+                should.equal cost, 125 * 4
+                done()
+    it "Should accurately price five members", (done) -> 
+      # Add 2 more
+      theMember = boilerplate.member(testGroup, "single@bar.baz")
+      theMember._state.ticketType = "Early"
+      Member.model.create theMember, (err, member) ->
+        should.not.exist err
+        should.exist member
+        Group.model.findById testGroup, (err, group) ->
+          group.getCost (err, cost) ->
+            should.equal cost, 125 * 5
+            done()
+    it "Should accurately price six members", (done) -> 
+      # Add 2 more
+      theMember = boilerplate.member(testGroup, "single@bar.baz")
+      theMember._state.ticketType = "Early"
+      Member.model.create theMember, (err, member) ->
+        should.not.exist err
+        should.exist member
+        Group.model.findById testGroup, (err, group) ->
+          group.getCost (err, cost) ->
+            should.equal cost, 125 * 5 # They should get one free!
+            done()
+    it "Should accurately price seven members", (done) -> 
+      # Add 2 more
+      theMember = boilerplate.member(testGroup, "single@bar.baz")
+      theMember._state.ticketType = "Early"
+      Member.model.create theMember, (err, member) ->
+        should.not.exist err
+        should.exist member
+        Group.model.findById testGroup, (err, group) ->
+          group.getCost (err, cost) ->
+            should.equal cost, 125 * 6 # They should get one free!
+            done()
+    it "Should accurately price eight members", (done) -> 
+      # Add 2 more
+      theMember = boilerplate.member(testGroup, "single@bar.baz")
+      theMember._state.ticketType = "Early"
+      Member.model.create theMember, (err, member) ->
+        should.not.exist err
+        should.exist member
+        Group.model.findById testGroup, (err, group) ->
+          group.getCost (err, cost) ->
+            should.equal cost, 125 * 7 # They should get one free!
+            done()
+    it "Should accurately price nine members", (done) -> 
+      # Add 2 more
+      theMember = boilerplate.member(testGroup, "single@bar.baz")
+      theMember._state.ticketType = "Early"
+      Member.model.create theMember, (err, member) ->
+        should.not.exist err
+        should.exist member
+        Group.model.findById testGroup, (err, group) ->
+          group.getCost (err, cost) ->
+            should.equal cost, 125 * 8 # They should get one free!
+            done()
+    it "Should accurately price ten members", (done) -> 
+      # Add 2 more
+      theMember = boilerplate.member(testGroup, "single@bar.baz")
+      theMember._state.ticketType = "Early"
+      Member.model.create theMember, (err, member) ->
+        should.not.exist err
+        should.exist member
+        Group.model.findById testGroup, (err, group) ->
+          group.getCost (err, cost) ->
+            should.equal cost, 125 * 9 # They should get one free!
+            done()
+    it "Should accurately price eleven members", (done) -> 
+      # Add 2 more
+      theMember = boilerplate.member(testGroup, "single@bar.baz")
+      theMember._state.ticketType = "Early"
+      Member.model.create theMember, (err, member) ->
+        should.not.exist err
+        should.exist member
+        Group.model.findById testGroup, (err, group) ->
+          group.getCost (err, cost) ->
+            should.equal cost, 125 * 10 # They should get one free!
+            done()
+    it "Should accurately price twelve members", (done) -> 
+      # Add 2 more
+      theMember = boilerplate.member(testGroup, "single@bar.baz")
+      theMember._state.ticketType = "Early"
+      Member.model.create theMember, (err, member) ->
+        should.not.exist err
+        should.exist member
+        Group.model.findById testGroup, (err, group) ->
+          group.getCost (err, cost) ->
+            should.equal cost, 125 * 10 # They should get one free!
+            done()
+    it "Should accurately price thirteen members", (done) -> 
+      # Add 2 more
+      theMember = boilerplate.member(testGroup, "single@bar.baz")
+      theMember._state.ticketType = "Early"
+      Member.model.create theMember, (err, member) ->
+        should.not.exist err
+        should.exist member
+        Group.model.findById testGroup, (err, group) ->
+          group.getCost (err, cost) ->
+            should.equal cost, 125 * 11 # They should get one free!
+            done()
+
+  describe "Group.find -> group.getPaid", ->
+    before (done) ->
+      Payment.model.create {
+        date:
+          day: 1
+          month: "January"
+          year: 2014
+        amount: 50
+        type: "Paypal"
+        description: "A test payment."
+        _group: testGroup
+      }, (err, payment) =>
+        should.not.exist err
+        done()
+    it "Should return the amount paid by a group (one payment)", (done) ->
+      Group.model.findById testGroup, (err, group) ->
+        should.not.exist err
+        group.getPaid (err, paid) ->
+          should.equal paid, 50
+          done()
+    it "Should return the amount paid by a group (one payment)", (done) ->
+      Payment.model.create {
+        date:
+          day: 1
+          month: "January"
+          year: 2014
+        amount: 50
+        type: "Paypal"
+        description: "A test payment."
+        _group: testGroup
+      }, (err, payment) ->
+        Group.model.findById testGroup, (err, group) ->
+          should.not.exist err
+          should.exist group
+          group.getPaid (err, paid) ->
+            should.equal paid, 100
+            done()
+
+  describe "Group.find -> group.getBalance", ->
+    it "Should return the correct balance", (done) ->
+      Group.model.findById testGroup, (err, group) ->
+        should.not.exist err
+        should.exist group
+        group.getBalance (err, balance) ->
+          should.equal balance, (125*11 - 100)
+          done()
