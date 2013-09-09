@@ -12,9 +12,7 @@ Setup
 ###
 # Third Party Dependencies
 mongoose = require("mongoose")
-# First Party Dependencies
-Group    = require("./Group")
-Workshop    = require("./Workshop")
+
 # Aliases
 Schema   = mongoose.Schema
 ObjectId = mongoose.Schema.ObjectId
@@ -169,6 +167,7 @@ MemberSchema.methods.hasConflicts = (workshopId, session) ->
     return false
 
 MemberSchema.methods.addWorkshop = (workshopId, session, next) ->
+  Workshop = require("./Workshop")
   if not @hasConflicts(workshopId, session)
     # Check that the workshop isn't full, if not, add us there.
     Workshop.model.findById workshopId, (err, workshop) =>
@@ -196,6 +195,7 @@ MemberSchema.methods.addWorkshop = (workshopId, session, next) ->
     next new Error("Can't register for this workshop, there is a conflict"), null
 
 MemberSchema.methods.removeWorkshop = (workshopId, session, next) ->
+  Workshop = require("./Workshop")
   Workshop.model.findById workshopId, (err, workshop) =>
     unless err or !workshop
       index = workshop.session(session)._registered.indexOf(@_id)
@@ -223,6 +223,7 @@ Pre/Post Middleware
   `MemberSchema.post 'bar', (next) ->`
 ###
 MemberSchema.pre "save", (next) ->
+  Group = require("./Group")
   # Make sure their group knows they're part of them.
   Group.model.findById @_group, (err, group) =>
     if err or !group?
@@ -264,6 +265,7 @@ MemberSchema.pre "save", (next) ->
   next()
 
 MemberSchema.pre "remove", (next) ->
+  Group = require("./Group")
   # Remove the member from the group
   Group.model.findById @_group, (err, group) =>
     unless !group?
@@ -278,6 +280,7 @@ MemberSchema.pre "remove", (next) ->
             next err
 
 MemberSchema.pre "remove", (next) ->
+  Workshop = require("./Workshop")
   # Remove the member from their workshops.
   workshopIds = @_workshops.map (val) ->
     return val._id

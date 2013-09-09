@@ -11,8 +11,7 @@ Setup
 # Third Party Dependencies
 mongoose = require("mongoose")
 bcrypt   = require("bcrypt")
-# First Party Dependencies
-Member   = require("./Member")
+
 # Aliases
 Schema   = mongoose.Schema
 ObjectId = mongoose.Schema.ObjectId

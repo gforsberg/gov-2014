@@ -13,7 +13,6 @@ mongoose = require("mongoose")
 # Aliases
 Schema   = mongoose.Schema
 ObjectId = mongoose.Schema.ObjectId
-Group    = require("./Group")
 
 ###
 Schema
@@ -112,6 +111,7 @@ PaymentSchema.pre "save", (next) ->
       # In the group already.
       next()
 PaymentSchema.pre "remove", (next) ->
+  Group = require("./Group")
   # Remove the payment from the group
   Group.model.findById @_group, (err, group) =>
     unless !group?
