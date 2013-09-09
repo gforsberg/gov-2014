@@ -159,7 +159,7 @@ describe "Group", ->
               should.not.exist err
               done()
 
-  describe "Group.find -> group.getCost", ->
+  describe "Group.find -> group.getCost()", ->
     before (done) ->
       Group.model.create {
         email:          "costTest@bar.baz"
@@ -308,7 +308,7 @@ describe "Group", ->
             should.equal cost, 125 * 11 # They should get one free!
             done()
 
-  describe "Group.find -> group.getPaid", ->
+  describe "Group.find -> group.getPaid()", ->
     before (done) ->
       Payment.model.create {
         date:
@@ -346,7 +346,7 @@ describe "Group", ->
             should.equal paid, 100
             done()
 
-  describe "Group.find -> group.getBalance", ->
+  describe "Group.find -> group.getBalance()", ->
     it "Should return the correct balance", (done) ->
       Group.model.findById testGroup, (err, group) ->
         should.not.exist err

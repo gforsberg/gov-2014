@@ -189,7 +189,7 @@ describe "Member", ->
             member.hasConflicts(testWorkshop, 6).should.not.be.ok 
             done()
 
-  describe "Member.find -> member.save", ->
+  describe "Member.find -> member.save()", ->
     it "Should verify completeness", (done) ->
       Member.model.create {
         name: "Foo"
