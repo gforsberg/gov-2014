@@ -328,7 +328,7 @@ describe "Group", ->
         group.getPaid (err, paid) ->
           should.equal paid, 50
           done()
-    it "Should return the amount paid by a group (one payment)", (done) ->
+    it "Should return the amount paid by a group (two payments)", (done) ->
       Payment.model.create {
         date:
           day: 1
