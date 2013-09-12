@@ -7,6 +7,13 @@ General = module.exports = {
           title: "Gathering Our Voices 2014"
           caption: "The 12th annual gathering of Aboriginal Youth to make their voices heard and learn valuable skills"  
 
+    timeline: (req, res) ->
+      res.render "timeline",
+        session: req.session  
+        head:
+          title: "Timeline"
+          caption: "Get the low down on what's happening, without even coming!"
+
     privacy: (req, res) ->
       res.render "privacy",
         session: req.session
