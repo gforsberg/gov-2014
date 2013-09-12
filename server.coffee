@@ -36,8 +36,8 @@ else
   redisClient = redis.createClient()
 
 
-# Settings for the app
-app.use express.logger()
+# Middleware for the app
+app.use express.logger("dev")
 app.use express.bodyParser()
 app.use express.cookieParser()
 app.use express.session(
@@ -45,11 +45,15 @@ app.use express.session(
   store: new RedisStore {client: redisClient}
 )
 app.use app.router    # Normal Routes
-app.use express.static "#{__dirname}/client"
+app.use express.static "#{__dirname}/static"
 app.use (req, res) -> # 404 Error
   res.status 404
   console.log new Error("This page doesn't exist")
   res.send "This page doesn't exist!"
+
+# Settings
+app.set "views", "#{__dirname}/views"
+app.set "view engine", "jade"
 
 # Load Routes
 require("./routes")(app)

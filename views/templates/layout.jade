@@ -1,0 +1,59 @@
+doctype 5
+html
+  head
+    title Gathering Our Voices 2014
+    meta(name="description", content="Gathering Our Voices is an annual conference in BC for Aboriginal Youth. This year it is hosted in Vancouver at the Hyatt Regency and Fairmont Hotel.")
+
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+
+    // Resources
+    //if lt IE 9
+      script(src="/js/html5shiv.min.js")
+    // jQuery
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js")
+    // Bootstrap
+    link(href="//netdna.bootstrapcdn.com/bootswatch/3.0.0/united/bootstrap.min.css", rel="stylesheet")
+    script(src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js")
+    // Custom
+    link(href="/css/styles.css", rel="stylesheet")
+  body
+    #wrap
+      header
+        .navbar-wrapper
+          .container
+            include navbar
+        #welcome.carousel.slide
+          .carousel-inner
+            .item.active
+              img(src="/img/bg/1.jpg")
+              .container
+                .carousel-caption
+                  h1= head.title
+                  p= head.caption
+      main
+        block content
+    footer
+      .container
+        .row
+          .col-sm-6
+            h3 Sponsors
+            ul
+              li BCAAFC
+              li VAFCS
+          .col-sm-6
+            h3 Contact Us
+            addr
+              .vcard
+                .org BC Association of Aboriginal Friendship Centers
+                .adr
+                  .street-address 551 Chatham St.
+                  span.locality Victoria
+                  span.region BC,
+                  span.postal-code V8T 1E1
+                  span.country-name Canada
+                .tel Phone: (250) 388-5522
+                .tel Fax: (250) 388-5502
+                .email Email: 
+                  a(href="mailto:admin@bcaafc.com") admin@bcaafc.com

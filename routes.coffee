@@ -5,10 +5,10 @@ routes = module.exports = (app) ->
   ###
   General Routes
   ###
-  # General = require("./routes/General")
-  # app.get   "/",          General.get.index     # Welcome page
-  # app.get   "/privacy",   General.get.privacy   # Privacy Policy
-  # app.get   "/faq",       General.get.faq       # Frequently Asked Questions
+  General = require("./routes/General")
+  app.get   "/",          General.get.index     # Welcome page
+  app.get   "/privacy",   General.get.privacy   # Privacy Policy
+  app.get   "/faq",       General.get.faq       # Frequently Asked Questions
 
   ###
   Account Routes
