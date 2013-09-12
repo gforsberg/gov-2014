@@ -5,7 +5,7 @@ General = module.exports = {
         session: req.session  
         head:
           title: "Gathering Our Voices 2014"
-          caption: "Aboriginal youth exploring the past, present, and future."  
+          caption: "The 12th annual gathering of Aboriginal Youth to make their voices heard and learn valuable skills"  
 
     privacy: (req, res) ->
       res.render "privacy",
