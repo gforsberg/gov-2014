@@ -6,6 +6,7 @@ General = module.exports = {
         head:
           title: "Gathering Our Voices 2014"
           caption: "The 12th annual gathering of Aboriginal Youth to make their voices heard and learn valuable skills"  
+          bg: "/img/bg/index.jpg"
 
     timeline: (req, res) ->
       res.render "timeline",
