@@ -37,23 +37,38 @@ html
     footer
       .container
         .row
-          .col-sm-6
-            h3 Sponsors
-            ul
-              li BCAAFC
-              li VAFCS
-          .col-sm-6
+          .col-xs-4
+            h3 Organizers
+            ul.list-unstyled
+              li 
+                a(href="http://www.bcaafc.com/") BCAAFC
+              li
+                a(href="http://www.vafcs.org/") VAFCS
+              //- TODO: Should be more?
+          .col-xs-4
             h3 Contact Us
-            addr
-              .vcard
-                .org BC Association of Aboriginal Friendship Centers
-                .adr
-                  .street-address 551 Chatham St.
-                  span.locality Victoria
-                  span.region BC,
-                  span.postal-code V8T 1E1
-                  span.country-name Canada
-                .tel Phone: (250) 388-5522
-                .tel Fax: (250) 388-5502
-                .email Email: 
-                  a(href="mailto:admin@bcaafc.com") admin@bcaafc.com
+            address
+              strong BC Association of Aboriginal Friendship Centers
+              br
+              | 551 Chatham St.
+              br
+              | Victoria
+              | BC, V8T 1E1
+              br
+              | Canada
+              br
+              | Phone: (250) 388-5522
+              br
+              | Fax: (250) 388-5502
+              br
+              | Email: 
+              a(href="mailto:admin@bcaafc.com") admin@bcaafc.com
+          .col-xs-4
+            h3 Other Links
+            ul.list-unstyled
+              li
+                a(href="/faq") FAQ
+              li
+                a(href="/privacy") Privacy Policy
+              li
+                a(href="https://github.com/Hoverbear/gov-2014") Source Code
