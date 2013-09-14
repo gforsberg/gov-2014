@@ -7,7 +7,7 @@ routes = module.exports = (app) ->
   ###
   General = require("./routes/General")
   app.get   "/",          General.get.index     # Welcome page
-  app.get   "/timeline",  General.get.timeline  # Timeline page
+  app.get   "/schedule",  General.get.schedule  # Schedule page
   app.get   "/privacy",   General.get.privacy   # Privacy Policy
   app.get   "/faq",       General.get.faq       # Frequently Asked Questions
 

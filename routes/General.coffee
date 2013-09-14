@@ -8,11 +8,11 @@ General = module.exports = {
           caption: "The 12th annual gathering of Aboriginal Youth to make their voices heard and learn valuable skills"  
           bg: "/img/bg/index.jpg"
 
-    timeline: (req, res) ->
-      res.render "timeline",
+    schedule: (req, res) ->
+      res.render "schedule",
         session: req.session  
         head:
-          title: "Timeline"
+          title: "Schedule"
           caption: "Get the low down on what's happening, without even coming!"
 
     privacy: (req, res) ->
