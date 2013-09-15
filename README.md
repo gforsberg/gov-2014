@@ -31,10 +31,17 @@ npm start
 Now you can visit `http://localhost:8080`. Enjoy!
 
 ## How to Deploy ##
-Documentation (and code!) not implemented yet... Feel free to help!
+GOV is set up to use [Heroku](http://www.heroku.com/) for hosting.
+```
+heroku create MY_APP
+heroku addons:add mongolab:sandbox
+heroku addons:add rediscloud:20
+git push heroku master
+heroku ps:scale web=1
+```
+Then, visit `MY_APP.herokuapp.com`.
 
-* How can the package be easily configured?
-* We can probably set up a Heroku Buildpack.
+
 
 ## Contributors ##
 Our heroic Youth Conference Coordinator, Della Preston, has helped immensely with development efforts, her time, insights, and constant critical eye have helped drive the quality of the product from beginning to start. Though she has not contributed code her specifications and knowledge of the event have touched virtually every part of the codebase.
