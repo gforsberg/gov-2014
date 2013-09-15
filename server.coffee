@@ -11,7 +11,7 @@ url      = require("url")
 
 # Config Vars
 config = {
-  port:   process.env.port            || 8080
+  port:   process.env.PORT            || 8080
   db:     process.env.mongoURI        || "localhost/test"
   redis:  process.env.REDISCLOUD_URL  # No need for fallback
   secret: process.env.secret          || "test"
