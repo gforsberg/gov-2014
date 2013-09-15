@@ -35,9 +35,8 @@ html
       main
         if errors
           .container
-            for error in JSON.parse(errors)
               .row
-                pre.alert.alert-warning= JSON.stringify(error, undefined, 2)
+                pre.alert.alert-warning= errors
         block content
     footer
       .container

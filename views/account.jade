@@ -1,0 +1,80 @@
+extends templates/layout
+
+block content
+  .container
+    .row(style="text-align: center")
+      .btn-group
+        a.btn.btn-success.btn-large(data-toggle="collapse", data-target="#details") 
+          i.icon-plus
+          |  Add a member
+        a.btn.btn-info.btn-large(data-toggle="collapse", data-target="#details") 
+          i.icon-edit
+          |  Edit Group Details
+  #details.collapse.container
+    form.row(action="/account", method="POST")
+      input(type="hidden", name="_method", value="put")
+      fieldset
+        legend Login Details
+        p Please don't fill in the password unless you intend to change it!
+        .col-sm-2
+        .col-sm-4
+          .form-group
+            label Email
+            input.form-control(type="email", name="email", placeholder="someone@somewhere.ca", value="#{session.group.email}")
+        .col-sm-4
+          .form-group
+            label Password
+            input.form-control(type="password", name="password", placeholder="°°°°°°°°")
+          .form-group
+            label Password Confirm
+            input.form-control(type="password", name="passwordConfirm", placeholder="°°°°°°°°")
+      fieldset
+        legend Group Details
+        .col-sm-2
+        .col-sm-4
+          .form-group
+            label Primary Contact Name
+              input.form-control(type="text", name="name", placeholder="Foo Bar", value="#{session.group.name}")
+          .form-group
+            label Affiliation
+              input.form-control(type="text", name="affiliation", placeholder="Some Organization", value="#{session.group.affiliation}")
+          .form-group
+            label Street Address
+              input.form-control(type="text", name="address", placeholder="123 Fake St.", value="#{session.group.address}")
+          .form-group
+            label City
+              input.form-control(type="text", name="city", placeholder="Vancouver", value="#{session.group.city}")
+        .col-sm-4
+          .form-group
+            label Province
+              select.form-control(name="province")
+                option(value="", selected=session.group.province == "") Please choose...
+                option(value="British Columbia", selected=session.group.province == "British Columbia") British Columbia
+                option(value="Alberta", selected=session.group.province == "Alberta") Alberta
+                option(value="Saskatchewan", selected=session.group.province == "Saskatchewan") Saskatchewan
+                option(value="Manitoba", selected=session.group.province == "Manitoba") Manitoba
+                option(value="Ontario", selected=session.group.province == "Ontario") Ontario
+                option(value="Quebec", selected=session.group.province == "Quebec") Quebec
+                option(value="New Brunswick", selected=session.group.province == "New Brunswick") New Brunswick
+                option(value="Nova Scotia", selected=session.group.province == "Nova Scotia") Nova Scotia
+                option(value="Prince Edward Island", selected=session.group.province == "Prince Edward Island") Prince Edward Island
+                option(value="Newfoundland and Labrador", selected=session.group.province == "Newfoundland and Labrador") Newfoundland and Labrador
+                option(value="Nunavut", selected=session.group.province == "Nunavut") Nunavut
+                option(value="Northwest Territories", selected=session.group.province == "Northwest Territories") Northwest Territories
+                option(value="Yukon", selected=session.group.province == "Yukon") Yukon
+                option(value="Other (Outside Canada)", selected=session.group.province == "Other (Outside Canada)") Other (Outside Canada)
+          .form-group
+            label Postal Code
+              input.form-control(type="text", name="postalCode", placeholder="A1B 2C3", value="#{session.group.postalCode}")
+          .form-group
+            label Daytime Phone #
+              input.form-control(type="text", name="phone", placeholder="(123) 456-7980", value="#{session.group.phone}")
+          .form-group
+            label Fax # (Optional)
+              input.form-control(type="text", name="fax", placeholder="(123) 456-7890", value="#{session.group.fax}")
+      .row
+        .col-sm-4
+        .form-group.col-sm-4
+          button.btn.btn-primary.btn-block(type="submit")
+            i.icon-edit
+            |  Update Details

@@ -39,6 +39,7 @@ else
 # Middleware for the app
 app.use express.logger("dev")
 app.use express.bodyParser()
+app.use express.methodOverride() # Allows PUT/DELETE in forms.
 app.use express.cookieParser()
 app.use express.cookieSession(
   secret: config.secret

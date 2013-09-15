@@ -1,7 +1,7 @@
 # Don't put static routes here! Just drop them in `static`
 
 routes = module.exports = (app) ->
-  # Middleware = require("./routes/Middleware")
+  Middle = require("./routes/Middleware")
   ###
   General Routes
   ###
@@ -23,8 +23,8 @@ routes = module.exports = (app) ->
   # app.get   "/recovery",  Account.get.recovery  # Recover a password 
   # app.post  "/recovery",  Account.post.Recovery # 
   # # Edit/See details
-  # app.get   "/account",   Middle.auth, Account.get.account   # Edit group details.
-  # app.put   "/account",   Middle.auth, Account.put.account   # 
+  app.get   "/account",   Middle.auth, Account.get.account   # Edit group details.
+  app.put   "/account",   Middle.auth, Account.put.account   # 
   # # Main information pages, actions can be accessed here.
   # app.get   "/members",   Middle.auth, Account.get.members   # Add/remove/edit members.
   # app.get   "/billing",   Middle.auth, Account.get.billing   # Add/remove/edit payments.
