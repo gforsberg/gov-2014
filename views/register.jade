@@ -6,75 +6,75 @@ block content
       .row
         fieldset
           legend Login Details
-          .col-sm-2
-          .form-group.col-sm-4
-            label Email Address
+          .col-sm-4.col-sm-offset-1
+            .form-group
+              label Email Address
               input.form-control(type="email", name="email", placeholder="someone@somewhere.ca", autofocus)
-          .form-group.col-sm-4
-            label Password
+          .col-sm-4.col-sm-offset-1
+            .form-group
+              label Password
               input.form-control(type="password", name="password", placeholder="°°°°°°°°")
       .row
-        .col-sm-4
-        .form-group.col-sm-4
-          a.btn.btn-info.btn-block(data-toggle="collapse", data-target="#new") 
-            i.icon-plus
-            |  This is a new group
+        .col-sm-5.col-sm-offset-3
+          .form-group
+            a.btn.btn-info.btn-block(data-toggle="collapse", data-target="#new") 
+              i.icon-plus
+              |  This is a new group
       #new.collapse
         .row
           fieldset
             legend Group Details
             p Welcome, please fill out your Email and Password above before continuing and completing the information below.
-            .col-sm-2
-            .col-sm-4
+            .col-sm-4.col-sm-offset-1
               .form-group
                 label Primary Contact Name
-                  input.form-control(type="text", name="name", placeholder="Foo Bar")
+                input.form-control(type="text", name="name", placeholder="Foo Bar")
               .form-group
                 label Affiliation
-                  input.form-control(type="text", name="affiliation", placeholder="Some Organization")
+                input.form-control(type="text", name="affiliation", placeholder="Some Organization")
               .form-group
                 label Street Address
-                  input.form-control(type="text", name="address", placeholder="123 Fake St.")
+                input.form-control(type="text", name="address", placeholder="123 Fake St.")
               .form-group
                 label City
-                  input.form-control(type="text", name="city", placeholder="Vancouver")
-            .col-sm-4
+                input.form-control(type="text", name="city", placeholder="Vancouver")
+            .col-sm-4.col-sm-offset-1
               .form-group
                 label Province
-                  select.form-control(name="province")
-                    option(value="") Please choose...
-                    option(value="British Columbia") British Columbia
-                    option(value="Alberta") Alberta
-                    option(value="Saskatchewan") Saskatchewan
-                    option(value="Manitoba") Manitoba
-                    option(value="Ontario") Ontario
-                    option(value="Quebec") Quebec
-                    option(value="New Brunswick") New Brunswick
-                    option(value="Nova Scotia") Nova Scotia
-                    option(value="Prince Edward Island") Prince Edward Island
-                    option(value="Newfoundland and Labrador") Newfoundland and Labrador
-                    option(value="Nunavut") Nunavut
-                    option(value="Northwest Territories") Northwest Territories
-                    option(value="Yukon") Yukon
-                    option(value="Other (Outside Canada)") Other (Outside Canada)
+                select.form-control(name="province")
+                  option(value="") Please choose...
+                  option(value="British Columbia") British Columbia
+                  option(value="Alberta") Alberta
+                  option(value="Saskatchewan") Saskatchewan
+                  option(value="Manitoba") Manitoba
+                  option(value="Ontario") Ontario
+                  option(value="Quebec") Quebec
+                  option(value="New Brunswick") New Brunswick
+                  option(value="Nova Scotia") Nova Scotia
+                  option(value="Prince Edward Island") Prince Edward Island
+                  option(value="Newfoundland and Labrador") Newfoundland and Labrador
+                  option(value="Nunavut") Nunavut
+                  option(value="Northwest Territories") Northwest Territories
+                  option(value="Yukon") Yukon
+                  option(value="Other (Outside Canada)") Other (Outside Canada)
               .form-group
                 label Postal Code
-                  input.form-control(type="text", name="postalCode", placeholder="A1B 2C3")
+                input.form-control(type="text", name="postalCode", placeholder="A1B 2C3")
               .form-group
                 label Daytime Phone #
-                  input.form-control(type="text", name="phone", placeholder="(123) 456-7980")
+                input.form-control(type="text", name="phone", placeholder="(123) 456-7980")
               .form-group
                 label Fax # (Optional)
-                  input.form-control(type="text", name="fax", placeholder="(123) 456-7890")
+                input.form-control(type="text", name="fax", placeholder="(123) 456-7890")
         .row
           .col-sm-4
           .form-group.col-sm-4
             label And your password again
-              input.form-control(type="password", name="passwordConfirm", placeholder="Password Confirmation")
+            input.form-control(type="password", name="passwordConfirm", placeholder="Password Confirmation")
 
       .row
-        .col-sm-4
-        .form-group.col-sm-4
-          button.btn.btn-primary.btn-block(type="submit")
-            i.icon-ok
-            |  Log In
+        .col-sm-5.col-sm-offset-3
+          .form-group
+            button.btn.btn-primary.btn-block(type="submit")
+              i.icon-ok
+              |  Log In

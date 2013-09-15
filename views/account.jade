@@ -11,42 +11,43 @@ block content
           i.icon-edit
           |  Edit Group Details
   #details.collapse.container
-    form.row(action="/account", method="POST")
-      input(type="hidden", name="_method", value="put")
-      fieldset
-        legend Login Details
-        p Please don't fill in the password unless you intend to change it!
-        .col-sm-2
-        .col-sm-4
-          .form-group
-            label Email
-            input.form-control(type="email", name="email", placeholder="someone@somewhere.ca", value="#{session.group.email}")
-        .col-sm-4
-          .form-group
-            label Password
-            input.form-control(type="password", name="password", placeholder="°°°°°°°°")
-          .form-group
-            label Password Confirm
-            input.form-control(type="password", name="passwordConfirm", placeholder="°°°°°°°°")
-      fieldset
-        legend Group Details
-        .col-sm-2
-        .col-sm-4
-          .form-group
-            label Primary Contact Name
+    form(action="/account", method="POST")
+      .row
+        input(type="hidden", name="_method", value="put")
+        fieldset
+          legend Login Details
+          p Please don't fill in the password unless you intend to change it!
+          .col-sm-2
+          .col-sm-4
+            .form-group
+              label Email
+              input.form-control(type="email", name="email", placeholder="someone@somewhere.ca", value="#{session.group.email}")
+          .col-sm-4
+            .form-group
+              label Password
+              input.form-control(type="password", name="password", placeholder="°°°°°°°°")
+            .form-group
+              label Password Confirm
+              input.form-control(type="password", name="passwordConfirm", placeholder="°°°°°°°°")
+        fieldset
+          legend Group Details
+          .col-sm-2
+          .col-sm-4
+            .form-group
+              label Primary Contact Name
               input.form-control(type="text", name="name", placeholder="Foo Bar", value="#{session.group.name}")
-          .form-group
-            label Affiliation
+            .form-group
+              label Affiliation
               input.form-control(type="text", name="affiliation", placeholder="Some Organization", value="#{session.group.affiliation}")
-          .form-group
-            label Street Address
+            .form-group
+              label Street Address
               input.form-control(type="text", name="address", placeholder="123 Fake St.", value="#{session.group.address}")
-          .form-group
-            label City
+            .form-group
+              label City
               input.form-control(type="text", name="city", placeholder="Vancouver", value="#{session.group.city}")
-        .col-sm-4
-          .form-group
-            label Province
+          .col-sm-4
+            .form-group
+              label Province
               select.form-control(name="province")
                 option(value="", selected=session.group.province == "") Please choose...
                 option(value="British Columbia", selected=session.group.province == "British Columbia") British Columbia
@@ -63,14 +64,14 @@ block content
                 option(value="Northwest Territories", selected=session.group.province == "Northwest Territories") Northwest Territories
                 option(value="Yukon", selected=session.group.province == "Yukon") Yukon
                 option(value="Other (Outside Canada)", selected=session.group.province == "Other (Outside Canada)") Other (Outside Canada)
-          .form-group
-            label Postal Code
+            .form-group
+              label Postal Code
               input.form-control(type="text", name="postalCode", placeholder="A1B 2C3", value="#{session.group.postalCode}")
-          .form-group
-            label Daytime Phone #
+            .form-group
+              label Daytime Phone #
               input.form-control(type="text", name="phone", placeholder="(123) 456-7980", value="#{session.group.phone}")
-          .form-group
-            label Fax # (Optional)
+            .form-group
+              label Fax # (Optional)
               input.form-control(type="text", name="fax", placeholder="(123) 456-7890", value="#{session.group.fax}")
       .row
         .col-sm-4
