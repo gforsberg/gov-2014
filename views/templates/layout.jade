@@ -27,8 +27,7 @@ html
             include navbar
         #welcome.carousel.slide
           .carousel-inner
-            .item.active
-              img(src="#{head.bg}")
+            .item.active(style="background: url(#{head.bg})")
               .container
                 .carousel-caption
                   h1= head.title
@@ -38,7 +37,7 @@ html
     footer
       .container
         .row
-          .col-xs-4
+          .col-sm-4
             h3 Organizers
             ul.list-unstyled
               li 
@@ -46,7 +45,7 @@ html
               li
                 a(href="http://www.vafcs.org/") VAFCS
               //- TODO: Should be more?
-          .col-xs-4
+          .col-sm-4
             h3 Contact Us
             address
               strong BC Association of Aboriginal Friendship Centers
@@ -64,7 +63,7 @@ html
               br
               | Email: 
               a(href="mailto:admin@bcaafc.com") admin@bcaafc.com
-          .col-xs-4
+          .col-sm-4
             h3 Other Links
             ul.list-unstyled
               li
