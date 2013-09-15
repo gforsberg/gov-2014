@@ -13,7 +13,8 @@ General = module.exports = {
         session: req.session  
         head:
           title: "Schedule"
-          caption: "Get the low down on what's happening, without even coming!"
+          caption: "Get the low down on what's happening, wherever you are"
+          bg: "/img/bg/schedule.jpg"
 
     privacy: (req, res) ->
       res.render "privacy",
