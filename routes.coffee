@@ -19,7 +19,7 @@ routes = module.exports = (app) ->
   # # Signup
   # app.post   "/signup",   Account.post.signup   #
   # # Login
-  # app.post  "/login",     Account.post.login    #
+  app.post  "/login",     Account.post.login    #
   # # Recovery
   # app.get   "/recovery",  Account.get.recovery  # Recover a password 
   # app.post  "/recovery",  Account.post.Recovery # 

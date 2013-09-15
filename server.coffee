@@ -40,7 +40,7 @@ else
 app.use express.logger("dev")
 app.use express.bodyParser()
 app.use express.cookieParser()
-app.use express.session(
+app.use express.cookieSession(
   secret: config.secret
   store: new RedisStore {client: redisClient}
 )

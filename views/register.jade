@@ -2,78 +2,82 @@ extends templates/layout
 
 block content
   .container
-      form.form-horizontal(style="text-align: center")
+    if error
+      .row
+        pre.alert.alert-warning= JSON.stringify(error, undefined, 2)
+
+    form.form-horizontal(style="text-align: center", method="POST", action="/login")
+      .row
+        fieldset
+          legend Login Details
+          .col-sm-2
+          .form-group.col-sm-4
+            label Email Address
+              input.form-control(type="email", name="email", placeholder="Email Address", autofocus)
+          .form-group.col-sm-4
+            label Password
+              input.form-control(type="password", name="password", placeholder="Password")
+      .row
+        .col-sm-4
+        .form-group.col-sm-4
+          a.btn.btn-info.btn-block(data-toggle="collapse", data-target="#new") 
+            i.icon-plus
+            |  This is a new group
+      #new.collapse
         .row
           fieldset
-            legend Login Details
+            legend Group Details
             .col-sm-2
-            .form-group.col-sm-4
-              label Email Address
-                input.form-control(type="email", name="email", placeholder="Email Address", autofocus)
-            .form-group.col-sm-4
-              label Password
-                input.form-control(type="password", name="password", placeholder="Password")
-        .row
-          .col-sm-4
-          .form-group.col-sm-4
-            a.btn.btn-info.btn-block(data-toggle="collapse", data-target="#new") 
-              i.icon-plus
-              |  This is a new group
-        #new.collapse
-          .row
-            fieldset
-              legend Group Details
-              .col-sm-2
-              .col-sm-4
-                .form-group
-                  label Primary Contact
-                    input.form-control(type="text", name="name", placeholder="Foo Bar")
-                .form-group
-                  label Affiliation
-                    input.form-control(type="text", name="name", placeholder="Some Organization")
-                .form-group
-                  label Street Address
-                    input.form-control(type="text", name="address", placeholder="123 Fake St.")
-                .form-group
-                  label City
-                    input.form-control(type="text", name="city", placeholder="Vancouver")
-              .col-sm-4
-                .form-group
-                  label Province
-                    select.form-control(name="province")
-                      option(value="") Please choose...
-                      option(value="British Columbia") British Columbia
-                      option(value="Alberta") Alberta
-                      option(value="Saskatchewan") Saskatchewan
-                      option(value="Manitoba") Manitoba
-                      option(value="Ontario") Ontario
-                      option(value="Quebec") Quebec
-                      option(value="New Brunswick") New Brunswick
-                      option(value="Nova Scotia") Nova Scotia
-                      option(value="Prince Edward Island") Prince Edward Island
-                      option(value="Newfoundland and Labrador") Newfoundland and Labrador
-                      option(value="Nunavut") Nunavut
-                      option(value="Northwest Territories") Northwest Territories
-                      option(value="Yukon") Yukon
-                      option(value="Other (Outside Canada)") Other (Outside Canada)
-                .form-group
-                  label Postal Code
-                    input.form-control(type="text", name="postalCode", placeholder="A1B 2C3")
-                .form-group
-                  label Daytime Phone #
-                    input.form-control(type="text", name="phone", placeholder="(123) 456-7980")
-                .form-group
-                  label Fax #
-                    input.form-control(type="text", name="fax", placeholder="(123) 456-7890")
-          .row
             .col-sm-4
-            .form-group.col-sm-4
-              label And your password again
-                input.form-control(type="password", name="passwordConfirm", placeholder="Password Confirmation")
-
+              .form-group
+                label Primary Contact
+                  input.form-control(type="text", name="name", placeholder="Foo Bar")
+              .form-group
+                label Affiliation
+                  input.form-control(type="text", name="affiliation", placeholder="Some Organization")
+              .form-group
+                label Street Address
+                  input.form-control(type="text", name="address", placeholder="123 Fake St.")
+              .form-group
+                label City
+                  input.form-control(type="text", name="city", placeholder="Vancouver")
+            .col-sm-4
+              .form-group
+                label Province
+                  select.form-control(name="province")
+                    option(value="") Please choose...
+                    option(value="British Columbia") British Columbia
+                    option(value="Alberta") Alberta
+                    option(value="Saskatchewan") Saskatchewan
+                    option(value="Manitoba") Manitoba
+                    option(value="Ontario") Ontario
+                    option(value="Quebec") Quebec
+                    option(value="New Brunswick") New Brunswick
+                    option(value="Nova Scotia") Nova Scotia
+                    option(value="Prince Edward Island") Prince Edward Island
+                    option(value="Newfoundland and Labrador") Newfoundland and Labrador
+                    option(value="Nunavut") Nunavut
+                    option(value="Northwest Territories") Northwest Territories
+                    option(value="Yukon") Yukon
+                    option(value="Other (Outside Canada)") Other (Outside Canada)
+              .form-group
+                label Postal Code
+                  input.form-control(type="text", name="postalCode", placeholder="A1B 2C3")
+              .form-group
+                label Daytime Phone #
+                  input.form-control(type="text", name="phone", placeholder="(123) 456-7980")
+              .form-group
+                label Fax # (Optional)
+                  input.form-control(type="text", name="fax", placeholder="(123) 456-7890")
         .row
           .col-sm-4
           .form-group.col-sm-4
-            button.btn.btn-primary.btn-block(type="submit")
-              i.icon-ok
-              |  Log In
+            label And your password again
+              input.form-control(type="password", name="passwordConfirm", placeholder="Password Confirmation")
+
+      .row
+        .col-sm-4
+        .form-group.col-sm-4
+          button.btn.btn-primary.btn-block(type="submit")
+            i.icon-ok
+            |  Log In

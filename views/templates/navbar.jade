@@ -20,4 +20,7 @@ nav.navbar.navbar-default(role="navigation")
       li
         a(href="") Workshops
       li
-        a(href="/register") Register
+        if session && session.group
+          a(href="/account") Account
+        else
+          a(href="/register") Register
