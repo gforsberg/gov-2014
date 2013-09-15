@@ -10,6 +10,9 @@ Account = module.exports = {
           caption: "Get started with your group, or access your existing cohort."
           bg: "/img/bg/register.jpg"
         error: JSON.parse(req.query.error) if req.query.error
+    logout: (req, res) ->
+      req.session.group = null
+      res.redirect "/"
   post:
     login: (req, res) ->
       if req.body.passwordConfirm? and req.body.passwordConfirm is req.body.password
