@@ -19,8 +19,11 @@ nav.navbar.navbar-default(role="navigation")
         a(href="") Venues
       li
         a(href="") Workshops
-      li
-        if session && session.group
+      if session && session.group
+        li
           a(href="/account") Account
-        else
+        li
+          a(href="/logout") Log out
+      else
+        li
           a(href="/register") Register

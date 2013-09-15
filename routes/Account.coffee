@@ -27,16 +27,20 @@ Account = module.exports = {
           fax:          req.body.fax
           phone:        req.body.phone
         }, (err, group) ->
-          console.log "Past create"
-          console.log err
-          console.log group
-          unless err
+          unless err?
             req.session.group = group
-            console.log "Redirecting"
-            res.redirect "/"
+            res.redirect "/account"
           else
             res.redirect "/register?error=#{JSON.stringify(err)}"
       else
         # Logging into an exiting group.
-
+        Group.model.login req.body.email, req.body.password, (err, group) ->
+          console.log err
+          console.log group
+          unless err? or !group?
+            req.session.group = group
+            res.redirect "/account"
+          else
+            error = JSON.stringify({error: err.toString()})
+            res.redirect "/register?error=#{error}"
 }

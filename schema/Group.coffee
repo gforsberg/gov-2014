@@ -188,7 +188,7 @@ GroupSchema.statics.login = (email, password, next) ->
         else
           next err or new Error("Wrong Password"), null
     else
-      next err or new Error("Doesn't exist!"), null
+      next err or new Error("Group doesn't exist!"), null
 
 ###
 Methods
