@@ -2,10 +2,6 @@ extends templates/layout
 
 block content
   .container
-    if error
-      .row
-        pre.alert.alert-warning= JSON.stringify(error, undefined, 2)
-
     form.form-horizontal(style="text-align: center", method="POST", action="/login")
       .row
         fieldset

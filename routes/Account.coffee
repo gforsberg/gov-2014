@@ -9,7 +9,7 @@ Account = module.exports = {
           title: "Registration"
           caption: "Get started with your group, or access your existing cohort."
           bg: "/img/bg/register.jpg"
-        error: JSON.parse(req.query.error) if req.query.error
+        errors: req.query.errors
     logout: (req, res) ->
       req.session.group = null
       res.redirect "/"
@@ -34,7 +34,7 @@ Account = module.exports = {
             req.session.group = group
             res.redirect "/account"
           else
-            res.redirect "/register?error=#{JSON.stringify(err)}"
+            res.redirect "/register?errors=#{JSON.stringify(err.errors)}"
       else
         # Logging into an exiting group.
         Group.model.login req.body.email, req.body.password, (err, group) ->
@@ -44,6 +44,6 @@ Account = module.exports = {
             req.session.group = group
             res.redirect "/account"
           else
-            error = JSON.stringify({error: err.toString()})
-            res.redirect "/register?error=#{error}"
+            errors = JSON.stringify({errors: err.toString()})
+            res.redirect "/register?errors=#{errors}"
 }
