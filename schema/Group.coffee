@@ -156,6 +156,10 @@ GroupSchema = new Schema {
       # Did the group check in on registration day?
       type: Boolean
       default: false
+    balanced:
+      # Does the group have at least one chaperone per 5 members?
+      type: Boolean
+      default: false
   # Aggregations
   _members: # A list of members.
     type: [
@@ -270,31 +274,60 @@ GroupSchema.pre 'validate', (next) ->
   else
     next()
 
-GroupSchema.pre "remove", (next) ->
+GroupSchema.pre "save", (next) ->
   Member = require("./Member")
-  # Remove all members and payments.
+  # Member counts
   Member.model.find _id: $in: @_members, (err, members) =>
-    errs = []
-    looper = (index, member) =>
-      if index < @_members.length
-        member.remove (err) ->
-          if err
-            errs.push err
-          looper index+1, members[index+1]
-    looper(0, members[0])
-    Payment = require("./Payment")
-    Payment.model.find _id: $in: @_payments, (err, payments) =>
-      looper = (index, payment) =>
-        if index < @_payments.length
-          payment.remove (err) =>
+    youth = 0
+    chaps = 0
+    members.map (val) ->
+      if ["Young Chaperone", "Chaperone"].indexOf(val.type) is not -1
+        chaps += 1
+      else if val.type == "Youth"
+        youth +=1
+      return
+    if (youth / 5) > chaps
+      @_state.balanced = false
+    next()
+
+
+GroupSchema.pre "remove", (next) ->
+  memberIds = @_members
+  paymentIds = @_payments
+  processMembers = () ->
+    Member = require("./Member")
+    # Remove all members and payments.
+    Member.model.find _id: $in: memberIds, (err, members) =>
+      errs = []
+      memLooper = (members) =>
+        member = members.shift()
+        if member
+          member.remove (err) ->
             if err
               errs.push err
-            looper index+1, members[index+1]
-      looper(0, payments[0])
-      if errs
-        next errs[0]
+            memLooper(members)
+        else
+          processPayments()
+      if members
+        memLooper(members)
+      else processPayments()
+  processPayments = () ->
+    Payment = require("./Payment")
+    Payment.model.find _id: $in: paymentIds, (err, payments) =>
+      payLooper = (members) =>
+        payment = payments.shift()
+        if payment
+          payment.remove (err) ->
+            if err
+              errs.push err
+            payLooper(payment)
+        else
+          next()
+      if payments
+        payLooper(payments)
       else
         next()
+  processMembers()
 
 
 

@@ -20,7 +20,7 @@ mongoose.connect "localhost/test", (err) ->
 boilerplate = {
   member: (group, email) -> {
     name: "Foo"
-    type: "Youth"
+    type: "Young Adult"
     gender: "Male"
     birthDate:
       day: 1
@@ -141,21 +141,6 @@ describe "Group", ->
             should.exist group
             group.password = "foo"
             group.save (err) ->
-              should.not.exist err
-              done()
-
-  describe "Group.find -> group.remove()", ->
-    it "Should remove the group, it's members, and payments", (done) ->
-      Group.model.findById testGroup, (err, group) ->
-        should.not.exist err
-        should.exist group
-        group.remove (err) ->
-          should.not.exist err
-          Member.model.find _group: testGroup, (err, members) ->
-            should.equal members.length, 0
-            should.not.exist err
-            Payment.model.find _group: testGroup, (err, payments) ->
-              should.equal payments.length, 0
               should.not.exist err
               done()
 
@@ -354,3 +339,18 @@ describe "Group", ->
         group.getBalance (err, balance) ->
           should.equal balance, (125*11 - 100)
           done()
+  
+  describe "Group.find -> group.remove()", ->
+    it "Should remove the group, it's members, and payments", (done) ->
+      Group.model.findById testGroup, (err, group) ->
+        should.not.exist err
+        should.exist group
+        group.remove (err) ->
+          should.not.exist err
+          Member.model.find _group: testGroup, (err, members) ->
+            should.equal members.length, 0
+            should.not.exist err
+            Payment.model.find _group: testGroup, (err, payments) ->
+              should.equal payments.length, 0
+              should.not.exist err
+              done()
