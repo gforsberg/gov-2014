@@ -1,7 +1,38 @@
 extends templates/layout
 
 block content
-  .container
+  #listing.container
+    .row.table-responsive
+      table.table.table-striped
+        thead
+          tr
+            th Name
+            th Type
+            th Information
+            th Workshops
+            th Remove
+        tbody
+          for member in members
+            tr
+              td= member.name
+              td= member.type
+              td
+                if member._state.complete
+                  a.btn.btn-xs.btn-success.tooltipped(href="#", data-toggle="tooltip", title="Edit Info") Complete 
+                else
+                  a.btn.btn-xs.btn-danger.tooltipped(href="#", data-toggle="tooltip", title="Edit Info") Incomplete
+              td
+                if member._workshops.length > 4
+                  a.btn.btn-xs.btn-success.tooltipped(href="#", data-toggle="tooltip", title="Browse Workshops") 4+ Workshops
+                else if member._workshops.length > 1
+                  a.btn.btn-xs.btn-warning.tooltipped(href="#", data-toggle="tooltip", title="Browse Workshops") 1+ Workshops
+                else
+                  a.btn.btn-xs.btn-default.tooltipped(href="#", data-toggle="tooltip", title="Browse Workshops") No Workshops!
+              td
+                a.btn.btn-xs.btn-danger.tooltipped(href="#", data-toggle="tooltip", title="There is no undo!")
+                  i.icon-trash
+                  |  Delete
+  #controls.container
     .row(style="text-align: center")
       .btn-group
         a.btn.btn-success.btn-large(data-toggle="collapse", data-parent="#panels", href="#member") 
@@ -184,3 +215,5 @@ block content
               button.btn.btn-primary.btn-block(type="submit")
                 i.icon-edit
                 |  Update Details
+  script.
+    $(".tooltipped").tooltip();

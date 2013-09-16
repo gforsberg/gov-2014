@@ -31,14 +31,17 @@ MemberSchema = new Schema {
     type: String
     # required: true
     enum: [
+      "",
       "Youth",
       "Young Adult",
-      "Chaperone"
+      "Chaperone",
+      "Young Chaperone"
     ]
   gender:
     type: String
     # required: true
     enum: [
+      "",
       "Male",
       "Female",
       "Other"
@@ -55,6 +58,7 @@ MemberSchema = new Schema {
       type: String
       # required: true
       enum: [
+        "",
         "January",
         "February",
         "March",
