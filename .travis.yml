@@ -2,8 +2,6 @@ node_js:
 - "0.10"
 services: 
 - mongodb
-notifications: 
-  email: false
 language: node_js
 deploy:
   provider: heroku
