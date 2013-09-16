@@ -1,6 +1,6 @@
 Group = require("../schema/Group")
 
-Account = module.exports = {
+AccountRoutes = module.exports = {
   get:
     register: (req, res) ->
       res.render "register",

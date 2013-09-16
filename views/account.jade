@@ -4,78 +4,183 @@ block content
   .container
     .row(style="text-align: center")
       .btn-group
-        a.btn.btn-success.btn-large(data-toggle="collapse", data-target="#details") 
+        a.btn.btn-success.btn-large(data-toggle="collapse", data-parent="#panels", href="#member") 
           i.icon-plus
           |  Add a member
-        a.btn.btn-info.btn-large(data-toggle="collapse", data-target="#details") 
+        a.btn.btn-info.btn-large(data-toggle="collapse", data-parent="#panels", href="#details") 
           i.icon-edit
           |  Edit Group Details
-  #details.collapse.container
-    form(action="/account", method="POST")
-      .row
-        input(type="hidden", name="_method", value="put")
-        fieldset
-          legend Login Details
-          p Please don't fill in the password unless you intend to change it!
-          .col-sm-2
-          .col-sm-4
-            .form-group
-              label Email
-              input.form-control(type="email", name="email", placeholder="someone@somewhere.ca", value="#{session.group.email}")
-          .col-sm-4
-            .form-group
-              label Password
-              input.form-control(type="password", name="password", placeholder="°°°°°°°°")
-            .form-group
-              label Password Confirm
-              input.form-control(type="password", name="passwordConfirm", placeholder="°°°°°°°°")
-        fieldset
-          legend Group Details
-          .col-sm-2
-          .col-sm-4
-            .form-group
-              label Primary Contact Name
-              input.form-control(type="text", name="name", placeholder="Foo Bar", value="#{session.group.name}")
-            .form-group
-              label Affiliation
-              input.form-control(type="text", name="affiliation", placeholder="Some Organization", value="#{session.group.affiliation}")
-            .form-group
-              label Street Address
-              input.form-control(type="text", name="address", placeholder="123 Fake St.", value="#{session.group.address}")
-            .form-group
-              label City
-              input.form-control(type="text", name="city", placeholder="Vancouver", value="#{session.group.city}")
-          .col-sm-4
-            .form-group
-              label Province
-              select.form-control(name="province")
-                option(value="", selected=session.group.province == "") Please choose...
-                option(value="British Columbia", selected=session.group.province == "British Columbia") British Columbia
-                option(value="Alberta", selected=session.group.province == "Alberta") Alberta
-                option(value="Saskatchewan", selected=session.group.province == "Saskatchewan") Saskatchewan
-                option(value="Manitoba", selected=session.group.province == "Manitoba") Manitoba
-                option(value="Ontario", selected=session.group.province == "Ontario") Ontario
-                option(value="Quebec", selected=session.group.province == "Quebec") Quebec
-                option(value="New Brunswick", selected=session.group.province == "New Brunswick") New Brunswick
-                option(value="Nova Scotia", selected=session.group.province == "Nova Scotia") Nova Scotia
-                option(value="Prince Edward Island", selected=session.group.province == "Prince Edward Island") Prince Edward Island
-                option(value="Newfoundland and Labrador", selected=session.group.province == "Newfoundland and Labrador") Newfoundland and Labrador
-                option(value="Nunavut", selected=session.group.province == "Nunavut") Nunavut
-                option(value="Northwest Territories", selected=session.group.province == "Northwest Territories") Northwest Territories
-                option(value="Yukon", selected=session.group.province == "Yukon") Yukon
-                option(value="Other (Outside Canada)", selected=session.group.province == "Other (Outside Canada)") Other (Outside Canada)
-            .form-group
-              label Postal Code
-              input.form-control(type="text", name="postalCode", placeholder="A1B 2C3", value="#{session.group.postalCode}")
-            .form-group
-              label Daytime Phone #
-              input.form-control(type="text", name="phone", placeholder="(123) 456-7980", value="#{session.group.phone}")
-            .form-group
-              label Fax # (Optional)
-              input.form-control(type="text", name="fax", placeholder="(123) 456-7890", value="#{session.group.fax}")
-      .row
-        .col-sm-4
-        .form-group.col-sm-4
-          button.btn.btn-primary.btn-block(type="submit")
-            i.icon-edit
-            |  Update Details
+  br
+  #panels.panel-group
+    .panel
+      #member.collapse.container
+        form(action="/member", method="POST")
+          input(type="hidden", name="_method", value="post")
+          .row
+            .col-sm-2
+            .col-sm-4
+              fieldset
+                legend(style="text-align: center") Member Details
+                .form-group
+                  label Name
+                  input.form-control(type="text", name="name", placeholder="Foo Bar")
+                .form-group
+                  label Delegate Type
+                  select.form-control(name="type")
+                    option(value="") Please choose...
+                    option(value="Youth") Youth (14-17 years)
+                    option(value="Young Adult") Young Adult (18-24 years)
+                    option(value="Young Chaperone") Young Chaperone (21-24 years)
+                    option(value="Chaperone") Chaperone (21+ years)
+                .form-group
+                  label Gender
+                  select.form-control(name="gender")
+                    option(value="") Please Choose...
+                    option(value="Male") Male
+                    option(value="Female") Female
+                    option(value="Other") Other
+                .form-group
+                  label Phone #
+                  input.form-control(type="text", name="phone", placeholder="(123) 456-7890")
+            .col-sm-4
+              fieldset
+                legend(style="text-align: center") More Details
+                .form-group
+                  label Birth Day
+                  input.form-control(type="number", name="birthDay", min="1", max="31", placeholder="1")
+                .form-group
+                  label Birth Month
+                  select.form-control(name="birthMonth")
+                    option(value="") Please Choose...
+                    option(value="January") January
+                    option(value="February") February
+                    option(value="March") March
+                    option(value="April") April
+                    option(value="May") May
+                    option(value="June") June
+                    option(value="July") July
+                    option(value="August") August
+                    option(value="September") September
+                    option(value="October") October
+                    option(value="November") November
+                    option(value="December") December
+                .form-group
+                  label Birth Year
+                  input.form-control(type="number", name="birthYear", min="1900", max="2000", placeholder="1990")
+                .form-group
+                  label Email
+                  input.form-control(type="email", name="email", placeholder="someone@somewhere.ca")
+          .row
+            .col-sm-2
+            .col-sm-4
+              fieldset
+                legend(style="text-align: center") Things We should Know
+                span.help-block Please comma separate multiple conditions or allergies. Eg: Air, Water, Fire. If you are from out of province and do not have a CareCard, please include an equivalent number.
+                .form-group
+                  label Medical Number
+                  input.form-control(type="text", name="emergMedicalNum", placeholder="123 1234 123")
+                .form-group
+                  label Allergies
+                  input.form-control(type="text", name="emergAllergies", placeholder="Gluten, Cheese, Bacon")
+                .form-group
+                  label Medical Conditions
+                  input.form-control(type="text", name="emergConditions", placeholder="Asthma, Bad Knee")
+            .col-sm-4
+              fieldset
+                legend(style="text-align: center") Emergency Contact
+                span.help-block A quick note, your emergency contact should be someone who knows your medical history, your doctor's contact information, and is able to contact your family.
+                .form-group
+                  label Their Name
+                  input.form-control(type="text", name="emergName", placeholder="Foo Bar")
+                .form-group
+                  label Their relationship with you
+                  input.form-control(type="text", name="emergRelation", placeholder="Parent")
+                .form-group
+                  label Their Phone Number
+                  input.form-control(type="text", name="emergPhone", placeholder="(123) 456-7890")
+          .row
+            .col-sm-4
+            .col-sm-4
+              .form-group
+                label Is this person a Youth In Care?
+                .radio
+                  label No
+                  input(type="radio", name="youthInCare", value="No", checked="checked")
+                .radio
+                  label Yes
+                  input(type="radio", name="youthInCare", value="Yes")
+              button.btn.btn-primary.btn-block(type="submit")
+                i.icon-plus
+                |  Add Member
+
+    .panel
+      #details.collapse.container
+        form(action="/account", method="POST")
+          input(type="hidden", name="_method", value="put")
+          fieldset
+            legend(style="text-align: center") Login Details
+            p(style="text-align: center") Please don't fill in the password unless you intend to change it!
+            .row
+              .col-sm-2
+              .col-sm-4
+                .form-group
+                  label Email
+                  input.form-control(type="email", name="email", placeholder="someone@somewhere.ca", value="#{session.group.email}")
+              .col-sm-4
+                .form-group
+                  label Password
+                  input.form-control(type="password", name="password", placeholder="°°°°°°°°")
+                .form-group
+                  label Password Confirm
+                  input.form-control(type="password", name="passwordConfirm", placeholder="°°°°°°°°")
+          fieldset
+            legend(style="text-align: center") Group Details
+            .row
+              .col-sm-2
+              .col-sm-4
+                .form-group
+                  label Primary Contact Name
+                  input.form-control(type="text", name="name", placeholder="Foo Bar", value="#{session.group.name}")
+                .form-group
+                  label Affiliation
+                  input.form-control(type="text", name="affiliation", placeholder="Some Organization", value="#{session.group.affiliation}")
+                .form-group
+                  label Street Address
+                  input.form-control(type="text", name="address", placeholder="123 Fake St.", value="#{session.group.address}")
+                .form-group
+                  label City
+                  input.form-control(type="text", name="city", placeholder="Vancouver", value="#{session.group.city}")
+              .col-sm-4
+                .form-group
+                  label Province
+                  select.form-control(name="province")
+                    option(value="", selected=session.group.province == "") Please choose...
+                    option(value="British Columbia", selected=session.group.province == "British Columbia") British Columbia
+                    option(value="Alberta", selected=session.group.province == "Alberta") Alberta
+                    option(value="Saskatchewan", selected=session.group.province == "Saskatchewan") Saskatchewan
+                    option(value="Manitoba", selected=session.group.province == "Manitoba") Manitoba
+                    option(value="Ontario", selected=session.group.province == "Ontario") Ontario
+                    option(value="Quebec", selected=session.group.province == "Quebec") Quebec
+                    option(value="New Brunswick", selected=session.group.province == "New Brunswick") New Brunswick
+                    option(value="Nova Scotia", selected=session.group.province == "Nova Scotia") Nova Scotia
+                    option(value="Prince Edward Island", selected=session.group.province == "Prince Edward Island") Prince Edward Island
+                    option(value="Newfoundland and Labrador", selected=session.group.province == "Newfoundland and Labrador") Newfoundland and Labrador
+                    option(value="Nunavut", selected=session.group.province == "Nunavut") Nunavut
+                    option(value="Northwest Territories", selected=session.group.province == "Northwest Territories") Northwest Territories
+                    option(value="Yukon", selected=session.group.province == "Yukon") Yukon
+                    option(value="Other (Outside Canada)", selected=session.group.province == "Other (Outside Canada)") Other (Outside Canada)
+                .form-group
+                  label Postal Code
+                  input.form-control(type="text", name="postalCode", placeholder="A1B 2C3", value="#{session.group.postalCode}")
+                .form-group
+                  label Daytime Phone #
+                  input.form-control(type="text", name="phone", placeholder="(123) 456-7980", value="#{session.group.phone}")
+                .form-group
+                  label Fax # (Optional)
+                  input.form-control(type="text", name="fax", placeholder="(123) 456-7890", value="#{session.group.fax}")
+          .row
+            .col-sm-4
+            .form-group.col-sm-4
+              button.btn.btn-primary.btn-block(type="submit")
+                i.icon-edit
+                |  Update Details

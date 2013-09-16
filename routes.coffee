@@ -42,10 +42,10 @@ routes = module.exports = (app) ->
   ###
   Member Routes
   ###
-  # Member = require("./routes/Member")
+  Member = require("./routes/Member")
   # app.get     "/members",       Middle.auth, Member.get.index     # Lists members. (Query Sensitive)
   # app.get     "/member/:id",    Middle.auth, Member.get.member    # Displays :id details
-  # app.post    "/member",        Middle.auth, Member.post.member   # Creates a member
+  app.post    "/member",        Middle.auth, Member.post.member   # Creates a member
   # app.put     "/member/:id",    Middle.auth, Member.put.member    # Edits :id details
   # app.delete  "/member/:id",    Middle.auth, Member.delete.member # Deletes :id
   # # Special routes:
