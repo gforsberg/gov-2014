@@ -251,15 +251,15 @@ GroupSchema.methods.enoughChaperones = (next) ->
     youth = 0
     chaps = 0
     members.map (val) ->
-      if ["Young Chaperone", "Chaperone"].indexOf(val.type) is not -1
+      if ["Young Chaperone", "Chaperone"].indexOf(val.type) != -1
         chaps += 1
       else if val.type == "Youth"
         youth +=1
       return
-    if (youth / 5) > chaps
-      next(false)
+    if youth > 0
+      next ((youth / 5) < chaps)
     else
-      next(true)
+      next true
 
 ###
 Validators

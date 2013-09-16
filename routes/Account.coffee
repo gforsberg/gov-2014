@@ -15,14 +15,16 @@ AccountRoutes = module.exports = {
       res.redirect "/"
     account: (req, res) ->
       Group.model.findById(req.session.group._id).populate("_members").exec (err, group) ->
-        res.render "account",
-          session: req.session
-          head:
-            title: "Account"
-            caption: "Manage, grow, or shrink your group as needed."
-            bg: "/img/bg/account.jpg"
-          members: group._members
-          errors: req.query.errors
+        group.enoughChaperones (enough) ->
+          res.render "account",
+            session: req.session
+            head:
+              title: "Account"
+              caption: "Manage, grow, or shrink your group as needed."
+              bg: "/img/bg/account.jpg"
+            members: group._members
+            errors: req.query.errors
+            enoughChaperones: enough
   post:
     login: (req, res) ->
       if req.body.passwordConfirm? and req.body.passwordConfirm is req.body.password

@@ -10,5 +10,4 @@ General = module.exports = {
         fix: "Please log in."
       }
       res.redirect("/register?errors=#{JSON.stringify(errors)}")
-
 }

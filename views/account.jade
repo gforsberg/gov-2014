@@ -1,6 +1,8 @@
 extends templates/layout
 
 block content
+  if !enoughChaperones
+    #alert.alert.alert-danger You don't have enough Chaperones to support all of your youth. Please find some more!
   #listing.container
     .row.table-responsive
       table.table.table-striped
