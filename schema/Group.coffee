@@ -156,10 +156,6 @@ GroupSchema = new Schema {
       # Did the group check in on registration day?
       type: Boolean
       default: false
-    balanced:
-      # Does the group have at least one chaperone per 5 members?
-      type: Boolean
-      default: false
   # Aggregations
   _members: # A list of members.
     type: [
@@ -248,6 +244,23 @@ GroupSchema.methods.getBalance = (next) ->
       else
         next err, -1
 
+GroupSchema.methods.enoughChaperones = (next) ->
+  Member = require("./Member")
+  # Member counts
+  Member.model.find _id: $in: @_members, (err, members) =>
+    youth = 0
+    chaps = 0
+    members.map (val) ->
+      if ["Young Chaperone", "Chaperone"].indexOf(val.type) is not -1
+        chaps += 1
+      else if val.type == "Youth"
+        youth +=1
+      return
+    if (youth / 5) > chaps
+      next(false)
+    else
+      next(true)
+
 ###
 Validators
   Validators can be mapped to paths. It lets you validate on change.
@@ -273,23 +286,6 @@ GroupSchema.pre 'validate', (next) ->
         next(err)
   else
     next()
-
-GroupSchema.pre "save", (next) ->
-  Member = require("./Member")
-  # Member counts
-  Member.model.find _id: $in: @_members, (err, members) =>
-    youth = 0
-    chaps = 0
-    members.map (val) ->
-      if ["Young Chaperone", "Chaperone"].indexOf(val.type) is not -1
-        chaps += 1
-      else if val.type == "Youth"
-        youth +=1
-      return
-    if (youth / 5) > chaps
-      @_state.balanced = false
-    next()
-
 
 GroupSchema.pre "remove", (next) ->
   memberIds = @_members

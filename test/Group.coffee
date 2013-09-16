@@ -339,6 +339,58 @@ describe "Group", ->
         group.getBalance (err, balance) ->
           should.equal balance, (125*11 - 100)
           done()
+
+  describe "Group.find -> group.enoughChaperones", ->
+    it "Should return false if not enough!", (done) ->
+      Group.model.findById testGroup, (err, group) ->
+        # Has 13 young adults right now, should be balanced.
+        # First youth
+        Member.model.create {
+          name: "UNbalancing"
+          type: "Youth"
+          _group: group._id
+        }, (err) ->
+          Group.model.findById testGroup, (err, group) ->
+            group.enoughChaperones (val) ->
+              should.equal val, false
+              done()
+    it "Should return true if enough!", (done) ->
+      Group.model.findById testGroup, (err, group) ->
+        # Has 13 young adults right now, should be balanced.
+        # Second youth
+        Member.model.create {
+          name: "Balancing"
+          type: "Youth"
+          _group: group._id
+        }, (err) ->
+          # Third youth
+          Member.model.create {
+            name: "Balancing"
+            type: "Youth"
+            _group: group._id
+          }, (err) ->
+            # Fourth youth
+            Member.model.create {
+              name: "Balancing"
+              type: "Youth"
+              _group: group._id
+            }, (err) ->
+              # Fifth youth
+              Member.model.create {
+                name: "Balancing"
+                type: "Youth"
+                _group: group._id
+              }, (err) ->
+                # First Chaperone
+                Member.model.create {
+                  name: "Balancing"
+                  type: "Chaperone"
+                  _group: group._id
+                }, (err) ->
+                  Group.model.findById testGroup, (err, group) ->
+                    group.enoughChaperones (val) ->
+                      should.equal val, false
+                      done()
   
   describe "Group.find -> group.remove()", ->
     it "Should remove the group, it's members, and payments", (done) ->
