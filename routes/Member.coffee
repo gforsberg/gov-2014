@@ -1,6 +1,20 @@
 Member = require("../schema/Member")
 
 MemberRoutes = module.exports = {
+  get:
+    member: (req, res) ->
+      unless !req.params.id
+        id = req.params.id.replace /\"/g, ""
+        console.log id
+        Member.model.findById id, (err, member) ->
+          unless err or !member?
+            res.render "templates/member", {
+              member: member
+            }
+          else
+            res.send err || "No member found."
+      else
+        res.send "No ID specified."
   post:
     member: (req, res) ->
       # Is it a youth in care?

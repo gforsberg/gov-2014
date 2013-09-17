@@ -1,0 +1,99 @@
+form(action="/member", method="POST")
+  if member
+    input(type="hidden", name="_method", value="put")
+  .row
+    .col-sm-2
+    .col-sm-4
+      fieldset
+        legend(style="text-align: center") Member Details
+        .form-group
+          label Name
+          input.form-control(type="text", name="name", placeholder="Foo Bar", value=(member && member.name)? member.name : '')
+        .form-group
+          label Delegate Type
+          select.form-control(name="type")
+            option(value="") Please choose...
+            option(value="Youth") Youth (14-17 years)
+            option(value="Young Adult") Young Adult (18-24 years)
+            option(value="Young Chaperone") Young Chaperone (21-24 years)
+            option(value="Chaperone") Chaperone (21+ years)
+        .form-group
+          label Gender
+          select.form-control(name="gender")
+            option(value="") Please Choose...
+            option(value="Male") Male
+            option(value="Female") Female
+            option(value="Other") Other
+        .form-group
+          label Phone #
+          input.form-control(type="text", name="phone", placeholder="(123) 456-7890", value=(member && member.phone)? member.phone : '')
+    .col-sm-4
+      fieldset
+        legend(style="text-align: center") More Details
+        .form-group
+          label Birth Day
+          input.form-control(type="number", name="birthDay", min="1", max="31", placeholder="1", value=(member && member.birthDate.day)? member.birthDate.day : '')
+        .form-group
+          label Birth Month
+          select.form-control(name="birthMonth")
+            option(value="") Please Choose...
+            option(value="January") January
+            option(value="February") February
+            option(value="March") March
+            option(value="April") April
+            option(value="May") May
+            option(value="June") June
+            option(value="July") July
+            option(value="August") August
+            option(value="September") September
+            option(value="October") October
+            option(value="November") November
+            option(value="December") December
+        .form-group
+          label Birth Year
+          input.form-control(type="number", name="birthYear", min="1900", max="2000", placeholder="1990", value=(member && member.birthDate.year)? member.birthDate.year : '')
+        .form-group
+          label Email
+          input.form-control(type="email", name="email", placeholder="someone@somewhere.ca", value=(member && member.email)? member.email : '')
+  .row
+    .col-sm-2
+    .col-sm-4
+      fieldset
+        legend(style="text-align: center") Things We should Know
+        span.help-block Please comma separate multiple conditions or allergies. Eg: Air, Water, Fire. If you are from out of province and do not have a CareCard, please include an equivalent number.
+        .form-group
+          label Medical Number
+          input.form-control(type="text", name="emergMedicalNum", placeholder="123 1234 123", value=(member && member.emergencyInfo.medicalNum)? member.emergencyInfo.medicalNum : '')
+        .form-group
+          label Allergies
+          input.form-control(type="text", name="emergAllergies", placeholder="Gluten, Cheese, Bacon", value=(member && member.emergencyInfo.allergies)? member.emergencyInfo.allergies : '')
+        .form-group
+          label Medical Conditions
+          input.form-control(type="text", name="emergConditions", placeholder="Asthma, Bad Knee", value=(member && member.emergencyInfo.conditions)? member.emergencyInfo.conditions : '')
+    .col-sm-4
+      fieldset
+        legend(style="text-align: center") Emergency Contact
+        span.help-block A quick note, your emergency contact should be someone who knows your medical history, your doctor's contact information, and is able to contact your family.
+        .form-group
+          label Their Name
+          input.form-control(type="text", name="emergName", placeholder="Foo Bar", value=(member && member.emergencyContact.name)? member.emergencyContact.name : '')
+        .form-group
+          label Their relationship with you
+          input.form-control(type="text", name="emergRelation", placeholder="Parent", value=(member && member.emergencyContact.relation)? member.emergencyContact.relation : '')
+        .form-group
+          label Their Phone Number
+          input.form-control(type="text", name="emergPhone", placeholder="(123) 456-7890", value=(member && member.emergencyContact.phone)? member.emergencyContact.phone : '')
+  .row
+    .col-sm-4
+    .col-sm-4
+      .form-group
+        label Is this person a Youth In Care?
+        .radio
+          label No
+          input(type="radio", name="youthInCare", value="No", checked=(member && member._state.youthInCare)? false : 'checked'))
+        .radio
+          label Yes
+          input(type="radio", name="youthInCare", value="Yes", checked=(member && member._state.youthInCare)? 'checked' : false))
+      button.btn.btn-primary.btn-block(type="submit")
+        i.icon-plus
+        |  Add Member
