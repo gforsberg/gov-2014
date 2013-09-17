@@ -41,8 +41,13 @@ MemberRoutes = module.exports = {
         Member.model.findById req.params.id, (err, member) ->
           member.remove (err) ->
             unless err
-              req.session.group._members.splice req.session.group._members.indexOf(member._id), 1
-              res.redirect "/account"
+              Group = require("../schema/Group")
+              Group.model.findById member._group, (err, group) ->
+                unless err? or !group?
+                  req.session.group = group
+                  res.redirect "/account"
+                else
+                  res.redirect "/account?errors=#{JSON.stringify(err)}"
             else
               res.redirect "/account?errors=#{JSON.stringify(err)}"
       else

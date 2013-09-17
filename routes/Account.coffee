@@ -46,7 +46,7 @@ AccountRoutes = module.exports = {
             req.session.group = group
             res.redirect "/account"
           else
-            res.redirect "/register?errors=#{JSON.stringify(err.errors)}"
+            res.redirect "/register?errors=#{JSON.stringify(err)}"
       else
         # Logging into an exiting group.
         Group.model.login req.body.email, req.body.password, (err, group) ->
