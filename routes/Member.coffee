@@ -33,4 +33,23 @@ MemberRoutes = module.exports = {
           res.redirect "/account"
         else
           res.redirect "/account?errors=#{JSON.stringify(err.errors)}"
+
+  delete:
+    member: (req, res) ->
+      unless !req.params.id? or (req.session.group._members.indexOf(req.params.id) == -1)
+        # Has an ID, and is in the group.
+        Member.model.findById req.params.id, (err, member) ->
+          member.remove (err) ->
+            unless err
+              req.session.group._members.splice req.session.group._members.indexOf(member._id), 1
+              res.redirect "/account"
+            else
+              res.redirect "/account?errors=#{JSON.stringify(err)}"
+      else
+        # Not in the group
+        errors = {
+          error: "You're not authorized to remove that member."
+          reason: "They're not in your group."
+        }
+        res.redirect "/account?errors=#{JSON.stringify(errors)}"
 }

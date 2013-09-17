@@ -14,26 +14,32 @@ block content
             th Workshops
             th Remove
         tbody
-          for member in members
+          if members.length > 0
+            for member in members
+              tr
+                td= member.name
+                td= member.type
+                td
+                  if member._state.complete
+                    a.btn.btn-xs.btn-success.tooltipped(href="#", data-toggle="tooltip", title="Edit Info") Complete 
+                  else
+                    a.btn.btn-xs.btn-danger.tooltipped(href="#", data-toggle="tooltip", title="Edit Info") Incomplete
+                td
+                  if member._workshops.length > 4
+                    a.btn.btn-xs.btn-success.tooltipped(href="#", data-toggle="tooltip", title="Browse Workshops") 4+ Workshops
+                  else if member._workshops.length > 1
+                    a.btn.btn-xs.btn-warning.tooltipped(href="#", data-toggle="tooltip", title="Browse Workshops") 1+ Workshops
+                  else
+                    a.btn.btn-xs.btn-default.tooltipped(href="#", data-toggle="tooltip", title="Browse Workshops") No Workshops!
+                td
+                  form(method="POST", action="/member/#{member._id}")
+                    input(type="hidden", name="_method", value="delete")
+                    button.btn.btn-xs.btn-danger.tooltipped(data-toggle="tooltip", title="There is no undo!")
+                      i.icon-trash
+                      |  Delete
+          else
             tr
-              td= member.name
-              td= member.type
-              td
-                if member._state.complete
-                  a.btn.btn-xs.btn-success.tooltipped(href="#", data-toggle="tooltip", title="Edit Info") Complete 
-                else
-                  a.btn.btn-xs.btn-danger.tooltipped(href="#", data-toggle="tooltip", title="Edit Info") Incomplete
-              td
-                if member._workshops.length > 4
-                  a.btn.btn-xs.btn-success.tooltipped(href="#", data-toggle="tooltip", title="Browse Workshops") 4+ Workshops
-                else if member._workshops.length > 1
-                  a.btn.btn-xs.btn-warning.tooltipped(href="#", data-toggle="tooltip", title="Browse Workshops") 1+ Workshops
-                else
-                  a.btn.btn-xs.btn-default.tooltipped(href="#", data-toggle="tooltip", title="Browse Workshops") No Workshops!
-              td
-                a.btn.btn-xs.btn-danger.tooltipped(href="#", data-toggle="tooltip", title="There is no undo!")
-                  i.icon-trash
-                  |  Delete
+              td.warning(colspan="5") You currently don't have any members. To add members, please hit the big green "Add a member" button.
   #controls.container
     .row(style="text-align: center")
       .btn-group
