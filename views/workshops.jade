@@ -1,0 +1,78 @@
+extends templates/layout
+
+block content
+  .container
+    #listing.row
+      table.table.table-reponsive.table-striped
+        thead
+          tr
+            td Name
+            td Host
+            td Sessions
+            td Description
+        tbody
+          for workshop in workshops
+            tr
+              td= workshop.name
+              td= workshop.host
+              td
+                for session in workshop.sessions
+                  .label= session.session
+
+    #query.row
+      form.form-horizontal
+        .form-group
+          label.col-sm-1 Find
+          .col-sm-3
+            input.form-control(type="text", name="query", placeholder="(Optional) Enter a query here. For example 'basket'")
+        .form-group
+          label.col-sm-1 Session:
+          .col-sm-9
+            .row
+              for i in [1,2,3,4,5,6,7,8,9,10,11,12]
+                .col-sm-1
+                  .checkbox
+                    label= i
+                    input(type="checkbox", value=i)= i
+        .form-group
+          button.btn.btn-primary.btn-block(type="submit")
+            i.icon-search
+            |  Search
+
+    if session.isAdmin
+      #admin.row
+        form.form-horizontal(action="/workshop", method="POST")
+          fieldset
+            legend Workshop Details
+            .control-group
+              label Name
+              input.form-control(type="text", name="name", placeholder="Bear Wrangling")
+            .control-group
+              label Host
+              input.form-control(type="text", name="host", placeholder="Mr. Foo")
+            .control-group
+              label Description
+              textarea.form-control(rows=3, name="description", placeholder="Wrangle Bears with Mr. Foo on the roof of the Hyatt.")
+          br
+          fieldset
+            legend Sessions Available
+            .container
+            for session in [1,2,3,4,5,6,7,8,9,10,11,12]
+              .col-sm-4
+                h4 Session #{session}
+                .checkbox
+                  label Enabled
+                  input(type="checkbox", name="#{session}-Enable")
+                .control-group
+                  label Room
+                  input.form-control(type="text", name="#{session}-Room", placeholder="The Roof")
+                .control-group
+                  label Venue
+                  input.form-control(type="text", name="#{session}-Venue", placeholder="Hyatt Regency")
+                .control-group
+                  label Capacity
+                  input.form-control(type="number", name="#{session}-Capacity", placeholder="55")
+          br
+          button.btn.btn-primary.btn-block(type="submit")
+            i.icon-edit
+            |  Update Details
