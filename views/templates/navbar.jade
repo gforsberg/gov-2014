@@ -27,3 +27,6 @@ nav.navbar.navbar-default(role="navigation")
       else
         li
           a(href="/register") Register
+      if session && session.isAdmin
+        li
+          a(href="/admin") Admin

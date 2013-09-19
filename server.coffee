@@ -10,12 +10,7 @@ RedisStore = require("connect-redis")(express)
 url      = require("url")
 
 # Config Vars
-config = {
-  port:   process.env.PORT            || 8080
-  db:     process.env.MONGOLAB_URI    || "localhost/dev"
-  redis:  process.env.REDISCLOUD_URL  # No need for fallback
-  secret: process.env.secret          || "test"
-}
+config = require("./config")
 
 # Our App
 app = module.exports = express()

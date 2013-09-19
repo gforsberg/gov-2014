@@ -11,7 +11,7 @@ AccountRoutes = module.exports = {
           bg: "/img/bg/register.jpg"
         errors: req.query.errors
     logout: (req, res) ->
-      req.session.group = null
+      req.session = null
       res.redirect "/"
     account: (req, res) ->
       Group.model.findById(req.session.group._id).populate("_members").exec (err, group) ->
@@ -51,6 +51,7 @@ AccountRoutes = module.exports = {
         # Logging into an exiting group.
         Group.model.login req.body.email, req.body.password, (err, group) ->
           unless err? or !group?
+            req.session.isAdmin = true if group.isAdmin()
             req.session.group = group
             res.redirect "/account"
           else

@@ -261,6 +261,10 @@ GroupSchema.methods.enoughChaperones = (next) ->
     else
       next true
 
+GroupSchema.methods.isAdmin = () ->
+  config = require("../config")
+  return (config.admins.indexOf(@email) != -1)
+
 ###
 Validators
   Validators can be mapped to paths. It lets you validate on change.
