@@ -211,12 +211,14 @@ describe "Member", ->
           conditions: ["Hacker"]
         _group: testGroup
       }, (err, member) ->
+        console.log member
         member._state.complete.should.be.false 
         member.gender = "Male"
         member.phone = "(123) 123-1234"
         member.emergencyContact.name = "Bar"
         member.emergencyInfo.medicalNum = "123 123 1234"
-        member.save (err) ->
+        member.save (err, member) ->
+          console.log member
           should.not.exist err
           member._state.complete.should.be.true
           done()

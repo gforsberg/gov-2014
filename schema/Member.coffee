@@ -37,6 +37,7 @@ MemberSchema = new Schema {
       "Chaperone",
       "Young Chaperone"
     ]
+    default: ""
   gender:
     type: String
     # required: true
@@ -46,6 +47,7 @@ MemberSchema = new Schema {
       "Female",
       "Other"
     ]
+    default: ""
   birthDate:
     # Why not use a Date? Because Javascript dates are gross.
     # Besides, we only care about day, month, year.
@@ -54,6 +56,7 @@ MemberSchema = new Schema {
       # required: true
       min: 1
       max: 31
+      default: null
     month:
       type: String
       # required: true
@@ -72,43 +75,53 @@ MemberSchema = new Schema {
         "November",
         "December"
       ]
+      default: ""
     year:
       type: Number
       # required: true
       min: 1900
       max: 2000 # 14 years old. Della signed off.
+      default: null
   # Contact Details, these are optional.
   phone:
     type: String
     trim: true
+    default: ""
   email:
     type: String
     match: /.*@.*\..*/ # Should match most emails.
     trim: true
     lowercase: true
+    default: ""
   # Emergency Contact Info, Unlikely to be used but important!
   emergencyContact:
     name:
       type: String
       trim: true
+      default: ""
       # required: true
     relation:
       type: String
       trim: true
+      default: ""
       # required: true
     phone:
       type: String
       trim: true
+      default: ""
       # required: true
   emergencyInfo:
     medicalNum:
       type: String
       trim: true
+      default: ""
       # required: true
     allergies:
       type: [String]
+      default: [""]
     conditions:
       type: [String]
+      default: [""]
   # State variables
   _state:
     # This is checked via a middleware.

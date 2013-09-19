@@ -43,7 +43,7 @@ block content
   #controls.container
     .row(style="text-align: center")
       .btn-group
-        a.btn.btn-success.btn-large(data-toggle="collapse", data-parent="#panels", href="#member") 
+        a#add.btn.btn-success.btn-large(data-toggle="collapse", data-parent="#panels", href="#member") 
           i.icon-plus
           |  Add a member
         a.btn.btn-info.btn-large(data-toggle="collapse", data-parent="#panels", href="#details") 
@@ -129,6 +129,8 @@ block content
   :coffee
     $(".tooltipped").tooltip()
     $("a.edit").click -> 
-      $.get "/member/#{$(this).data("id")}", (data) =>
-        console.log data
+      $.get "/member?id=#{$(this).data("id")}", (data) =>
         $("#member").html(data).collapse('show')
+    $("a#add").click ->
+      $.get "/member", (data) =>
+        $("#member").html(data).collapse('toggle')
