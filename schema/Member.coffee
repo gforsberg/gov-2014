@@ -247,22 +247,22 @@ MemberSchema.pre "save", (next) ->
 MemberSchema.pre "save", (next) ->
   complete = true
   for item in ["type", "gender", "email", "phone"]
-    if not @[item]?
+    if @[item]? and @[item] == ""
       complete = false
       break
   # Birthdate
   for item in ["day", "month", "year"]
-    if not @birthDate[item]?
+    if @birthDate[item]? and @birthDate[item] == ""
       complete = false
       break
   # Emergency Contact
   for item in ["name", "relation", "phone"]
-    if not @emergencyContact[item]?
+    if @emergencyContact[item]? and @emergencyContact[item] == ""
       complete = false
       break
   # Emergency Info
   for item in ["medicalNum"]
-    if not @emergencyInfo[item]?
+    if @emergencyInfo[item]? and @emergencyInfo[item] == ""
       complete = false
       break
   @_state.complete = complete

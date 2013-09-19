@@ -1,6 +1,7 @@
 form(action="/member", method="POST")
   if member
     input(type="hidden", name="_method", value="put")
+    input(type="hidden", name="id", value=member._id)
   .row
     .col-sm-2
     .col-sm-4
@@ -12,18 +13,18 @@ form(action="/member", method="POST")
         .form-group
           label Delegate Type
           select.form-control(name="type")
-            option(value="") Please choose...
-            option(value="Youth") Youth (14-17 years)
-            option(value="Young Adult") Young Adult (18-24 years)
-            option(value="Young Chaperone") Young Chaperone (21-24 years)
-            option(value="Chaperone") Chaperone (21+ years)
+            option(value="", selected=!member) Please choose...
+            option(value="Youth", selected=member && member.type == "Youth") Youth (14-17 years)
+            option(value="Young Adult", selected=member && member.type == "Young Adult") Young Adult (18-24 years)
+            option(value="Young Chaperone", selected=member && member.type == "Young Chaperone") Young Chaperone (21-24 years)
+            option(value="Chaperone", selected=member && member.type == "Chaperone") Chaperone (21+ years)
         .form-group
           label Gender
           select.form-control(name="gender")
-            option(value="") Please Choose...
-            option(value="Male") Male
-            option(value="Female") Female
-            option(value="Other") Other
+            option(value="", selected=!member) Please Choose...
+            option(value="Male", selected=member && member.gender == "Male") Male
+            option(value="Female", selected=member && member.type == "Female") Female
+            option(value="Other", selected=member && member.type == "Other") Other
         .form-group
           label Phone #
           input.form-control(type="text", name="phone", placeholder="(123) 456-7890", value=(member && member.phone)? member.phone : '')
@@ -36,19 +37,19 @@ form(action="/member", method="POST")
         .form-group
           label Birth Month
           select.form-control(name="birthMonth")
-            option(value="") Please Choose...
-            option(value="January") January
-            option(value="February") February
-            option(value="March") March
-            option(value="April") April
-            option(value="May") May
-            option(value="June") June
-            option(value="July") July
-            option(value="August") August
-            option(value="September") September
-            option(value="October") October
-            option(value="November") November
-            option(value="December") December
+            option(value="", selected=!member) Please Choose...
+            option(value="January", selected=member && member.birthDate.month == "January") January
+            option(value="February", selected=member && member.birthDate.month == "February") February
+            option(value="March", selected=member && member.birthDate.month == "March") March
+            option(value="April", selected=member && member.birthDate.month == "April") April
+            option(value="May", selected=member && member.birthDate.month == "May") May
+            option(value="June", selected=member && member.birthDate.month == "June") June
+            option(value="July", selected=member && member.birthDate.month == "July") July
+            option(value="August", selected=member && member.birthDate.month == "August") August
+            option(value="September", selected=member && member.birthDate.month == "September") September
+            option(value="October", selected=member && member.birthDate.month == "October") October
+            option(value="November", selected=member && member.birthDate.month == "November") November
+            option(value="December", selected=member && member.birthDate.month == "December") December
         .form-group
           label Birth Year
           input.form-control(type="number", name="birthYear", min="1900", max="2000", placeholder="1990", value=(member && member.birthDate.year)? member.birthDate.year : '')
@@ -95,5 +96,9 @@ form(action="/member", method="POST")
           label Yes
           input(type="radio", name="youthInCare", value="Yes", checked=(member && member._state.youthInCare)? 'checked' : false))
       button.btn.btn-primary.btn-block(type="submit")
-        i.icon-plus
-        |  Add Member
+        if !member
+          i.icon-plus
+          |  Add Member
+        else
+          i.icon-edit
+          |  Edit Member
