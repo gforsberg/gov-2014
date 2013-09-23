@@ -12,46 +12,46 @@ block content
             th Description
             th 
         tbody
-          for workshop in workshops
-            tr
-              td= workshop.name
-              td= workshop.host
-              td
-                for session in workshop.sessions
-                  if session.capacity == session._registered
-                    //- Full?
-                    .label.label-default= session.session
-                    |  
-                  else if session.capacity * .66 <= session._registered.length
-                    //- 2/3's full?
-                    .label.label-danger= session.session
-                    |  
-                  else if session.capacity * .5 <= session._registered.length
-                    //- Half hull?
-                    .label.label-warning= session.session
-                    |  
-                  else 
-                    .label.label-success= session.session
-                    |  
-              if workshop.description.length > 120
-                td= workshop.description.substr(0,120) + "..."
-              else
-                td= workshop.description
-              td
-                a.btn.btn-xs.btn-info(href="/workshop/#{workshop._id}")
-                  i.icon-info
-                  |  Info 
+          if workshops
+            for workshop in workshops
+              tr
+                td= workshop.name
+                td= workshop.host
+                td
+                  for session in workshop.sessions
+                    if session.capacity == session._registered
+                      //- Full?
+                      .label.label-default= session.session
+                      |  
+                    else if session.capacity * .66 <= session._registered.length
+                      //- 2/3's full?
+                      .label.label-danger= session.session
+                      |  
+                    else if session.capacity * .5 <= session._registered.length
+                      //- Half hull?
+                      .label.label-warning= session.session
+                      |  
+                    else 
+                      .label.label-success= session.session
+                      |  
+                if workshop.description.length > 120
+                  td= workshop.description.substr(0,120) + "..."
+                else
+                  td= workshop.description
+                td
+                  a.btn.btn-xs.btn-info(href="/workshop/#{workshop._id}")
+                    i.icon-info
+                    |  Info 
 
     #query.row
       form.form-horizontal
-        .form-group
-          label.col-sm-1 Find
-          .col-sm-3
-            input.form-control(type="text", name="query", placeholder="(Optional) Enter a query here. For example 'basket'")
-        .form-group
-          label.col-sm-1 Session:
-          .col-sm-3
-            input.form-control(type="text", name="sessions", placeholder="(Optional) Comma seperated list of sessions. Eg. 1,2,3")
+        .form-group.col-sm-5
+          label Find: (In description)
+          input.form-control(type="text", name="query", placeholder="(Optional) Enter a query here. For example 'basket'")
+        .col-sm-2
+        .form-group.col-sm-5
+          label Sessions: (Comma seperate)
+          input.form-control(type="text", name="sessions", placeholder="(Optional) Comma seperated list of sessions. Eg. 1,2,3")
         .form-group
           button.btn.btn-primary.btn-block(type="submit")
             i.icon-search

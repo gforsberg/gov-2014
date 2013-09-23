@@ -3,7 +3,14 @@ Workshop = require("../schema/Workshop")
 WorkshopRoutes = module.exports = {
   get:
     index: (req, res) ->
-      Workshop.model.find().sort("name").limit(25).exec (err, workshops) ->
+      query = {}
+      if req.query.sessions
+        query["sessions.session"] = $in: req.query.sessions.split(",").map (val) -> Number(val)
+      if req.query.query
+        searcher = new RegExp(req.query.query, "i")
+        query["description"] = searcher
+      # Query
+      Workshop.model.find(query).sort("name").limit(25).exec (err, workshops) ->
         res.render "workshops",
           session: req.session  
           head:
