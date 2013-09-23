@@ -6,10 +6,11 @@ block content
       table.table.table-reponsive.table-striped
         thead
           tr
-            td Name
-            td Host
-            td Sessions
-            td Description
+            th Name
+            th Host
+            th Sessions
+            th Description
+            th 
         tbody
           for workshop in workshops
             tr
@@ -32,7 +33,14 @@ block content
                   else 
                     .label.label-success= session.session
                     |  
-              td= workshop.description
+              if workshop.description.length > 120
+                td= workshop.description.substr(0,120) + "..."
+              else
+                td= workshop.description
+              td
+                a.btn.btn-xs.btn-info(href="/workshop/#{workshop._id}")
+                  i.icon-info
+                  |  Info 
 
     #query.row
       form.form-horizontal
@@ -51,7 +59,7 @@ block content
           if session.isAdmin
             a.btn.btn-info.btn-block(data-toggle="collapse", href="#admin") 
               i.icon-plus
-              | Add Workshop
+              |  Add Workshop
 
 
     if session.isAdmin
