@@ -71,13 +71,22 @@ block content
                 legend Workshop Details
                 .control-group
                   label Name
-                  input.form-control(type="text", name="name", placeholder="Bear Wrangling")
+                  input.form-control(type="text", name="name", placeholder="Bear Wrangling", required)
                 .control-group
                   label Host
-                  input.form-control(type="text", name="host", placeholder="Mr. Foo")
+                  input.form-control(type="text", name="host", placeholder="Mr. Foo", required)
                 .control-group
                   label Description
-                  textarea.form-control(rows=3, name="description", placeholder="Wrangle Bears with Mr. Foo on the roof of the Hyatt.")
+                  textarea.form-control(rows=3, name="description", placeholder="Wrangle Bears with Mr. Foo on the roof of the Hyatt.", required)
+                .control-group
+                  label Allows
+                  select.form-control(name="allows")
+                    option(value="") Please choose...
+                    option(value="default") Default (Youth, Young Adults, Young Chaperones)
+                    option(value="all") All Allowed (Including Chaperones)
+                    option(value="chaperones") Only Chaperones, Young Chaperones.
+                    option(value="youth") Only Youth, Young Adults.
+
               br
               fieldset
                 legend Sessions Available

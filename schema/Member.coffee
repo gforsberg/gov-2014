@@ -189,23 +189,26 @@ MemberSchema.methods.addWorkshop = (workshopId, session, next) ->
     # Check that the workshop isn't full, if not, add us there.
     Workshop.model.findById workshopId, (err, workshop) =>
       unless err or !workshop?
-        # Figure out the session we want, add the member.
-        theSession = workshop.session(session)
-        if theSession.capacity > theSession._registered.length
-          theSession._registered.push @_id
-        else
-          next new Error("That workshop is at capacity"), null
-          return # End early.
-        workshop.save (err) =>
-          unless err
-            @_workshops.push {session: session, _id: workshop._id}
-            @save (err) =>
-              unless err
-                next null, @
-              else
-                next err, null
+        unless workshop.allows.indexOf(@type) == -1
+          # Figure out the session we want, add the member.
+          theSession = workshop.session(session)
+          if theSession.capacity > theSession._registered.length
+            theSession._registered.push @_id
           else
-            next err, null
+            next new Error("That workshop is at capacity"), null
+            return # End early.
+          workshop.save (err) =>
+            unless err
+              @_workshops.push {session: session, _id: workshop._id}
+              @save (err) =>
+                unless err
+                  next null, @
+                else
+                  next err, null
+            else
+              next err, null
+        else
+          next new Error("Member type not permitted in this workshop."), null
       else
         next err || new Error("No workshop found"), null
   else

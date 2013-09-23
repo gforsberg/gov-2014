@@ -11,27 +11,38 @@ WorkshopRoutes = module.exports = {
             caption: "My will shall shape my future. Whether I fail or succeed shall be no man's doing but my own."  
             bg: "/img/bg/workshops.jpg"
           workshops: workshops
+          errors: req.query.errors
   post:
     workshop: (req, res) ->
       workshop = {
         name: req.body.name
         host: req.body.host
         description: req.body.description
+        allows: []
+        sessions: []
       }
-      sessions = []
+      # Handle the "allows"
+      console.log req.body.allows
+      switch req.body.allows
+        when "default"    
+          workshop.allows = ["Youth", "Young Adult", "Young Chaperone"]
+        when "all"
+          workshop.allows = ["Youth", "Young Adult", "Young Chaperone", "Chaperone"]
+        when "chaperones"
+          workshop.allows = ["Young Chaperone", "Chaperone"]
+        when "youth"
+          workshop.allows = ["Younth", "Young Adult"]
+      # Populate Sessions.
       for x in [1..12]
         # x-1 for array indexing.
         if req.body.enabled[x-1] == 'on'
-          sessions.push {
+          workshop.sessions.push {
             session: x
             room: req.body.room[x-1]
             venue: req.body.venue[x-1]
             capacity: req.body.capacity[x-1]
           }
-      workshop.sessions = sessions
       Workshop.model.create workshop, (err, workshop) ->
-        console.log err
-        console.log workshop
         if err
           res.redirect "/workshops?errors=#{JSON.stringify(err)}"
         else

@@ -133,6 +133,7 @@ describe "Member", ->
         name: "canRegister test"
         host: "Bob"
         description: "Make some beaver hats, with Bob. It'll be fantastical."
+        allows: ["Youth", "Young Adult", "Young Chaperone", "Chaperone"]
         sessions: [
           session: 1
           room: "Beaver"
@@ -232,6 +233,7 @@ describe "Member", ->
         name: "addWorkshop test"
         host: "Bob"
         description: "Make some beaver hats, with Bob. It'll be fantastical."
+        allows: ["Youth", "Young Adult", "Young Chaperone", "Chaperone"]
         sessions: [
           session: 1
           room: "Beaver"
@@ -276,6 +278,28 @@ describe "Member", ->
               should.exist err
               should.equal secondMember._workshops.indexOf(testWorkshop), -1
               done()
+      it "Should block members from workshops they're filtered from", (done) ->
+        Workshop.model.create {
+          name: "filter test"
+          host: "Bob"
+          description: "Make some beaver hats, with Bob. It'll be fantastical."
+          allows: ["Chaperones"]
+          sessions: [
+            session: 1
+            room: "Beaver"
+            venue: "Bear"
+            capacity: 1
+          ,
+            session: 6
+            room: "Beaver"
+            venue: "Horse"
+            capacity: 50
+          ]
+        }, (err, workshop) ->
+          member.addWorkshop workshop._id, 6, (err, member) ->
+          should.exist err
+          done()
+
 
   describe "Member.find -> member.removeWorkshop()", ->
     testMember = null
@@ -289,6 +313,7 @@ describe "Member", ->
           name: "removeWorkshop test"
           host: "Bob"
           description: "Make some beaver hats, with Bob. It'll be fantastical."
+          allows: ["Youth", "Young Adult", "Young Chaperone", "Chaperone"]
           sessions: [
             session: 1
             room: "Beaver"
@@ -336,6 +361,7 @@ describe "Member", ->
           name: "remove member test"
           host: "Bob"
           description: "Make some beaver hats, with Bob. It'll be fantastical."
+          allows: ["Youth", "Young Adult", "Young Chaperone", "Chaperone"]
           sessions: [
             session: 1
             room: "Beaver"

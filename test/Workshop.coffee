@@ -30,6 +30,7 @@ describe "Workshop", ->
         name: "Making Beaver Hats with Bob"
         host: "Bob"
         description: "Make some beaver hats, with Bob. It'll be fantastical."
+        allows: ["Youth", "Young Adult", "Young Chaperone", "Chaperone"]
         sessions: [
           session: 1
           room: "Beaver"

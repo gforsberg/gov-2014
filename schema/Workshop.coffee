@@ -34,6 +34,18 @@ WorkshopSchema = new Schema {
     type: String
     required: true
     trim: true
+  allows:
+    type: [
+      type: String
+      enum: [
+        "Youth"
+        "Young Adult"
+        "Young Chaperone"
+        "Chaperone"
+      ]
+    ]
+    required: true
+    default: ["Youth", "Young Adult", "Young Chaperone"]
   sessions: [ # Determines start/end time, as well as day.
     session:
       type: Number
