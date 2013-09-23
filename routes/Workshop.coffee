@@ -10,7 +10,7 @@ WorkshopRoutes = module.exports = {
         searcher = new RegExp(req.query.query, "i")
         query["description"] = searcher
       # Query
-      Workshop.model.find(query).sort("name").limit(25).exec (err, workshops) ->
+      Workshop.model.find(query).sort("name").exec (err, workshops) ->
         res.render "workshops",
           session: req.session  
           head:
@@ -19,6 +19,15 @@ WorkshopRoutes = module.exports = {
             bg: "/img/bg/workshops.jpg"
           workshops: workshops
           errors: req.query.errors
+    id: (req, res) ->
+      Workshop.model.findById req.params.id, (err, workshop) ->
+        res.render "workshop",
+          session: req.session
+          head:
+            title: workshop.name
+            caption: "Details and signup."
+            bg: "/img/bg/workshop.jpg"
+          workshop: workshop
   post:
     workshop: (req, res) ->
       workshop = {
@@ -29,7 +38,6 @@ WorkshopRoutes = module.exports = {
         sessions: []
       }
       # Handle the "allows"
-      console.log req.body.allows
       switch req.body.allows
         when "default"    
           workshop.allows = ["Youth", "Young Adult", "Young Chaperone"]

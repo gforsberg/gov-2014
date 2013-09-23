@@ -1,0 +1,56 @@
+extends templates/layout
+
+block content
+  .container
+    .row
+      .col-sm-6
+        p.lead Hosted by #{workshop.host}
+        p= workshop.description
+      .col-sm-6
+        h2 Sessions
+        for session in workshop.sessions
+          h4 Session #{session.session}
+          b Time: 
+          case session.session
+            when 1
+              | Wed, March 19, 9:00 am till noon
+            when 2
+              | Wed, March 19, 9:00 am till 10:30 am
+            when 3
+              | Wed, March 19, 11:00 am till 12:30 pm
+            when 4
+              | Wed, March 19, 1:30 pm till 4:30 pm
+            when 5
+              | Wed, March 19, 1:30 pm till 3:30 pm
+            when 6
+              | Wed, March 19, 3:30 pm till 5:00 pm
+            when 7
+              | Thurs, March 20, 9:00 am till noon
+            when 8
+              | Thurs, March 20, 9:00 am till 10:30 am
+            when 9
+              | Thurs, March 20, 11:00 am till 12:30 pm
+            when 10
+              | Thurs, March 20, 1:30 pm till 4:30 pm
+            when 11
+              | Thurs, March 20, 1:30 pm till 3:00 pm
+            when 12
+              | Thurs, March 20, 3:30 pm till 5:00 pm
+          br 
+          b Room:
+          | #{session.room}
+          br
+          b Venue:
+          |  #{session.venue}
+          br
+          b Capacity: 
+          if session._registered.length == session.capacity
+            .label.label-default #{session._registered.length} / #{session.capacity}
+          else if session._registered.length / session.capacity > .75
+            .label.label-danger #{session._registered.length} / #{session.capacity}
+          else if session._registered.length / session.capacity > .50
+            .label.label-warning #{session._registered.length} / #{session.capacity}
+          else
+            .label.label-success #{session._registered.length} / #{session.capacity}
+          br
+          br
