@@ -3,12 +3,13 @@ extends templates/layout
 block content
   .container
     .row
-      .col-sm-6
+      .col-sm-12
         p.lead Hosted by #{workshop.host}
         p= workshop.description
-      .col-sm-6
-        h2 Sessions
-        for session in workshop.sessions
+    .row
+      h2 Sessions
+      for session in workshop.sessions
+        .col-sm-4
           h4 Session #{session.session}
           b Time: 
           case session.session
