@@ -35,8 +35,8 @@ else
 app.use express.logger("dev")
 app.use express.bodyParser()
 app.use express.methodOverride() # Allows PUT/DELETE in forms.
-app.use express.cookieParser()
-app.use express.cookieSession(
+app.use express.cookieParser(config.secret)
+app.use express.session(
   secret: config.secret
   store: new RedisStore {client: redisClient}
 )
