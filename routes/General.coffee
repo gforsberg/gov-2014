@@ -16,6 +16,14 @@ General = module.exports = {
           caption: "Get the low down on what's happening, wherever you are"
           bg: "/img/bg/schedule.jpg"
 
+    venues: (req, res) ->
+      res.render "venues",
+        session: req.session  
+        head:
+          title: "Venues"
+          caption: "Organizing a discussion is one thing, creating a space for the free exchange of ideas is what is truly powerful"
+          bg: "/img/bg/venues.jpg"
+
     privacy: (req, res) ->
       res.render "privacy",
         session: req.session

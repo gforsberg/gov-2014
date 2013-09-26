@@ -10,6 +10,7 @@ routes = module.exports = (app) ->
   app.get   "/schedule",  General.get.schedule  # Schedule page
   app.get   "/privacy",   General.get.privacy   # Privacy Policy
   app.get   "/faq",       General.get.faq       # Frequently Asked Questions
+  app.get   "/venues",    General.get.venues    # Venues
 
   ###
   Account Routes
