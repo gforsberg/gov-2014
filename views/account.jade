@@ -26,11 +26,11 @@ block content
                     a.edit.btn.btn-xs.btn-danger.tooltipped(data-id=member._id, data-toggle="tooltip", title="Edit Info") Incomplete
                 td
                   if member._workshops.length > 4
-                    a.btn.btn-xs.btn-success.tooltipped(href="#", data-toggle="tooltip", title="Browse Workshops") 4+ Workshops
+                    a.btn.btn-xs.btn-success.tooltipped(href="/workshops", data-toggle="tooltip", title="Browse Workshops") 4+ Workshops
                   else if member._workshops.length > 1
-                    a.btn.btn-xs.btn-warning.tooltipped(href="#", data-toggle="tooltip", title="Browse Workshops") 1+ Workshops
+                    a.btn.btn-xs.btn-warning.tooltipped(href="/workshops", data-toggle="tooltip", title="Browse Workshops") 1+ Workshops
                   else
-                    a.btn.btn-xs.btn-default.tooltipped(href="#", data-toggle="tooltip", title="Browse Workshops") No Workshops!
+                    a.btn.btn-xs.btn-default.tooltipped(href="/workshops", data-toggle="tooltip", title="Browse Workshops") No Workshops!
                 td
                   form(method="POST", action="/member/#{member._id}")
                     input(type="hidden", name="_method", value="delete")

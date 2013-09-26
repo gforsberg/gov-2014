@@ -19,7 +19,7 @@ block content
                 td= workshop.host
                 td
                   for session in workshop.sessions
-                    if session.capacity == session._registered
+                    if session.capacity == session._registered.length
                       //- Full?
                       .label.label-default= session.session
                       |  
