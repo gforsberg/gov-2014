@@ -1,4 +1,5 @@
 Workshop = require("../schema/Workshop")
+Group    = require("../schema/Group")
 
 WorkshopRoutes = module.exports = {
   get:
@@ -28,6 +29,18 @@ WorkshopRoutes = module.exports = {
             caption: "Details and signup."
             bg: "/img/bg/workshop.jpg"
           workshop: workshop
+    members: (req, res) ->
+      Workshop.model.findById req.params.id, (err, workshop) ->
+        Group.model.findById(req.session.group._id).populate("_members").exec (err, group) ->
+          unless err or !group?
+            req.session.group = group
+            res.render "templates/workshopMembers",
+              session: req.session
+              workshop: workshop
+              workshopSession: req.params.session
+          else
+            res.send "Error. :("
+
   post:
     workshop: (req, res) ->
       workshop = {

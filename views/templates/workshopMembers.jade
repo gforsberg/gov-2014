@@ -1,0 +1,23 @@
+if session.group._members.length == 0
+  p.text-muted There are no members in this group, you should add some first!
+else
+  .container
+    br
+    for member in session.group._members
+      .row
+        .col-xs-6
+          b= member.name
+        .col-xs-6
+          if member._workshops.indexOf({_id: workshop._id, session: workshopSession}) != -1
+            .btn.btn-xs.btn-danger 
+              .icon-minus
+              |  Remove Member
+          else if !member.hasConflicts(workshop._id, workshopSession) && member._state.complete
+            .btn.btn-xs.btn-success 
+              .icon-plus
+              |  Add Member
+          else if member.hasConflicts(workshop._id, workshopSession)
+            a(href="/workshop/#{member.hasConflicts(workshop._id, workshopSession)}").btn.btn-sm.btn-warning.btn-disabled View Conflict
+          else
+            a.btn.btn-xs.btn-default.btn-disabled(href="/account") Complete Info
+      br

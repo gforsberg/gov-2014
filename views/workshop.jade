@@ -8,50 +8,80 @@ block content
         p= workshop.description
     .row
       h2 Sessions
-      for session in workshop.sessions
-        .col-sm-4
-          h4 Session #{session.session}
-          b Time: 
-          case session.session
-            when 1
-              | Wed, March 19, 9:00 am till noon
-            when 2
-              | Wed, March 19, 9:00 am till 10:30 am
-            when 3
-              | Wed, March 19, 11:00 am till 12:30 pm
-            when 4
-              | Wed, March 19, 1:30 pm till 4:30 pm
-            when 5
-              | Wed, March 19, 1:30 pm till 3:30 pm
-            when 6
-              | Wed, March 19, 3:30 pm till 5:00 pm
-            when 7
-              | Thurs, March 20, 9:00 am till noon
-            when 8
-              | Thurs, March 20, 9:00 am till 10:30 am
-            when 9
-              | Thurs, March 20, 11:00 am till 12:30 pm
-            when 10
-              | Thurs, March 20, 1:30 pm till 4:30 pm
-            when 11
-              | Thurs, March 20, 1:30 pm till 3:00 pm
-            when 12
-              | Thurs, March 20, 3:30 pm till 5:00 pm
-          br 
-          b Room:
-          | #{session.room}
-          br
-          b Venue:
-          |  #{session.venue}
-          br
-          b Capacity: 
-          if session._registered.length == session.capacity
-            .label.label-default #{session._registered.length} / #{session.capacity}
-          else if session._registered.length / session.capacity > .75
-            .label.label-danger #{session._registered.length} / #{session.capacity}
-          else if session._registered.length / session.capacity > .50
-            .label.label-warning #{session._registered.length} / #{session.capacity}
-          else
-            .label.label-success #{session._registered.length} / #{session.capacity}
-          br
-          br
+      #sessions.panel-group
+        for session, index in workshop.sessions
+          if index % 3 == 0
+            .row
+          .col-sm-4(style="margin-top:0px")
+            div
+              h4 Session #{session.session}
+              b Time: 
+              case session.session
+                when 1
+                  | Wed, March 19, 9:00 am till noon
+                when 2
+                  | Wed, March 19, 9:00 am till 10:30 am
+                when 3
+                  | Wed, March 19, 11:00 am till 12:30 pm
+                when 4
+                  | Wed, March 19, 1:30 pm till 4:30 pm
+                when 5
+                  | Wed, March 19, 1:30 pm till 3:30 pm
+                when 6
+                  | Wed, March 19, 3:30 pm till 5:00 pm
+                when 7
+                  | Thurs, March 20, 9:00 am till noon
+                when 8
+                  | Thurs, March 20, 9:00 am till 10:30 am
+                when 9
+                  | Thurs, March 20, 11:00 am till 12:30 pm
+                when 10
+                  | Thurs, March 20, 1:30 pm till 4:30 pm
+                when 11
+                  | Thurs, March 20, 1:30 pm till 3:00 pm
+                when 12
+                  | Thurs, March 20, 3:30 pm till 5:00 pm
+              br 
+              b Room: 
+              | #{session.room}
+              br
+              b Venue: 
+              |  #{session.venue}
+              br
+              .row
+                .col-xs-6
+                  b Capacity: 
+                  if session._registered.length == session.capacity
+                    .label.label-default #{session._registered.length} / #{session.capacity}
+                  else if session._registered.length / session.capacity > .75
+                    .label.label-danger #{session._registered.length} / #{session.capacity}
+                  else if session._registered.length / session.capacity > .50
+                    .label.label-warning #{session._registered.length} / #{session.capacity}
+                  else
+                    .label.label-success #{session._registered.length} / #{session.capacity}
+                .col-xs-6
+                  if locals.session.group
+                    a.manage.btn.btn-xs.btn-block.btn-primary(data-toggle="collapse", href="##{session.session}-attending", data-id="#{workshop._id}", data-session="#{session.session}") 
+                      .icon-female
+                      |  Manage Attendees 
+                      .icon-male
+                  else
+                    a.manage.btn.btn-xs.btn-block.btn-disabled.btn-default(data-toggle="collapse", href="##{session.session}-attending", data-id="#{workshop._id}", data-session="#{session.session}", disabled) 
+                      .icon-female
+                      |  Manage Attendees 
+                      .icon-male
+            .panel.collapse(id="#{session.session}-attending")
+              p
+                .icon-cloud-download
+                span.text-muted  Working....
+            br
+            br
+
+
+    :coffeescript
+      $('a.manage').click ->
+        $.get "/workshop/members/#{$(this).data("id")}/#{$(this).data("session")}", (data) =>
+          console.log data
+          $("##{$(this).data("session")}-attending").html(data).collapse('show')
+
+        

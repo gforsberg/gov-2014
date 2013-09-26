@@ -11,7 +11,6 @@ General = module.exports = {
       }
       res.redirect("/register?errors=#{JSON.stringify(errors)}")
   admin: (req, res, next) ->
-    User.model.find req.session._id
     unless !req.session.isAdmin
       next()
     else
