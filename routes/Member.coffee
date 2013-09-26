@@ -14,6 +14,34 @@ MemberRoutes = module.exports = {
             res.send err || "No member found."
       else
         res.render "templates/member", {}
+    addWorkshop: (req, res) ->
+      if req.session.group._members.indexOf(req.params.member) != -1
+        Member.model.findById req.params.member, (err, member) ->
+          unless err or !member?
+            member.addWorkshop req.params.workshop, Number(req.params.session), (err, member) ->
+              unless err
+                res.redirect "/workshop/#{req.params.workshop}"
+              else
+                res.redirect "/workshop/#{req.params.workshop}?errors=#{JSON.stringify({error: err})}"  
+          else
+            res.redirect "/workshop/#{req.params.workshop}?errors=#{JSON.stringify(err)}"
+      else
+        err = new Error("You're not permitted to modify that member.")
+        res.redirect "/workshop/#{req.params.workshop}?errors=#{JSON.stringify({error: err})}"
+    delWorkshop: (req, res) ->
+      if req.session.group._members.indexOf(req.params.member) != -1
+        Member.model.findById req.params.member, (err, member) ->
+          unless err or !member?
+            member.removeWorkshop req.params.workshop, Number(req.params.session), (err, member) ->
+              unless err
+                res.redirect "/workshop/#{req.params.workshop}"
+              else
+                res.redirect "/workshop/#{req.params.workshop}?errors=#{JSON.stringify(err)}"  
+          else
+            res.redirect "/workshop/#{req.params.workshop}?errors=#{JSON.stringify(err)}"
+      else
+        err = new Error("You're not permitted to modify that member.")
+        res.redirect "/workshop/#{req.params.workshop}?errors=#{JSON.stringify(err)}"
   post:
     member: (req, res) ->
       # Is it a youth in care?

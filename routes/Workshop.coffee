@@ -29,15 +29,15 @@ WorkshopRoutes = module.exports = {
             caption: "Details and signup."
             bg: "/img/bg/workshop.jpg"
           workshop: workshop
+          errors: req.query.errors
     members: (req, res) ->
       Workshop.model.findById req.params.id, (err, workshop) ->
         Group.model.findById(req.session.group._id).populate("_members").exec (err, group) ->
           unless err or !group?
-            req.session.group = group
             res.render "templates/workshopMembers",
-              session: req.session
+              session: { group: group }
               workshop: workshop
-              workshopSession: req.params.session
+              workshopSession: Number(req.params.session)
           else
             res.send "Error. :("
 

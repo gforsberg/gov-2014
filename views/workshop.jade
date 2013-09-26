@@ -4,7 +4,9 @@ block content
   .container
     .row
       .col-sm-12
+        h2= workshop.name
         p.lead Hosted by #{workshop.host}
+        p Allows: #{workshop.allows.join(", ")}
         p= workshop.description
     .row
       h2 Sessions

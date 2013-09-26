@@ -50,8 +50,8 @@ routes = module.exports = (app) ->
   app.put     "/member",        Middle.auth, Member.put.member    # Edits :id details
   app.delete  "/member/:id",    Middle.auth, Member.delete.member # Deletes :id
   # # Special routes:
-  # app.post    "/member/:member/workshop/:workshop", Middle.auth, Member.post.workshop   # Adds :member to :workshop
-  # app.delete  "/member/:member/workshop/:workshop", Middle.auth, Member.delete.workshop # Deletes :member from :workshop
+  app.get     "/member/:member/add/:workshop/:session", Middle.auth, Member.get.addWorkshop   # Adds :member to :workshop
+  app.get     "/member/:member/del/:workshop/:session", Middle.auth, Member.get.delWorkshop   # Deletes :member from :workshop
 
   ###
   Payment Routes

@@ -8,16 +8,18 @@ else
         .col-xs-6
           b= member.name
         .col-xs-6
-          if member._workshops.indexOf({_id: workshop._id, session: workshopSession}) != -1
-            .btn.btn-xs.btn-danger 
+          if workshop.allows.indexOf(member.type) == -1
+            .btn.btn-xs.btn-warning.btn-disabled Ineligible
+          else if workshop.session(workshopSession)._registered.indexOf(member._id) != -1
+            a.remove.btn.btn-xs.btn-danger(href="/member/#{member._id}/del/#{workshop._id}/#{workshopSession}")
               .icon-minus
               |  Remove Member
           else if !member.hasConflicts(workshop._id, workshopSession) && member._state.complete
-            .btn.btn-xs.btn-success 
+            a.add.btn.btn-xs.btn-success(href="/member/#{member._id}/add/#{workshop._id}/#{workshopSession}")
               .icon-plus
               |  Add Member
           else if member.hasConflicts(workshop._id, workshopSession)
-            a(href="/workshop/#{member.hasConflicts(workshop._id, workshopSession)}").btn.btn-sm.btn-warning.btn-disabled View Conflict
+            a(href="/workshop/#{member.hasConflicts(workshop._id, workshopSession)._id}").btn.btn-xs.btn-warning.btn-disabled View Conflict
           else
             a.btn.btn-xs.btn-default.btn-disabled(href="/account") Complete Info
       br
