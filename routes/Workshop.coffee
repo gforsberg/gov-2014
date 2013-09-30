@@ -49,6 +49,58 @@ WorkshopRoutes = module.exports = {
       else
         res.send "Y u no ask for workshop ID? :("
 
+  put:
+    workshop: (req, res) ->
+      Workshop.model.findById req.body.id, (err, workshop) ->
+        unless err
+          workshop.name = req.body.name
+          workshop.host = req.body.host
+          workshop.description = req.body.description
+          # Handle the "allows"
+          switch req.body.allows
+            when "default"    
+              workshop.allows = ["Youth", "Young Adult", "Young Chaperone"]
+            when "all"
+              workshop.allows = ["Youth", "Young Adult", "Young Chaperone", "Chaperone"]
+            when "chaperones"
+              workshop.allows = ["Young Chaperone", "Chaperone"]
+            when "youth"
+              workshop.allows = ["Younth", "Young Adult"]
+          # Populate Sessions.
+          for x in [1..12]
+            # x-1 for array indexing.
+            session = workshop.session(x)
+            if req.body.enabled[x-1] == 'on'
+              # The workshop is enabled.
+              if session
+                # The session exists already, edit it.
+                session.room = req.body.room[x-1]
+                session.venue = req.body.venue[x-1]
+                session.capacity = req.body.capacity[x-1]
+              else
+                # The session doesn't exist, create it.
+                workshop.sessions.push {
+                  session: x
+                  room: req.body.room[x-1]
+                  venue: req.body.venue[x-1]
+                  capacity: req.body.capacity[x-1]
+                }
+            else
+              # The session is disabled.
+              if session
+                # The session exists, remove it.
+                # Make sure to remove all the members?
+                console.log "Hey this #{session} needs to be removed."
+              # We don't care if it doesn't exist.
+
+          workshop.save (err) ->
+            if err
+              res.send err
+            else
+              res.redirect "/workshops"
+        else
+          res.send err
+
   post:
     workshop: (req, res) ->
       workshop = {

@@ -175,11 +175,11 @@ MemberSchema.methods.hasConflicts = (workshopId, session) ->
   if session % 3 is 1
     blocks = [session..session+2]
   else
-    blocks = [session, Math.floor(session / 4) + 1] 
+    blocks = [session, Math.floor(session / 4)*3 + 1]
   conflicts = @_workshops.filter (val) ->
     return blocks.indexOf(val.session) != -1 # Don't return blocks
   if conflicts.length > 0
-    return conflicts[0]
+    return conflicts
   else
     return false
 
@@ -308,18 +308,28 @@ MemberSchema.pre "remove", (next) ->
 MemberSchema.pre "remove", (next) ->
   Workshop = require("./Workshop")
   # Remove the member from their workshops.
+  memberWorkshops = @_workshops
   workshopIds = @_workshops.map (val) ->
     return val._id
   Workshop.model.find _id: {$in: workshopIds}, (err, workshops) =>
     errors = [] # If we have any.
     processor = (index) =>
-      if index < workshopIds.length
-        theSession = workshops[index].session @_workshops[index].session
-        deleteThisMember = theSession._registered.indexOf @_id
-        theSession._registered.splice deleteThisMember, 1
-        workshops[index].save (err) ->
+      if index < memberWorkshops.length
+        candidate = (workshops.filter (val) => val._id.equals(memberWorkshops[index]._id))[0]
+        candIndex = candidate.session(memberWorkshops[index].session)._registered.indexOf @_id
+        candidate.session(memberWorkshops[index].session)._registered.splice candIndex, 1
+        candidate.save (err) ->
           errors.push err if err
           processor index+1
+        # console.log "Index: " + index
+        # console.log "Workshop: " + workshops[index]
+        # theSession = workshops[index].session @_workshops[index].session
+        # deleteThisMember = theSession._registered.indexOf @_id
+        # theSession._registered.splice deleteThisMember, 1
+        # console.log "Session now has: " + theSession._registered
+        # workshops[index].save (err) =>
+        #   errors.push err if err
+        #   processor index+1
     processor 0
     unless errors.length > 0
       next()

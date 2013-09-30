@@ -11,8 +11,8 @@ AccountRoutes = module.exports = {
           bg: "/img/bg/register.jpg"
         errors: req.query.errors
     logout: (req, res) ->
-      req.session = null
-      res.redirect "/"
+      req.session.regenerate ->
+        res.redirect "/"
     account: (req, res) ->
       Group.model.findById(req.session.group._id).populate("_members").exec (err, group) ->
         group.enoughChaperones (enough) ->

@@ -23,8 +23,8 @@ form(action="/member", method="POST")
           select.form-control(name="gender")
             option(value="", selected=!member) Please Choose...
             option(value="Male", selected=member && member.gender == "Male") Male
-            option(value="Female", selected=member && member.type == "Female") Female
-            option(value="Other", selected=member && member.type == "Other") Other
+            option(value="Female", selected=member && member.gender == "Female") Female
+            option(value="Other", selected=member && member.gender == "Other") Other
         .form-group
           label Phone #
           input.form-control(type="text", name="phone", placeholder="(123) 456-7890", value=(member && member.phone)? member.phone : '')

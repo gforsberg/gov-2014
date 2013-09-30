@@ -1,4 +1,7 @@
 form.form-horizontal(action="/workshop", method="POST")
+  if workshop
+    input(type="hidden", name="_method", value="put")
+    input(type="hidden", name="id", value=workshop._id)
   fieldset
     legend Workshop Details
     .control-group

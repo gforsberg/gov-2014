@@ -368,7 +368,7 @@ describe "Member", ->
             venue: "Bear"
             capacity: 1
           ,
-            session: 2
+            session: 4
             room: "Beaver"
             venue: "Horse"
             capacity: 50
@@ -378,10 +378,11 @@ describe "Member", ->
           should.exist workshop
           testWorkshop = workshop._id
           member.addWorkshop testWorkshop, 1, (err, member) ->
-            should.not.exist err
-            member.remove (err) ->
+            member.addWorkshop testWorkshop, 4, (err, member) ->
               should.not.exist err
-              done()
+              member.remove (err) ->
+                should.not.exist err
+                done()
     it "Should remove a member from their group when they are deleted", (done) ->
       Group.model.findById testGroup, (err, group) ->
         should.not.exist err
@@ -393,4 +394,5 @@ describe "Member", ->
         should.not.exist err
         should.exist workshop
         should.equal workshop.session(1)._registered.indexOf(testMember), -1
+        should.equal workshop.session(4)._registered.indexOf(testMember), -1
         done()
