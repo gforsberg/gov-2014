@@ -2,6 +2,11 @@ extends templates/layout
 
 block content
   .container
+    .row(style="text-align: center")
+      a.btn.btn-small.btn-primary(href="/workshops") 
+        .icon-backward
+        |  Back to workshop listing
+  .container
     .row
       .col-sm-12
         h2= workshop.name
