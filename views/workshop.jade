@@ -11,7 +11,21 @@ block content
       .col-sm-12
         h2= workshop.name
         p.lead Hosted by #{workshop.host}
-        p Allows: #{workshop.allows.join(", ")}
+        span Allows: 
+          if workshop.allows.indexOf("Youth") != -1
+            .label.label-info Y
+            |  
+          if workshop.allows.indexOf("Young Adult") != -1
+            .label.label-success YA
+            |  
+          if workshop.allows.indexOf("Young Chaperone") != -1
+            .label.label-warning YC
+            |  
+          if workshop.allows.indexOf("Chaperone") != -1
+            .label.label-danger Ch
+            |  
+        br
+        br
         p= workshop.description
     .row
       h2 Sessions

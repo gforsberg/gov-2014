@@ -5,21 +5,35 @@ else
     br
     for member in session.group._members
       .row
-        .col-xs-6
+        .col-xs-1
+          span
+            case member.type
+              when "Youth"
+                .label.label-info Y
+              when "Young Adult"
+                .label.label-success YA
+              when "Young Chaperone"
+                .label.label-warning YC
+              when "Chaperone"
+                .label.label-danger Ch
+              default
+                .label.label-default NA
+        .col-xs-5
           b= member.name
+
         .col-xs-6
           if workshop.allows.indexOf(member.type) == -1
-            .btn.btn-xs.btn-warning.btn-disabled Ineligible
+            .btn.btn-xs.btn-warning.btn-disabled.btn-block Ineligible
           else if workshop.session(workshopSession)._registered.indexOf(member._id) != -1
-            a.remove.btn.btn-xs.btn-danger(href="/member/#{member._id}/del/#{workshop._id}/#{workshopSession}")
+            a.remove.btn.btn-xs.btn-danger.btn-block(href="/member/#{member._id}/del/#{workshop._id}/#{workshopSession}")
               .icon-minus
               |  Remove Member
           else if !member.hasConflicts(workshop._id, workshopSession) && member._state.complete
-            a.add.btn.btn-xs.btn-success(href="/member/#{member._id}/add/#{workshop._id}/#{workshopSession}")
+            a.add.btn.btn-xs.btn-success.btn-block(href="/member/#{member._id}/add/#{workshop._id}/#{workshopSession}")
               .icon-plus
               |  Add Member
           else if member.hasConflicts(workshop._id, workshopSession)
-            a(href="/workshop/#{member.hasConflicts(workshop._id, workshopSession)._id}").btn.btn-xs.btn-warning.btn-disabled View Conflict
+            a(href="/workshop/#{member.hasConflicts(workshop._id, workshopSession)._id}").btn.btn-xs.btn-warning.btn-disabled.btn-block View Conflict
           else
-            a.btn.btn-xs.btn-default.btn-disabled(href="/account") Complete Info
+            a.btn.btn-xs.btn-default.btn-disabled.btn-block(href="/account") Complete Info
       br

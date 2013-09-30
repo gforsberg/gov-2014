@@ -4,7 +4,7 @@ block content
   if !enoughChaperones
     #alert.alert.alert-danger You don't have enough Chaperones to support all of your youth. Please find some more!
   #listing.container
-    .row.table-responsive
+    .row
       table.table.table-striped
         thead
           tr
@@ -18,7 +18,18 @@ block content
             for member in members
               tr
                 td= member.name
-                td= member.type
+                td
+                  case member.type
+                    when "Youth"
+                      .label.label-info Y
+                    when "Young Adult"
+                      .label.label-success YA
+                    when "Young Chaperone"
+                      .label.label-warning YC
+                    when "Chaperone"
+                      .label.label-danger Ch
+                    default
+                      .label.label-default NA
                 td
                   if member._state.complete
                     a.edit.btn.btn-xs.btn-success.tooltipped(data-id=member._id, data-toggle="tooltip", title="Edit Info") Complete 
