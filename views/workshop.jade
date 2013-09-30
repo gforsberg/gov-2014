@@ -102,7 +102,6 @@ block content
     :coffeescript
       $('a.manage').click ->
         $.get "/workshop/members/#{$(this).data("id")}/#{$(this).data("session")}", (data) =>
-          console.log data
           $("##{$(this).data("session")}-attending").html(data).collapse('show')
 
         

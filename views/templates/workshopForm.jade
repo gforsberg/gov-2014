@@ -1,0 +1,48 @@
+form.form-horizontal(action="/workshop", method="POST")
+  fieldset
+    legend Workshop Details
+    .control-group
+      label Name
+      input.form-control(type="text", name="name", placeholder="Bear Wrangling", required, value=(workshop && workshop.name)? workshop.name : '')
+    .control-group
+      label Host
+      input.form-control(type="text", name="host", placeholder="Mr. Foo", required, value=(workshop && workshop.host)? workshop.host : '')
+    .control-group
+      label Description
+      textarea.form-control(rows=3, name="description", placeholder="Wrangle Bears with Mr. Foo on the roof of the Hyatt.", required)= (workshop && workshop.description)? workshop.description : ''
+    .control-group
+      label Allows
+      select.form-control(name="allows", required)
+        option(value="") Please choose...
+        option(value="default", selected=workshop && JSON.stringify(workshop.allows)===JSON.stringify(["Youth", "Young Adult", "Young Chaperone"])) Default (Youth, Young Adults, Young Chaperones)
+        option(value="all", selected=workshop && JSON.stringify(workshop.allows)===JSON.stringify(["Youth", "Young Adult", "Young Chaperone", "Chaperone"])) All Allowed (Including Chaperones)
+        option(value="chaperones", selected=workshop && JSON.stringify(workshop.allows)===JSON.stringify(["Young Chaperone", "Chaperone"])) Only Chaperones, Young Chaperones.
+        option(value="youth", selected=workshop && JSON.stringify(workshop.allows)===JSON.stringify(["Youth", "Young Adult"])) Only Youth, Young Adults.
+
+  br
+  fieldset
+    legend Sessions Available
+    .container
+    for session in [1,2,3,4,5,6,7,8,9,10,11,12]
+      .col-sm-4
+        h4 Session #{session}
+        //- Basically, we make an array of each variable. The server parses it to the proper format.
+        .radio
+          label Enabled
+            input(type="radio", name="enabled[#{session}]", value="on", checked=(workshop && workshop.session(session))? true : false)
+        .radio
+          label Disabled
+            input(type="radio", name="enabled[#{session}]", value="off", checked=(workshop && workshop.session(session))? false : true)
+        .control-group
+          label Room
+          input.form-control(type="text", name="room[#{session}]", placeholder="The Roof", value=(workshop && workshop.session(session))? workshop.session(session).room : '')
+        .control-group
+          label Venue
+          input.form-control(type="text", name="venue[#{session}]", placeholder="Hyatt Regency", value=(workshop && workshop.session(session))? workshop.session(session).venue : '')
+        .control-group
+          label Capacity
+          input.form-control(type="number", name="capacity[#{session}]", placeholder="55", value=(workshop && workshop.session(session))? workshop.session(session).capacity : '')
+  br
+  button.btn.btn-primary.btn-block(type="submit")
+    i.icon-edit
+    |  Update Details

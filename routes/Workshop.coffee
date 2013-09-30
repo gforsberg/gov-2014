@@ -40,6 +40,14 @@ WorkshopRoutes = module.exports = {
               workshopSession: Number(req.params.session)
           else
             res.send "Error. :("
+    edit: (req, res) ->
+      unless !req.query.id
+        Workshop.model.findById req.query.id, (err, workshop) ->
+          res.render "templates/workshopForm.jade",
+            session: req.session
+            workshop: workshop
+      else
+        res.send "Y u no ask for workshop ID? :("
 
   post:
     workshop: (req, res) ->

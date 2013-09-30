@@ -91,7 +91,7 @@ WorkshopSchema.methods.session = (session) ->
     if item.session == session
       return item
   # Didn't find anything?
-  return new Error("That session doesn't exist")
+  return false
 
 ###
 Validators
