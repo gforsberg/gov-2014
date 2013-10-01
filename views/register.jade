@@ -25,22 +25,23 @@ block content
           fieldset
             legend Group Details
             p Welcome, please fill out your Email and Password above before continuing and completing the information below.
+            p.text-muted Fields with a star (*) are required.
             .col-sm-4.col-sm-offset-1
               .form-group
-                label Primary Contact Name
+                label Primary Contact Name*
                 input.form-control(type="text", name="name", placeholder="Foo Bar")
               .form-group
-                label Affiliation
+                label Affiliation*
                 input.form-control(type="text", name="affiliation", placeholder="Some Organization")
               .form-group
-                label Street Address
+                label Street Address*
                 input.form-control(type="text", name="address", placeholder="123 Fake St.")
               .form-group
-                label City
+                label City*
                 input.form-control(type="text", name="city", placeholder="Vancouver")
             .col-sm-4.col-sm-offset-1
               .form-group
-                label Province
+                label Province*
                 select.form-control(name="province")
                   option(value="") Please choose...
                   option(value="British Columbia") British Columbia
@@ -58,10 +59,10 @@ block content
                   option(value="Yukon") Yukon
                   option(value="Other (Outside Canada)") Other (Outside Canada)
               .form-group
-                label Postal Code
+                label Postal Code*
                 input.form-control(type="text", name="postalCode", placeholder="A1B 2C3")
               .form-group
-                label Daytime Phone #
+                label Daytime Phone #*
                 input.form-control(type="text", name="phone", placeholder="(123) 456-7980")
               .form-group
                 label Fax # (Optional)
@@ -69,7 +70,7 @@ block content
         .row
           .col-sm-4
           .form-group.col-sm-4
-            label And your password again
+            label And your password again*
             input.form-control(type="password", name="passwordConfirm", placeholder="Password Confirmation")
 
       .row

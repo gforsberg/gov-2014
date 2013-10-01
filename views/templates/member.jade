@@ -7,11 +7,12 @@ form(action="/member", method="POST")
     .col-sm-4
       fieldset
         legend(style="text-align: center") Member Details
+        p(style="text-align: center").text-muted Fields with a star (*) are required.
         .form-group
-          label Name
+          label Name*
           input.form-control(type="text", name="name", placeholder="Foo Bar", value=(member && member.name)? member.name : '')
         .form-group
-          label Delegate Type
+          label Delegate Type*
           select.form-control(name="type")
             option(value="", selected=!member) Please choose...
             option(value="Youth", selected=member && member.type == "Youth") Youth (14-17 years)
@@ -19,23 +20,23 @@ form(action="/member", method="POST")
             option(value="Young Chaperone", selected=member && member.type == "Young Chaperone") Young Chaperone (21-24 years)
             option(value="Chaperone", selected=member && member.type == "Chaperone") Chaperone (21+ years)
         .form-group
-          label Gender
+          label Gender*
           select.form-control(name="gender")
             option(value="", selected=!member) Please Choose...
             option(value="Male", selected=member && member.gender == "Male") Male
             option(value="Female", selected=member && member.gender == "Female") Female
             option(value="Other", selected=member && member.gender == "Other") Other
         .form-group
-          label Phone #
+          label Phone #*
           input.form-control(type="text", name="phone", placeholder="(123) 456-7890", value=(member && member.phone)? member.phone : '')
     .col-sm-4
       fieldset
         legend(style="text-align: center") More Details
         .form-group
-          label Birth Day
+          label Birth Day*
           input.form-control(type="number", name="birthDay", min="1", max="31", placeholder="1", value=(member && member.birthDate.day)? member.birthDate.day : '')
         .form-group
-          label Birth Month
+          label Birth Month*
           select.form-control(name="birthMonth")
             option(value="", selected=!member) Please Choose...
             option(value="January", selected=member && member.birthDate.month == "January") January
@@ -51,10 +52,10 @@ form(action="/member", method="POST")
             option(value="November", selected=member && member.birthDate.month == "November") November
             option(value="December", selected=member && member.birthDate.month == "December") December
         .form-group
-          label Birth Year
+          label Birth Year*
           input.form-control(type="number", name="birthYear", min="1900", max="2000", placeholder="1990", value=(member && member.birthDate.year)? member.birthDate.year : '')
         .form-group
-          label Email
+          label Email*
           input.form-control(type="email", name="email", placeholder="someone@somewhere.ca", value=(member && member.email)? member.email : '')
   .row
     .col-sm-2
@@ -63,7 +64,7 @@ form(action="/member", method="POST")
         legend(style="text-align: center") Things We should Know
         span.help-block Please comma separate multiple conditions or allergies. Eg: Air, Water, Fire. If you are from out of province and do not have a CareCard, please include an equivalent number.
         .form-group
-          label Medical Number
+          label Medical Number*
           input.form-control(type="text", name="emergMedicalNum", placeholder="123 1234 123", value=(member && member.emergencyInfo.medicalNum)? member.emergencyInfo.medicalNum : '')
         .form-group
           label Allergies
@@ -76,13 +77,13 @@ form(action="/member", method="POST")
         legend(style="text-align: center") Emergency Contact
         span.help-block A quick note, your emergency contact should be someone who knows your medical history, your doctor's contact information, and is able to contact your family.
         .form-group
-          label Their Name
+          label Their Name*
           input.form-control(type="text", name="emergName", placeholder="Foo Bar", value=(member && member.emergencyContact.name)? member.emergencyContact.name : '')
         .form-group
-          label Their relationship with you
+          label Their relationship with you*
           input.form-control(type="text", name="emergRelation", placeholder="Parent", value=(member && member.emergencyContact.relation)? member.emergencyContact.relation : '')
         .form-group
-          label Their Phone Number
+          label Their Phone Number*
           input.form-control(type="text", name="emergPhone", placeholder="(123) 456-7890", value=(member && member.emergencyContact.phone)? member.emergencyContact.phone : '')
   .row
     .col-sm-4
