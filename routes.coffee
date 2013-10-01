@@ -70,6 +70,6 @@ routes = module.exports = (app) ->
   ###
   Admin Routes
   ###
-  # Admin = require("./routes/Admin")
-  # app.get   "/admin",       Middle.admin, Admin.index       # Welcome page for admins.
+  Admin = require("./routes/Admin")
+  app.get   "/admin",       Middle.admin, Admin.get.index       # Welcome page for admins.
   # app.get   "/statistics",  Middle.admin, Admin.statistics  # Statistics that are asked for.

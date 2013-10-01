@@ -127,7 +127,6 @@ GroupSchema = new Schema {
       # TODO: Change these to be meaningful.
       enum: [
         "New group - Unchecked",
-        "Edited - Unchecked",
         "New group - Reviewed",
         "Group waiting for info",
         "Group - Complete"

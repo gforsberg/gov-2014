@@ -1,0 +1,51 @@
+extends templates/layout
+
+block content
+  table.table.table-striped
+    thead
+      tr
+        //- Checked in?
+        th 
+        //- Enough Chaperones? 
+        th
+        th Affiliation
+        th Phone #
+        //- Reserved for Coordinators to declare what they want.
+        th Registration
+        th Workshops
+        //- Actions
+        th
+    tbody
+      for group in groups
+        tr
+          td
+            if group._state.checkedIn
+              .label.label-success
+                .icon-check
+            else
+              .label.label-default
+                .icon-remove
+          td
+          td= group.affiliation
+          td= group.phone
+          td
+            case group._state.registration
+              when "New group - Unchecked"
+                .label.label-danger New group - Unchecked
+              when "New group - Reviewed"
+                .label.label-warning New group - Reviewed
+              when "Group waiting for info"
+                .label.label-default Group waiting for info
+              when "Group - Complete"
+                .label.label-success Group - Complete
+          td
+            case group._state.workshops
+              when "Not sent"
+                .label.label-danger Not sent
+              when "Sent"
+                .label.label-default Sent
+              when "Complete"
+                .label.label-success Complete
+          td
+            a.btn.btn-xs.btn-block.btn-primary Manage
+
