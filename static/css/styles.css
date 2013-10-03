@@ -58,6 +58,7 @@ body {
 
 /* Carousel base class */
 .carousel {
+  background-color: black;
   margin-bottom: 60px;
 
   /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
