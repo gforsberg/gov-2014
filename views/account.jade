@@ -56,11 +56,14 @@ block content
       .row(style="text-align: center")
         .btn-group
           a#add.btn.btn-success.btn-large(data-toggle="collapse", data-parent="#panels", href="#member") 
-            i.icon-plus
+            .icon-plus
             |  Add a member
           a.btn.btn-info.btn-large(data-toggle="collapse", data-parent="#panels", href="#details") 
-            i.icon-edit
+            .icon-edit
             |  Edit Group Details
+          a#payment.btn.btn-primary.btn-large(data-toggle="collapse", data-parent="#panels", href="#payments")
+            .icon-money
+            |  Manage Payments
   br
   #panels.panel-group
     .panel
@@ -138,6 +141,8 @@ block content
               button.btn.btn-primary.btn-block(type="submit")
                 i.icon-edit
                 |  Update Details
+    .panel
+      #payments.collapse.container
   :coffee
     $(".tooltipped").tooltip()
     $("a.edit").click -> 
@@ -146,3 +151,6 @@ block content
     $("a#add").click ->
       $.get "/member", (data) =>
         $("#member").html(data).collapse('toggle')
+    $("a#payment").click -> 
+      $.get "/payments", (data) =>
+        $("#payments").html(data).collapse('show')
