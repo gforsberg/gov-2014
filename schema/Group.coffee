@@ -155,6 +155,9 @@ GroupSchema = new Schema {
       # Did the group check in on registration day?
       type: Boolean
       default: false
+    enoughChaperones:
+      type: Boolean
+      default: false
   # Aggregations
   _members: # A list of members.
     type: [
@@ -256,8 +259,10 @@ GroupSchema.methods.enoughChaperones = (next) ->
         youth +=1
       return
     if youth > 0
+      @_state.enoughChaperones = ((youth / 5) < chaps)
       next ((youth / 5) < chaps)
     else
+      @_state.enoughChaperones = true
       next true
 
 GroupSchema.methods.isAdmin = () ->

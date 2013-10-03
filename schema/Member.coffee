@@ -251,11 +251,12 @@ MemberSchema.pre "save", (next) ->
     else if group._members.indexOf(@_id) is -1
       # Not in the group!
       group._members.push @_id
-      group.save (err) ->
-        unless err
-          next()
-        else
-          next err
+      group.enoughChaperones () ->
+        group.save (err) ->
+          unless err
+            next()
+          else
+            next err
     else
       # In the group already.
       next()
@@ -299,11 +300,12 @@ MemberSchema.pre "remove", (next) ->
       unless index is -1
         # Group exists, member is a part of it.
         group._members.splice index, 1
-        group.save (err) =>
-          unless err
-            next()
-          else
-            next err
+        group.enoughChaperones () ->
+          group.save (err) =>
+            unless err
+              next()
+            else
+              next err
 
 MemberSchema.pre "remove", (next) ->
   Workshop = require("./Workshop")
