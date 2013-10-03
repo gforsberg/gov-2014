@@ -3,88 +3,95 @@ extends templates/layout
 block content
   .container
     #listing.row
-      table.table.table-reponsive.table-striped
-        thead
-          tr
-            th.col-sm-2 Name
-            th.col-sm-1 Host
-            th(style="width: 170px") Sessions
-            th(style="width: 80px") Allows
-            th Description
-            th 
-        tbody
-          if workshops
-            for workshop in workshops
-              tr
-                td= workshop.name
-                td= workshop.host
-                td
-                  for session in workshop.sessions
-                    if session.capacity == session._registered.length
-                      //- Full?
-                      .label.label-default= session.session
+      .table-responsive
+        table.table.table-striped
+          thead
+            tr
+              th.col-sm-2 Name
+              th.col-sm-1 Host
+              th(style="width: 170px") Sessions
+              th(style="width: 80px") Allows
+              th Description
+              th 
+          tbody
+            if workshops
+              for workshop in workshops
+                tr
+                  td= workshop.name
+                  td= workshop.host
+                  td
+                    for session in workshop.sessions
+                      if session.capacity == session._registered.length
+                        //- Full?
+                        .label.label-default= session.session
+                        |  
+                      else if session.capacity * .66 <= session._registered.length
+                        //- 2/3's full?
+                        .label.label-danger= session.session
+                        |  
+                      else if session.capacity * .5 <= session._registered.length
+                        //- Half hull?
+                        .label.label-warning= session.session
+                        |  
+                      else 
+                        .label.label-success= session.session
+                        |  
+                  td
+                    if workshop.allows.indexOf("Youth") != -1
+                      .label.label-info Y
                       |  
-                    else if session.capacity * .66 <= session._registered.length
-                      //- 2/3's full?
-                      .label.label-danger= session.session
+                    if workshop.allows.indexOf("Young Adult") != -1
+                      .label.label-success YA
                       |  
-                    else if session.capacity * .5 <= session._registered.length
-                      //- Half hull?
-                      .label.label-warning= session.session
+                    if workshop.allows.indexOf("Young Chaperone") != -1
+                      .label.label-warning YC
                       |  
-                    else 
-                      .label.label-success= session.session
+                    if workshop.allows.indexOf("Chaperone") != -1
+                      .label.label-danger Ch
                       |  
-                td
-                  if workshop.allows.indexOf("Youth") != -1
-                    .label.label-info Y
-                    |  
-                  if workshop.allows.indexOf("Young Adult") != -1
-                    .label.label-success YA
-                    |  
-                  if workshop.allows.indexOf("Young Chaperone") != -1
-                    .label.label-warning YC
-                    |  
-                  if workshop.allows.indexOf("Chaperone") != -1
-                    .label.label-danger Ch
-                    |  
-                if workshop.description.length > 120
-                  td= workshop.description.substr(0,120) + "..."
-                else
-                  td= workshop.description
-                td
-                  a.btn.btn-sm.btn-info.btn-block(href="/workshop/#{workshop._id}")
-                    i.icon-info
-                    |  Info 
-                  if session.isAdmin
-                    a.edit.btn.btn-sm.btn-primary.btn-block(data-id="#{workshop._id}")
-                      i.icon-edit
-                      |  Edit
+                  if workshop.description.length > 120
+                    td= workshop.description.substr(0,120) + "..."
+                  else
+                    td= workshop.description
+                  td
+                    a.btn.btn-sm.btn-info.btn-block(href="/workshop/#{workshop._id}")
+                      i.icon-info
+                      |  Info 
+                    if session.isAdmin
+                      a.edit.btn.btn-sm.btn-primary.btn-block(data-id="#{workshop._id}")
+                        i.icon-edit
+                        |  Edit
 
-    #query.row
+    #query
       form.form-horizontal
-        .form-group.col-sm-5
-          label Find: (In description)
-          input.form-control(type="text", name="query", placeholder="(Optional) Enter a query here. For example 'basket'")
-        .col-sm-2
-        .form-group.col-sm-5
-          label Sessions: (Comma seperate)
-          input.form-control(type="text", name="sessions", placeholder="(Optional) Comma seperated list of sessions. Eg. 1,2,3")
-        .form-group
-          button.btn.btn-primary.btn-block(type="submit")
-            i.icon-search
-            |  Search
+        .row
+          .col-sm-5
+            .form-group
+              label Find: (In description)
+              input.form-control(type="text", name="query", placeholder="(Optional) Enter a query here. For example 'basket'")
+          .col-sm-2
+          .col-sm-5
+            .form-group
+              label Sessions: (Comma seperate)
+              input.form-control(type="text", name="sessions", placeholder="(Optional) Comma seperated list of sessions. Eg. 1,2,3")
+        .row
+          .col-sm-12
+            button.btn.btn-primary.btn-block(type="submit")
+              i.icon-search
+              |  Search
           if session.isAdmin
-            a.btn.btn-info.btn-block(data-toggle="collapse", href="#admin") 
-              i.icon-plus
-              |  Add Workshop
+            .col-sm-12
+              a.btn.btn-info.btn-block(data-toggle="collapse", href="#admin") 
+                i.icon-plus
+                |  Add Workshop
 
 
     if session.isAdmin
-      .panel-group
-        .panel.row
-          #admin.collapse
-            include templates/workshopForm
+      .row
+        .panel-group
+          .panel
+            #admin.collapse
+              include templates/workshopForm
       :coffee
         $("a.edit").click ->
           $.get "/workshop?id=#{$(this).data('id')}", (data) =>
