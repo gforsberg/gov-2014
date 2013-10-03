@@ -157,7 +157,7 @@ GroupSchema = new Schema {
       default: false
     enoughChaperones:
       type: Boolean
-      default: false
+      default: true
   # Aggregations
   _members: # A list of members.
     type: [

@@ -58,5 +58,11 @@ block content
                     when "Complete"
                       .label.label-success Complete
                 td
-                  a.btn.btn-sm.btn-block.btn-primary Manage
+                  .btn-group
+                    a.btn.btn-sm.btn-info(href="/notes/#{group._id}")
+                      .icon-file
+                      |  Notes
+                    a.btn.btn-sm.btn-primary(href="/manage/#{group._id}")
+                      .icon-edit
+                      |  Manage
 

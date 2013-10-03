@@ -72,4 +72,7 @@ routes = module.exports = (app) ->
   ###
   Admin = require("./routes/Admin")
   app.get   "/admin",       Middle.admin, Admin.get.index       # Welcome page for admins.
+  app.get   "/manage/:id",  Middle.admin, Admin.get.manage      # Logs in the admin as :id
+  app.get   "/notes/:id",   Middle.admin, Admin.get.notes       # Gets the notes for the group :id
+  app.put   "/notes/:id",   Middle.admin, Admin.put.notes       # Saves the notes for the gorup :id
   # app.get   "/statistics",  Middle.admin, Admin.statistics  # Statistics that are asked for.
