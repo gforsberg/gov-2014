@@ -251,12 +251,13 @@ MemberSchema.pre "save", (next) ->
     else if group._members.indexOf(@_id) is -1
       # Not in the group!
       group._members.push @_id
-      group.enoughChaperones () ->
+      group.enoughChaperones(() ->
         group.save (err) ->
           unless err
             next()
           else
             next err
+      , @type, "New")
     else
       # In the group already.
       next()
@@ -300,12 +301,13 @@ MemberSchema.pre "remove", (next) ->
       unless index is -1
         # Group exists, member is a part of it.
         group._members.splice index, 1
-        group.enoughChaperones () ->
+        group.enoughChaperones(() ->
           group.save (err) =>
             unless err
               next()
             else
               next err
+        , @type, "Remove")
 
 MemberSchema.pre "remove", (next) ->
   Workshop = require("./Workshop")
@@ -323,15 +325,6 @@ MemberSchema.pre "remove", (next) ->
         candidate.save (err) ->
           errors.push err if err
           processor index+1
-        # console.log "Index: " + index
-        # console.log "Workshop: " + workshops[index]
-        # theSession = workshops[index].session @_workshops[index].session
-        # deleteThisMember = theSession._registered.indexOf @_id
-        # theSession._registered.splice deleteThisMember, 1
-        # console.log "Session now has: " + theSession._registered
-        # workshops[index].save (err) =>
-        #   errors.push err if err
-        #   processor index+1
     processor 0
     unless errors.length > 0
       next()

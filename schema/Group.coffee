@@ -246,12 +246,23 @@ GroupSchema.methods.getBalance = (next) ->
       else
         next err, -1
 
-GroupSchema.methods.enoughChaperones = (next) ->
+GroupSchema.methods.enoughChaperones = (next, type, action) ->
   Member = require("./Member")
   # Member counts
   Member.model.find _id: $in: @_members, (err, members) =>
     youth = 0
     chaps = 0
+    if type
+      if type == "Youth"
+        if action == "New"
+          youth += 1
+        else
+          youth -= 1
+      else if ["Young Chaperone", "Chaperone"].indexOf(type) != -1
+        if action == "New"
+          chaps += 1
+        else
+          chaps -= 1
     members.map (val) ->
       if ["Young Chaperone", "Chaperone"].indexOf(val.type) != -1
         chaps += 1

@@ -1,7 +1,7 @@
 extends templates/layout
 
 block content
-  if !enoughChaperones
+  if !session.group._state.enoughChaperones
     #alert.alert.alert-danger You don't have enough Chaperones to support all of your youth. Please find some more!
   #listing.container
     .row
