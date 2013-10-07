@@ -17,6 +17,7 @@ Payments = module.exports = {
       Payment.model.create {
         amount:      req.body.amount
         type:        req.body.type
+        number:      req.body.number
         date:
           day:         req.body.day
           month:       req.body.month

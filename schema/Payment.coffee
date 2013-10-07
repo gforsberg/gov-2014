@@ -49,6 +49,10 @@ PaymentSchema = new Schema {
       required: true
       min: 2013 # Payments are only 2013/2014 years
       max: 2014
+  number:
+    type: String
+    required: false
+    default: ""
   amount:
     type: Number
     min: 0

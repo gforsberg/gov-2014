@@ -20,6 +20,7 @@
               tr
                 th Amount
                 th Type
+                th Number
                 th Date
                 th Description
                 if session.isAdmin
@@ -27,9 +28,10 @@
             tbody
               for payment in group._payments
                 tr
-                  td= payment.amount
+                  td $#{payment.amount}
                   td= payment.type
-                  td #{payment.date.day}/#{payment.date.month}/#{payment.date.year}
+                  td= payment.number
+                  td #{payment.date.day}, #{payment.date.month}, #{payment.date.year}
                   td= payment.description
                   if session.isAdmin
                     td
@@ -58,6 +60,11 @@ if session.isAdmin
               option(value="Invoice") Invoice
               option(value="Credit Card") Credit Card
               option(value="Paypal") Paypal
+
+        .row
+          .form-group.col-sm-8
+            label Cheque Number / Paypal Transaction
+            input.form-control(type="text", name="number", placeholder="For heaven's sake don't put Credit Card info here")
 
         .row
           .form-group.col-sm-4

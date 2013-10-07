@@ -43,7 +43,6 @@ MemberRoutes = module.exports = {
         err = new Error("You're not permitted to modify that member.")
         res.redirect "/workshop/#{req.params.workshop}?errors=#{JSON.stringify(err)}"
     memberWorkshops: (req, res) ->
-      console.log req.query
       if !req.query.id || req.session.group._members.indexOf(req.query.id) != -1
         Member.model.findById(req.query.id).populate("_workshops._id").exec (err, member) ->
           unless err || !member?
