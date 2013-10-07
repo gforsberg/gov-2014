@@ -6,15 +6,31 @@
       p The status of your payment as presented below will be updated as we receive, process and confirm payments arriving at our office. Due to the volume of payments being processed, there can be a slight delay in updating your payment information. If you are concerned that there is any discrepancy in this information, please call Della Preston at 250-388-5522.
 
       h3 Totals
-      p Cost: #{cost}
-      p Paid: #{paid}
+      p Cost: $#{cost}
+      p Paid: $#{paid}
+      p Balance: $#{cost - paid}
 
 
       if group._payments.length == 0
         p.text-muted No payments yet!
       else
-        for payment in group._payments
-          p payment
+        .table-responsive
+          table.table.table-striped
+            thead
+              tr
+                th Amount
+                th Type
+                th Date
+                th Description
+            tbody
+              for payment in group._payments
+                tr
+                  td= payment.amount
+                  td= payment.type
+                  td #{payment.date.day}/#{payment.date.month}/#{payment.date.year}
+                  td= payment.description
+
+          
 
 
 if session.isAdmin
@@ -30,11 +46,11 @@ if session.isAdmin
           .form-group.col-sm-6
             label Type
             select.form-control(name="type")
-              option Cheque
-              option Money Order
-              option Invoice
-              option Credit Card
-              option Paypal
+              option(value="Cheque") Cheque
+              option(value="Money Order") Money Order
+              option(value="Invoice") Invoice
+              option(value="Credit Card") Credit Card
+              option(value="Paypal") Paypal
 
         .row
           .form-group.col-sm-4
@@ -44,24 +60,24 @@ if session.isAdmin
           .form-group.col-sm-4
             label Month
             select.form-control(name="month")
-              option January
-              option February
-              option March
-              option April
-              option May
-              option June
-              option July
-              option August
-              option September
-              option October
-              option November
-              option December
+              option(value="January") January
+              option(value="February") February
+              option(value="March") March
+              option(value="April") April
+              option(value="May") May
+              option(value="June") June
+              option(value="July") July
+              option(value="August") August
+              option(value="September") September
+              option(value="October") October
+              option(value="November") November
+              option(value="December") December
 
           .form-group.col-sm-4
             label Year
             select.form-control(name="year")
-              option 2013
-              option 2014
+              option(value="2013") 2013
+              option(value="2014") 2014
         .row
           .form-group.col-sm-12
             label Description

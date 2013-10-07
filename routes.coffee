@@ -63,7 +63,7 @@ routes = module.exports = (app) ->
   Payment = require("./routes/Payment")
   app.get    "/payments",         Middle.auth, Payment.get.payments      # Lists payments. (Query Sensitive)
   # app.get    "/payment/:id",    Middle.admin, Payment.get.payment    # Displays :id details
-  # app.post   "/payment",        Middle.admin, Payment.post.payment   # Adds a payment
+  app.post   "/payment",          Middle.admin, Payment.post.payment   # Adds a payment
   # app.put    "/payment/:id",    Middle.admin, Payment.put.payment    # Edits :id
   # app.delete "/payment/:id",    Middle.admin, Payment.delete.payment # Removes :id
 
