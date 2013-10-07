@@ -38,11 +38,11 @@ block content
                       a.edit.btn.btn-xs.btn-danger.tooltipped(data-id=member._id, data-toggle="tooltip", title="Edit Info") Incomplete
                   td
                     if member._workshops.length >= 4
-                      a.memberWorkshops.btn.btn-xs.btn-success.tooltipped(data-toggle="collapse", data-parent="#panels", data-id="#{member._id}") 4+ Workshops
+                      a.memberWorkshops.btn.btn-xs.btn-success.tooltipped(href="#memberWorkshops", data-toggle="collapse", data-parent="#panels", data-id="#{member._id}") 4+ Workshops
                     else if member._workshops.length >= 1
-                      a.memberWorkshops.btn.btn-xs.btn-warning.tooltipped(data-toggle="collapse", data-parent="#panels", data-id="#{member._id}") 1+ Workshops
+                      a.memberWorkshops.btn.btn-xs.btn-warning.tooltipped(href="#memberWorkshops", data-toggle="collapse", data-parent="#panels", data-id="#{member._id}") 1+ Workshops
                     else
-                      a.memberWorkshops.btn.btn-xs.btn-default.tooltipped(data-toggle="collapse", data-parent="#panels", data-id="#{member._id}") No Workshops!
+                      a.memberWorkshops.btn.btn-xs.btn-default.tooltipped(href="#memberWorkshops", data-toggle="collapse", data-parent="#panels", data-id="#{member._id}") No Workshops!
                   td
                     form(method="POST", action="/member/#{member._id}")
                       input(type="hidden", name="_method", value="delete")
