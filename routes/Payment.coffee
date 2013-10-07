@@ -28,6 +28,15 @@ Payments = module.exports = {
           res.redirect "/account"
         else
           res.redirect "/account?errors=#{err}"
-  # TODO: PUT, POST, DELETE
-
+  delete:
+    payment: (req, res) ->
+      Payment.model.findById req.params.id, (err, payment) ->
+        unless err or !payment?
+          payment.remove (err) ->
+            unless err
+              res.redirect "/account"
+            else
+              res.redirect "/account?errors=#{err}"
+        else
+          res.redirect "/account?errors=#{err}"
 }

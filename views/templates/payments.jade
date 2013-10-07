@@ -22,6 +22,8 @@
                 th Type
                 th Date
                 th Description
+                if session.isAdmin
+                  th 
             tbody
               for payment in group._payments
                 tr
@@ -29,6 +31,11 @@
                   td= payment.type
                   td #{payment.date.day}/#{payment.date.month}/#{payment.date.year}
                   td= payment.description
+                  if session.isAdmin
+                    td
+                      a.btn.btn-xs.btn-danger(href="/payment/delete/#{payment._id}") 
+                        .icon-trash
+                        |  Del
 
           
 
