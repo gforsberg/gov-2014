@@ -22,18 +22,19 @@ else
           b= member.name
 
         .col-xs-6
+          -var conflicts = member.hasConflicts(workshop._id, workshopSession)
           if workshop.allows.indexOf(member.type) == -1
             .btn.btn-xs.btn-warning.btn-disabled.btn-block Ineligible
           else if workshop.session(workshopSession)._registered.indexOf(member._id) != -1
             a.remove.btn.btn-xs.btn-danger.btn-block(href="/member/#{member._id}/del/#{workshop._id}/#{workshopSession}")
               .icon-minus
               |  Remove Member
-          else if !member.hasConflicts(workshop._id, workshopSession) && member._state.complete
+          else if !conflicts && member._state.complete
             a.add.btn.btn-xs.btn-success.btn-block(href="/member/#{member._id}/add/#{workshop._id}/#{workshopSession}")
               .icon-plus
               |  Add Member
-          else if member.hasConflicts(workshop._id, workshopSession)
-            a(href="/workshop/#{member.hasConflicts(workshop._id, workshopSession)._id}").btn.btn-xs.btn-warning.btn-disabled.btn-block View Conflict
+          else if conflicts
+            a(href="/workshop/#{conflicts._id}").btn.btn-xs.btn-warning.btn-disabled.btn-block View Conflict
           else
             a.btn.btn-xs.btn-default.btn-disabled.btn-block(href="/account") Complete Info
       br

@@ -179,7 +179,7 @@ MemberSchema.methods.hasConflicts = (workshopId, session) ->
   conflicts = @_workshops.filter (val) ->
     return blocks.indexOf(val.session) != -1 # Don't return blocks
   if conflicts.length > 0
-    return conflicts
+    return conflicts[0]
   else
     return false
 
