@@ -1,43 +1,42 @@
 .row
   .col-sm-2
-  form.col-sm-8
-    fieldset
-      legend Payments
-      p The status of your payment as presented below will be updated as we receive, process and confirm payments arriving at our office. Due to the volume of payments being processed, there can be a slight delay in updating your payment information. If you are concerned that there is any discrepancy in this information, please call Della Preston at 250-388-5522.
+  .col-sm-8
+    legend Payments
+    p The status of your payment as presented below will be updated as we receive, process and confirm payments arriving at our office. Due to the volume of payments being processed, there can be a slight delay in updating your payment information. If you are concerned that there is any discrepancy in this information, please call Della Preston at 250-388-5522.
 
-      h3 Totals
-      p Cost: $#{cost}
-      p Paid: $#{paid}
-      p Balance: $#{cost - paid}
+    h3 Totals
+    p Cost: $#{cost}
+    p Paid: $#{paid}
+    p Balance: $#{cost - paid}
 
 
-      if group._payments.length == 0
-        p.text-muted No payments yet!
-      else
-        .table-responsive
-          table.table.table-striped
-            thead
+    if group._payments.length == 0
+      p.text-muted No payments yet!
+    else
+      .table-responsive
+        table.table.table-striped
+          thead
+            tr
+              th Amount
+              th Type
+              th Number
+              th Date
+              th Description
+              if session.isAdmin
+                th 
+          tbody
+            for payment in group._payments
               tr
-                th Amount
-                th Type
-                th Number
-                th Date
-                th Description
+                td $#{payment.amount}
+                td= payment.type
+                td= payment.number
+                td #{payment.date.day}, #{payment.date.month}, #{payment.date.year}
+                td= payment.description
                 if session.isAdmin
-                  th 
-            tbody
-              for payment in group._payments
-                tr
-                  td $#{payment.amount}
-                  td= payment.type
-                  td= payment.number
-                  td #{payment.date.day}, #{payment.date.month}, #{payment.date.year}
-                  td= payment.description
-                  if session.isAdmin
-                    td
-                      a.btn.btn-xs.btn-danger(href="/payment/delete/#{payment._id}") 
-                        .icon-trash
-                        |  Del
+                  td
+                    a.btn.btn-xs.btn-danger(href="/payment/delete/#{payment._id}") 
+                      .icon-trash
+                      |  Del
 
           
 
