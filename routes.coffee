@@ -54,6 +54,7 @@ routes = module.exports = (app) ->
   app.put     "/member",        Middle.auth, Member.put.member    # Edits :id details
   app.delete  "/member/:id",    Middle.auth, Member.delete.member # Deletes :id
   # # Special routes:
+  app.get     "/member/workshops", Middle.auth, Member.get.memberWorkshops
   app.get     "/member/:member/add/:workshop/:session", Middle.auth, Member.get.addWorkshop   # Adds :member to :workshop
   app.get     "/member/:member/del/:workshop/:session", Middle.auth, Member.get.delWorkshop   # Deletes :member from :workshop
 

@@ -1,0 +1,28 @@
+.col-sm-2
+form.col-sm-8
+  fieldset
+    legend= member.name
+
+    if member._workshops.length > 0
+      .table-responsive
+        table.table.table-striped
+          thead
+            tr
+              th Session
+              th Name
+              th 
+          tbody
+            for workshop in member._workshops
+              tr
+                td
+                  .label.label-success= workshop.session
+                td= workshop._id.name
+                td
+                  a.btn.btn-xs.btn-success(href="/workshop/#{workshop._id._id}")
+                    .icon-play
+                    |  View
+
+    else
+      p #{member.name} is not a member of any workshops.
+      br
+      a(href="/workshops") Add some?
