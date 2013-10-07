@@ -52,16 +52,19 @@ block content
             else
               tr
                 td.warning(colspan="5") You currently don't have any members. To add members, please hit the big green "Add a member" button.
-    #controls.container
+    #controls
       .row(style="text-align: center")
-        .btn-group
-          a#add.btn.btn-success.btn-large(data-toggle="collapse", data-parent="#panels", href="#member") 
+        .col-sm-4(style="padding-top: 15px")
+          a#add.btn.btn-success(data-toggle="collapse", data-parent="#panels", href="#member") 
             .icon-plus
             |  Add a member
-          a.btn.btn-info.btn-large(data-toggle="collapse", data-parent="#panels", href="#details") 
+        
+        .col-sm-4(style="padding-top: 15px")
+          a.btn.btn-info(data-toggle="collapse", data-parent="#panels", href="#details") 
             .icon-edit
             |  Edit Group Details
-          a#payment.btn.btn-primary.btn-large(data-toggle="collapse", data-parent="#panels", href="#payments")
+        .col-sm-4(style="padding-top: 15px")
+          a#payment.btn.btn-primary(data-toggle="collapse", data-parent="#panels", href="#payments")
             .icon-money
             |  Manage Payments
   br

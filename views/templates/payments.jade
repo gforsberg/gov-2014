@@ -1,66 +1,72 @@
-h2 Payments
-p The status of your payment as presented below will be updated as we receive, process and confirm payments arriving at our office. Due to the volume of payments being processed, there can be a slight delay in updating your payment information. If you are concerned that there is any discrepancy in this information, please call Della Preston at 250-388-5522.
+.row
+  .col-sm-2
+  form.col-sm-8
+    fieldset
+      legend Payments
+      p The status of your payment as presented below will be updated as we receive, process and confirm payments arriving at our office. Due to the volume of payments being processed, there can be a slight delay in updating your payment information. If you are concerned that there is any discrepancy in this information, please call Della Preston at 250-388-5522.
 
-h3 Totals
-p Cost: #{cost}
-p Paid: #{paid}
+      h3 Totals
+      p Cost: #{cost}
+      p Paid: #{paid}
 
 
-if group._payments.length == 0
-  p.text-muted No payments yet!
-else
-  for payment in group._payments
-    p payment
+      if group._payments.length == 0
+        p.text-muted No payments yet!
+      else
+        for payment in group._payments
+          p payment
 
 
 if session.isAdmin
-  form.container(method="POST", action="/payment")
-    fieldset
-      legend Add Payment
-      .row
-        .form-group.col-sm-6
-          label Amount
-          input.form-control(type="number", name="amount", placeholder="9000")
-        .form-group.col-sm-6
-          label Type
-          select.form-control(name="type")
-            option Cheque
-            option Money Order
-            option Invoice
-            option Credit Card
-            option Paypal
+  .row
+    .col-sm-2
+    form.col-sm-8(method="POST", action="/payment")
+      fieldset
+        legend Add Payment
+        .row
+          .form-group.col-sm-6
+            label Amount
+            input.form-control(type="number", name="amount", placeholder="9000")
+          .form-group.col-sm-6
+            label Type
+            select.form-control(name="type")
+              option Cheque
+              option Money Order
+              option Invoice
+              option Credit Card
+              option Paypal
 
-      .row
-        .form-group.col-sm-4
-          label Day
-          input.form-control(type="number", name="day", placeholder="13", min=0, max=31)
+        .row
+          .form-group.col-sm-4
+            label Day
+            input.form-control(type="number", name="day", placeholder="13", min=0, max=31)
 
-        .form-group.col-sm-4
-          label Month
-          select.form-control(name="month")
-            option January
-            option February
-            option March
-            option April
-            option May
-            option June
-            option July
-            option August
-            option September
-            option October
-            option November
-            option December
+          .form-group.col-sm-4
+            label Month
+            select.form-control(name="month")
+              option January
+              option February
+              option March
+              option April
+              option May
+              option June
+              option July
+              option August
+              option September
+              option October
+              option November
+              option December
 
-        .form-group.col-sm-4
-          label Year
-          select.form-control(name="year")
-            option 2013
-            option 2014
-      .row
-        .form-group.col-sm-12
-          label Description
-          textarea.form-control(name="description", placeholder="A description of the payment can go here.")
-        .col-sm-12
-          button.btn.btn-primary.btn-block
-            .icon-money
-            |  Submit Payment
+          .form-group.col-sm-4
+            label Year
+            select.form-control(name="year")
+              option 2013
+              option 2014
+        .row
+          .form-group.col-sm-12
+            label Description
+            textarea.form-control(name="description", placeholder="A description of the payment can go here.")
+          .col-sm-12
+            button.btn.btn-primary.btn-block
+              .icon-money
+              |  Submit Payment
