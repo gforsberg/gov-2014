@@ -43,8 +43,16 @@ General = module.exports = {
     privacy: (req, res) ->
       res.render "privacy",
         session: req.session
+        head:
+          title: "Privacy Policy"
+          caption: "How we handle your private information"
+          bg: "/img/bg/about.jpg"
 
     faq: (req, res) ->
       res.render "faq",
         session: req.session
+        head:
+          title: "FAQ"
+          caption: "Questions, of the frequently asked variety"
+          bg: "/img/bg/about.jpg"
 }

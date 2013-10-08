@@ -3,43 +3,45 @@ extends templates/layout
 block content
   .container
     .row
-      h2= group.affiliation
-      h3.text-muted= group.name
-      h4.text-muted= group.phone
-      p Registration Date: #{group.registrationDate.day}, #{group.registrationDate.month}, #{group.registrationDate.year}
-      form(method="POST", action="/notes/#{group._id}")
-        input(type="hidden", name="_method", value="put")
-        fieldset
-          legend(style="text-align: center") Private Data
-          p.text-muted Things the group can't see.
-          
-          .form-group
-            label Notes
-            textarea.form-control(name="notes")= group._notes || ""
-          .form-group
-            label Registration Status
-            select.form-control(name="registration")
-              option(value="New group - Unchecked", selected=group._state.registration == "New group - Unchecked") New group - Unchecked
-              option(value="New group - Reviewed", selected=group._state.registration == "New group - Reviewed") New group - Reviewed
-              option(value="Group waiting for info", selected=group._state.registration == "Group waiting for info") Group waiting for info
-              option(value="Group - Complete", selected=group._state.registration == "Group - Complete") Group - Complete
-          
-          .form-group
-            label Workshop Status
-            select.form-control(name="workshops")
-              option(value="Not sent", selected=group._state.workshops == "Not sent") Not sent
-              option(value="Sent", selected=group._state.workshops == "Sent") Sent
-              option(value="Complete", selected=group._state.workshops == "Complete") Complete
+      .col-sm-2
+      .col-sm-8
+        h2= group.affiliation
+        h3.text-muted= group.name
+        h4.text-muted= group.phone
+        p Registration Date: #{group.registrationDate.day}, #{group.registrationDate.month}, #{group.registrationDate.year}
+        form(method="POST", action="/notes/#{group._id}")
+          input(type="hidden", name="_method", value="put")
+          fieldset
+            legend(style="text-align: center") Private Data
+            p.text-muted Things the group can't see.
+            
+            .form-group
+              label Notes
+              textarea.form-control(name="notes")= group._notes || ""
+            .form-group
+              label Registration Status
+              select.form-control(name="registration")
+                option(value="New group - Unchecked", selected=group._state.registration == "New group - Unchecked") New group - Unchecked
+                option(value="New group - Reviewed", selected=group._state.registration == "New group - Reviewed") New group - Reviewed
+                option(value="Group waiting for info", selected=group._state.registration == "Group waiting for info") Group waiting for info
+                option(value="Group - Complete", selected=group._state.registration == "Group - Complete") Group - Complete
+            
+            .form-group
+              label Workshop Status
+              select.form-control(name="workshops")
+                option(value="Not sent", selected=group._state.workshops == "Not sent") Not sent
+                option(value="Sent", selected=group._state.workshops == "Sent") Sent
+                option(value="Complete", selected=group._state.workshops == "Complete") Complete
 
-          .form-group
-            label Payment Status
-            select.form-control(name="payment")
-              option(value="Need to contact", selected=group._state.payment == "Need to contact") Need to contact
-              option(value="Waiting", selected=group._state.payment == "Waiting") Waiting
-              option(value="Payment in mail", selected=group._state.payment == "Payment in mail") Payment in mail
-              option(value="Invoice sent", selected=group._state.payment == "Invoice sent") Invoice sent
-              option(value="Payment recieved", selected=group._state.payment == "Payment recieved") Payment recieved
-          
-          button.btn.btn-block.btn-primary 
-            .icon-edit
-            |  Update Private Data
+            .form-group
+              label Payment Status
+              select.form-control(name="payment")
+                option(value="Need to contact", selected=group._state.payment == "Need to contact") Need to contact
+                option(value="Waiting", selected=group._state.payment == "Waiting") Waiting
+                option(value="Payment in mail", selected=group._state.payment == "Payment in mail") Payment in mail
+                option(value="Invoice sent", selected=group._state.payment == "Invoice sent") Invoice sent
+                option(value="Payment recieved", selected=group._state.payment == "Payment recieved") Payment recieved
+            
+            button.btn.btn-block.btn-primary 
+              .icon-edit
+              |  Update Private Data
