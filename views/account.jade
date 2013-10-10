@@ -19,7 +19,12 @@ block content
                 | Workshops
                 br
                 small.text-muted Click to view!
-              th Remove
+              th 
+                | Remove
+                br
+                small.text-muted Allow?
+                button#allowRemove.btn.btn-xs.btn-link
+                  .icon-remove-sign
           tbody
             if members.length > 0
               for member in members
@@ -52,7 +57,7 @@ block content
                   td
                     form(method="POST", action="/member/#{member._id}")
                       input(type="hidden", name="_method", value="delete")
-                      button.btn.btn-xs.btn-danger.tooltipped(data-toggle="tooltip", title="There is no undo!")
+                      button.removeButton.btn.btn-xs.btn-danger.tooltipped(disabled,data-toggle="tooltip", title="There is no undo!")
                         i.icon-trash
                         |  Delete
             else
@@ -155,6 +160,9 @@ block content
     .panel
       #memberWorkshops.collapse.container
   :coffee
+    $("#allowRemove").click ->
+      state = $('.removeButton').attr('disabled')
+      $('.removeButton').attr('disabled', !state)
     $(".tooltipped").tooltip()
     $("a.edit").click ->
       $("#panels .in").collapse('hide')
