@@ -33,16 +33,16 @@ block content
                         .label.label-default NA
                   td
                     if member._state.complete
-                      a.edit.btn.btn-xs.btn-success.tooltipped(data-id=member._id, data-toggle="tooltip", title="Edit Info") Complete 
+                      a.edit.btn.btn-xs.btn-success.tooltipped(data-id=member._id, data-toggle="collapse") Complete 
                     else
-                      a.edit.btn.btn-xs.btn-danger.tooltipped(data-id=member._id, data-toggle="tooltip", title="Edit Info") Incomplete
+                      a.edit.btn.btn-xs.btn-danger.tooltipped(data-id=member._id, data-toggle="collapse") Incomplete
                   td
                     if member._workshops.length >= 4
-                      a.memberWorkshops.btn.btn-xs.btn-success.tooltipped(href="#memberWorkshops", data-toggle="collapse", data-parent="#panels", data-id="#{member._id}") 4+ Workshops
+                      a.memberWorkshops.btn.btn-xs.btn-success.tooltipped(data-toggle="collapse", data-id="#{member._id}") 4+ Workshops
                     else if member._workshops.length >= 1
-                      a.memberWorkshops.btn.btn-xs.btn-warning.tooltipped(href="#memberWorkshops", data-toggle="collapse", data-parent="#panels", data-id="#{member._id}") 1+ Workshops
+                      a.memberWorkshops.btn.btn-xs.btn-warning.tooltipped(data-toggle="collapse", data-id="#{member._id}") 1+ Workshops
                     else
-                      a.memberWorkshops.btn.btn-xs.btn-default.tooltipped(href="#memberWorkshops", data-toggle="collapse", data-parent="#panels", data-id="#{member._id}") No Workshops!
+                      a.memberWorkshops.btn.btn-xs.btn-default.tooltipped(data-toggle="collapse", data-id="#{member._id}") No Workshops!
                   td
                     form(method="POST", action="/member/#{member._id}")
                       input(type="hidden", name="_method", value="delete")
@@ -55,16 +55,16 @@ block content
     #controls
       .row(style="text-align: center")
         .col-sm-4(style="padding-top: 15px")
-          a#add.btn.btn-success(data-toggle="collapse", data-parent="#panels", href="#member") 
+          a#add.btn.btn-success(data-toggle="collapse") 
             .icon-plus
             |  Add a member
         
         .col-sm-4(style="padding-top: 15px")
-          a.btn.btn-info(data-toggle="collapse", data-parent="#panels", href="#details") 
+          a#group.btn.btn-info(data-toggle="collapse") 
             .icon-edit
             |  Edit Group Details
         .col-sm-4(style="padding-top: 15px")
-          a#payment.btn.btn-primary(data-toggle="collapse", data-parent="#panels", href="#payments")
+          a#payment.btn.btn-primary(data-toggle="collapse")
             .icon-money
             |  Manage Payments
   br
@@ -150,15 +150,22 @@ block content
       #memberWorkshops.collapse.container
   :coffee
     $(".tooltipped").tooltip()
-    $("a.edit").click -> 
+    $("a.edit").click ->
+      $("#panels .in").collapse('hide')
       $.get "/member?id=#{$(this).data("id")}", (data) =>
         $("#member").html(data).collapse('show')
     $("a#add").click ->
+      $("#panels .in").collapse('hide')
       $.get "/member", (data) =>
-        $("#member").html(data).collapse('toggle')
+        $("#member").html(data).collapse('show')
     $("a#payment").click -> 
+      $("#panels .in").collapse('hide')
       $.get "/payments", (data) =>
-        $("#payments").html(data).collapse('toggle')
+        $("#payments").html(data).collapse('show')
+    $("a#group").click -> 
+      $("#panels .in").collapse('hide')
+      $("#details").collapse('show')
     $("a.memberWorkshops").click -> 
+      $("#panels .in").collapse('hide')
       $.get "/member/workshops?id=#{$(this).data("id")}", (data) =>
         $("#memberWorkshops").html(data).collapse('show')
