@@ -57,7 +57,6 @@ AccountRoutes = module.exports = {
             res.redirect "/register?errors=#{errors}"
   put:
     account: (req, res) ->
-      console.log "I got a request"
       Group.model.findById req.session.group._id, (err, group) ->
         # Login Details
         group.email = req.body.email
@@ -78,4 +77,9 @@ AccountRoutes = module.exports = {
           else
             errors = JSON.stringify({err})
             res.redirect "/account?errors=#{err}"
+  delete:
+    account: (req, res) ->
+      Group.model.findById req.params.id, (err, group) ->
+        group.remove (err) ->
+          res.send err || "Wow, you really did it. :("
 }

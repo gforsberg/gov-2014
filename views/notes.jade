@@ -45,3 +45,31 @@ block content
             button.btn.btn-block.btn-primary 
               .icon-edit
               |  Update Private Data
+
+  .container
+    .row
+      .col-sm-2
+      .col-sm-8
+        br
+        br
+        br
+        br
+        br
+        br
+        br
+        br
+        br
+        br
+        button#confirm.btn.btn-xs.btn-danger
+          .icon-remove-sign
+        small.text-muted  I confirm that I want to perform a very destructive and dangerous action. I have manually removed all members form this group to ensure that workshops are appropriately unpopulated and I have verified with both Andrew and Della that I should delete this group.
+        br
+        form(method="POST", action="/account/#{group._id}")
+          input(type="hidden", name="_method", value="delete")
+          button#delete.btn.btn-xs.btn-danger(disabled)
+            .icon-remove-sign
+          small.text-danger  Remove this group, even though I shouldn't ever need do this. Seriously, don't do it.
+      :coffeescript
+        $('#confirm').click ->
+          state = $('#delete').attr('disabled')
+          $('#delete').attr('disabled', !state)

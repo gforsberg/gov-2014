@@ -31,7 +31,8 @@ routes = module.exports = (app) ->
   # # Main information pages, actions can be accessed here.
   # app.get   "/members",   Middle.auth, Account.get.members   # Add/remove/edit members.
   # app.get   "/billing",   Middle.auth, Account.get.billing   # Add/remove/edit payments.
-  
+  app.delete "/account/:id",  Middle.auth, Account.delete.account # Delete an account.
+
   ###
   Workshop Routes
   ###
