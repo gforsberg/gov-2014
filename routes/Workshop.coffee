@@ -16,7 +16,7 @@ WorkshopRoutes = module.exports = {
           session: req.session  
           head:
             title: "Workshops"
-            caption: "My will shall shape my future. Whether I fail or succeed shall be no man's doing but my own."  
+            caption: "There it stood before me, my passion, my future."
             bg: "/img/bg/workshops.jpg"
           workshops: workshops
           errors: req.query.errors
