@@ -5,6 +5,7 @@ Group = require("../schema/Group")
 redis = require('redis')
 config = require('../config')
 if config.redis
+  url    = require("url")
   redisURL = url.parse(config.redis)
   redisClient = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true})
   redisClient.auth(redisURL.auth.split(":")[1])
