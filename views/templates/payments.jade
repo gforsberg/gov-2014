@@ -9,7 +9,7 @@
     p Paid: $#{paid}
     p Balance: $#{cost - paid}
 
-
+    h3 Transactions
     if group._payments.length == 0
       p.text-muted No payments yet!
     else
@@ -37,8 +37,12 @@
                     a.btn.btn-xs.btn-danger(href="/payment/delete/#{payment._id}") 
                       .icon-trash
                       |  Del
-
-          
+      
+      h3 How to Pay
+      ul
+        li Paypal: We're still working on this one... Give us a couple weeks and check back?
+        li Cheque: Please make your check payable to the BCAAFC (Our address is at the bottom of the page), ATTN: Della Preston
+        li VISA or MasterCard by Phone: Please call Della Preston at 1-800-990-2432 with your information ready.
 
 
 if session.isAdmin
