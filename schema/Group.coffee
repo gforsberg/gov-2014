@@ -13,8 +13,6 @@ Setup
 mongoose = require("mongoose")
 bcrypt   = require("bcrypt")
 config   = require("../config")
-if config.mandrill_key
-  mandrill = require("node-mandrill")(config.mandrill_key)
 # Aliases
 Schema   = mongoose.Schema
 ObjectId = mongoose.Schema.ObjectId
