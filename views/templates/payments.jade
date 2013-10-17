@@ -38,30 +38,30 @@
                       .icon-trash
                       |  Del
       
-      h3 How to Pay
-      ul
-        li Paypal: Just hit the button below! You can specify any amount you choose, please leave quantity as 1.
-          form(action="https://www.paypal.com/cgi-bin/webscr", method="post", target="_blank")
-            input(type="hidden", name="cmd", value="_xclick")
-            input(type="hidden", name="business", value="accounting@bcaafc.com")
-            input(type="hidden", name="currency_code", value="CAD")
-            input(type="hidden", name="undefined_quantity", value="1")
-            
-            input(type="hidden", name="cn", value="You can leave us a note here...")
-            input(type="hidden", name="no_note", value="0")
-            input(type="hidden", name="custom", value="#{session.group.affiliation} -- #{session.group._id}")
-            
-            input(type="hidden", name="no_shipping", value="1")
-            input(type="hidden", name="return", value="https://gatheringourvoices.bcaafc.com")
-            input(type="hidden", name="cancel_return", value="https://gatheringourvoices.bcaafc.com")
+    h3 How to Pay
+    ul
+      li Paypal: Just hit the button below! You can specify any amount you choose, please leave quantity as 1.
+        form(action="https://www.paypal.com/cgi-bin/webscr", method="post", target="_blank")
+          input(type="hidden", name="cmd", value="_xclick")
+          input(type="hidden", name="business", value="accounting@bcaafc.com")
+          input(type="hidden", name="currency_code", value="CAD")
+          input(type="hidden", name="undefined_quantity", value="1")
+          
+          input(type="hidden", name="cn", value="You can leave us a note here...")
+          input(type="hidden", name="no_note", value="0")
+          input(type="hidden", name="custom", value="#{session.group.affiliation} -- #{session.group._id}")
+          
+          input(type="hidden", name="no_shipping", value="1")
+          input(type="hidden", name="return", value="https://gatheringourvoices.bcaafc.com")
+          input(type="hidden", name="cancel_return", value="https://gatheringourvoices.bcaafc.com")
 
-            input(type="hidden", name="item_name", value="GOV 2014 Registration Payment")
-            input(type="hidden", name="quantity", value="1")
+          input(type="hidden", name="item_name", value="GOV 2014 Registration Payment")
+          input(type="hidden", name="quantity", value="1")
 
-            button.btn.btn-success.btn-xs.btn-block Pay with Paypal
+          button.btn.btn-success.btn-xs.btn-block Pay with Paypal
 
-        li Cheque: Please make your check payable to the BCAAFC (Our address is at the bottom of the page), ATTN: Della Preston
-        li VISA or MasterCard by Phone: Please call Della Preston at 1-800-990-2432 with your information ready.
+      li Cheque: Please make your check payable to the BCAAFC (Our address is at the bottom of the page), ATTN: Della Preston
+      li VISA or MasterCard by Phone: Please call Della Preston at 1-800-990-2432 with your information ready.
 
 
 if session.isAdmin
