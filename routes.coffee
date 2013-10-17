@@ -23,8 +23,8 @@ routes = module.exports = (app) ->
   app.post  "/login",     Account.post.login    #
   app.get  "/logout",     Account.get.logout   #
   # # Recovery
-  # app.get   "/recovery",  Account.get.recovery  # Recover a password 
-  # app.post  "/recovery",  Account.post.Recovery # 
+  app.get   "/recover/:email",  Account.get.recover   # Start recovery 
+  app.get   "/recovery/:hash",  Account.get.recovery # Finish recovery
   # # Edit/See details
   app.get   "/account",   Middle.auth, Account.get.account   # Edit group details.
   app.put   "/account",   Middle.auth, Account.put.account   # 

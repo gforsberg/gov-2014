@@ -1,5 +1,18 @@
 Group = require("../schema/Group")
 
+## We need Mandrill for mailouts ##
+# Get Redis working
+redis = require('redis')
+config = require('../config')
+if config.redis
+  redisURL = url.parse(config.redis)
+  redisClient = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true})
+  redisClient.auth(redisURL.auth.split(":")[1])
+else
+  redisClient = redis.createClient()
+
+mandrill = require("node-mandrill")(config.mandrill_key)
+
 AccountRoutes = module.exports = {
   get:
     register: (req, res) ->
@@ -23,6 +36,37 @@ AccountRoutes = module.exports = {
             bg: "/img/bg/account.jpg"
           members: group._members
           errors: req.query.errors
+    recover: (req, res) ->
+      # Start recovery
+      Group.model.findOne email: req.params.email, (err, group) ->
+        unless err or !group?
+          hash = Math.random().toString(36).slice(2)
+          redisClient.set hash, group._id, (err, redisResponse) ->
+            mandrill '/messages/send', {
+              message: {
+                to: [{email: group.email, name: group.name}]
+                from_email: 'gatheringourvoices@bcaafc.com'
+                subject: "GOV2014 Password Recovery"
+                html: "<p>Someone (hopefully you) has requested a password reset on your account.</p>
+                       <p>If this was you, please visit <a href='gatheringourvoices.bcaafc.com/recovery/#{hash}'>this link</a> to get to your account management screen. From there, please click the purple 'Group Details' button and change your password.</p>
+                       <p>If it wasn't you, please disregard this email.</p>"
+              }
+            }, (err, response) ->
+              unless err
+                res.send "We've sent an email to the address you provided us. Please check your inbox"
+              else
+                res.send "We weren't able to send you a recovery email. Please contact dpreston@bcaaf.com"
+        else
+          res.redirect "/register"
+    recovery: (req, res) ->
+      redisClient.get req.params.hash, (err, response) ->
+        redisClient.del req.params.hash
+        unless err or !response?
+          Group.model.findById response, (err, group) ->
+            req.session.group = group
+            res.redirect "/account"
+        else
+          res.redirect "/register"
   post:
     login: (req, res) ->
       if req.body.passwordConfirm? and req.body.passwordConfirm is req.body.password
@@ -42,7 +86,16 @@ AccountRoutes = module.exports = {
         }, (err, group) ->
           unless err?
             req.session.group = group
-            res.redirect "/account"
+            mandrill '/messages/send', {
+              message: {
+                to: [{email: group.email, name: group.name}]
+                from_email: 'gatheringourvoices@bcaafc.com'
+                subject: "GOV2014 Registration"
+                html: "<p>Hello! This is a placeholder email which we will need to make something else later. If you're still seeing this it means we haven't launched yet... So your group will be removed at a later date and all data will be irrecovably lost.</p>"
+              }
+            }, (err, response) ->
+              console.log err if err
+              res.redirect "/account"
           else
             res.redirect "/register?errors=#{JSON.stringify(err)}"
       else

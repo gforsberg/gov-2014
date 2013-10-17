@@ -297,18 +297,6 @@ Pre/Post Middleware
   `MemberSchema.pre 'bar', (next) ->`
   `MemberSchema.post 'bar', (next) ->`
 ###
-GroupSchema.post 'init', () ->
-  if mandrill
-    mandrill '/messages/send', {
-      message: {
-        to: [{email: this.email, name: this.name}]
-        from_email: 'gatheringourvoices@bcaafc.com'
-        subject: "GOV2014 Registration Confirmation"
-        text: "Hey there,
-        This is just a placeholder confirmation that you've registered for GOV."
-      }
-    }
-
 GroupSchema.pre 'validate', (next) ->
   # If the `password` attribute is set, hash it and clear it.
   if @password

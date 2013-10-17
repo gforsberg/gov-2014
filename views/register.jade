@@ -9,11 +9,13 @@ block content
           .col-sm-4.col-sm-offset-1
             .form-group
               label Email Address
-              input.form-control(type="email", name="email", placeholder="someone@somewhere.ca", autofocus)
+              input#email.form-control(type="email", name="email", placeholder="someone@somewhere.ca", autofocus)
           .col-sm-4.col-sm-offset-1
             .form-group
               label Password
               input.form-control(type="password", name="password", placeholder="°°°°°°°°")
+              small If you forgot your password, don't worry it's ok. Enter your email above, then click 
+                a#recover here
       .row
         .col-sm-5.col-sm-offset-3
           .form-group
@@ -79,3 +81,9 @@ block content
             button.btn.btn-primary.btn-block(type="submit")
               i.icon-ok
               |  Log In
+
+  :coffeescript
+    $('#recover').click ->
+      email = $('#email').val()
+      $.get "/recover/#{email}", (data) ->
+        alert data
