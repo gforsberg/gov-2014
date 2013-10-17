@@ -229,11 +229,12 @@ GroupSchema.methods.getCost = (next) ->
         else
           price = 175
         return price
-      ).reduce (sum, val, index) ->
+      ).reduce( (sum, val, index) ->
         unless (index+1) % 6 is 0
           return sum + val
         else
           return sum # This ticket is free!
+      , 0)
       # Determine free tickets
       next null, due
     else
