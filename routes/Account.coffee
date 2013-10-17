@@ -91,7 +91,18 @@ AccountRoutes = module.exports = {
                 to: [{email: group.email, name: group.name}]
                 from_email: 'gatheringourvoices@bcaafc.com'
                 subject: "GOV2014 Registration"
-                html: "<p>Hello! This is a placeholder email which we will need to make something else later. If you're still seeing this it means we haven't launched yet... So your group will be removed at a later date and all data will be irrecovably lost.</p>"
+                html: "<h4>Thank you for submitting your online registration!</h4>
+                  <p>The Gathering Our Voices Team will review your registration and contact you via email regarding the following:</p>
+                    <ul>
+                      <li>Member Information: You can add group members from the \"Account\" Page. When adding a new member, all that is required is a name, which you're free to make a placeholder. We ask that you try to populate your group with members (even placeholders!) as soon as you can for a number of reasons. First, so we can have more accurate estimations for catering and bookings, second, you won't have to get all of the information from your members right away. Members which are incomplete will be marked appropriately with a red label, you can just click on that label (or the complete label) at any time to edit their information.</li>
+                      <li>Payment: You can view your current payment status from the \"Account\" Page, just hit the orange \"Manage Payments\" button.</li>
+                      <li>Workshops: Starting in late January / early February, the team will have confirmed facilitators for workshops. At this point we will start to populate the listings on the \"Workshops\" page. Members with <b>complete</b> information will be permitted to register in workshops automatically. We will send out an email when this begins.</li>
+                    </ul>
+                  <p>If you have any questions please see <a href=\"http://gatheringourvoices.bcaafc.com/faq\">here</a>. If your question is not covered, feel free to email dpreston@bcaafc.com.</p>
+                  <br>
+                  <p>In friendship,</p>
+                  <p>Della Preston</p>
+                  <a href=\"mailto:dpreston@bcaafc.com\">dpreston@bcaafc.com</p>"
               }
             }, (err, response) ->
               console.log err if err
