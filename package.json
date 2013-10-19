@@ -6,6 +6,10 @@
   "bin": [
     "bin/gov"
   ],
+  "engines": {
+    "node": "0.10.x",
+    "npm":  "1.2.x"
+  },
   "directories": {
     "test": "test"
   },
