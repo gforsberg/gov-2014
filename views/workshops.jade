@@ -2,6 +2,8 @@ extends templates/layout
 
 block content
   .container
+    p.text-muted If this is your first Gathering Our Voices, or you'd like a refresher on the workshop schedule, please check our FAQ
+      a(href="/faq#workshops")  here.
     #listing.row
       .table-responsive
         table.table.table-striped
@@ -25,7 +27,7 @@ block content
                         //- Full?
                         .label.label-default= session.session
                         |  
-                      else if session.capacity * .66 <= session._registered.length
+                      else if session.capacity * .75 <= session._registered.length
                         //- 2/3's full?
                         .label.label-danger= session.session
                         |  
