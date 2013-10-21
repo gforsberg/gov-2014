@@ -101,7 +101,8 @@ block content
 
     :coffeescript
       $('a.manage').click ->
-        $.get "/workshop/members/#{$(this).data("id")}/#{$(this).data("session")}", (data) =>
-          $("##{$(this).data("session")}-attending").html(data).collapse('show')
+        unless $("##{$(this).data("session")}-attending").hasClass('in')
+          $.get "/workshop/members/#{$(this).data("id")}/#{$(this).data("session")}", (data) =>
+            $("##{$(this).data("session")}-attending").html(data)
 
         
