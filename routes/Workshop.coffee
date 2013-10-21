@@ -19,7 +19,6 @@ WorkshopRoutes = module.exports = {
             caption: "There it stood before me, my passion, my future."
             bg: "/img/bg/workshops.jpg"
           workshops: workshops
-          errors: req.query.errors
     id: (req, res) ->
       Workshop.model.findById req.params.id, (err, workshop) ->
         res.render "workshop",
@@ -29,7 +28,6 @@ WorkshopRoutes = module.exports = {
             caption: "Details and signup."
             bg: "/img/bg/workshop.jpg"
           workshop: workshop
-          errors: req.query.errors
     members: (req, res) ->
       Workshop.model.findById req.params.id, (err, workshop) ->
         Group.model.findById(req.session.group._id).populate("_members").exec (err, group) ->

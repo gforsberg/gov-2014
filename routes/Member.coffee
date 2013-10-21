@@ -22,12 +22,14 @@ MemberRoutes = module.exports = {
               unless err
                 res.redirect "/workshop/#{req.params.workshop}"
               else
-                res.redirect "/workshop/#{req.params.workshop}?errors=#{JSON.stringify({error: err})}"  
+                message = "Couldn't add that member to the workshop... Something went wrong. Try again?"
+                res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
           else
-            res.redirect "/workshop/#{req.params.workshop}?errors=#{JSON.stringify(err)}"
+            message = "Couldn't find that member... Try again?"
+            res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
       else
-        err = new Error("You're not permitted to modify that member.")
-        res.redirect "/workshop/#{req.params.workshop}?errors=#{JSON.stringify({error: err})}"
+        message = "That member is not a part of your group."
+        res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
     delWorkshop: (req, res) ->
       if req.session.group._members.indexOf(req.params.member) != -1
         Member.model.findById req.params.member, (err, member) ->
@@ -36,12 +38,14 @@ MemberRoutes = module.exports = {
               unless err
                 res.redirect "/workshop/#{req.params.workshop}"
               else
-                res.redirect "/workshop/#{req.params.workshop}?errors=#{JSON.stringify(err)}"  
+                message = "Couldn't remove that member from the workshop... Something went wrong. Try again?"
+                res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
           else
-            res.redirect "/workshop/#{req.params.workshop}?errors=#{JSON.stringify(err)}"
+            message = "Couldn't find that member... Try again?"
+            res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
       else
-        err = new Error("You're not permitted to modify that member.")
-        res.redirect "/workshop/#{req.params.workshop}?errors=#{JSON.stringify(err)}"
+        message = "That member is not a part of your group."
+        res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
     memberWorkshops: (req, res) ->
       if !req.query.id || req.session.group._members.indexOf(req.query.id) != -1
         Member.model.findById(req.query.id).populate("_workshops._id").exec (err, member) ->
@@ -51,10 +55,11 @@ MemberRoutes = module.exports = {
               member: member
             }
           else
-            res.redirect "/account?errors=#{err}"
+            message = "There was an error getting the member's workshops."
+            res.redirect "/account?message=#{message}"
       else
-        err = new Error("You need to specify a member.")
-        res.redirect "/account?errors=#{err}"
+        message = "You need to specify a member."
+        res.redirect "/account?message=#{message}"
   post:
     member: (req, res) ->
       # Is it a youth in care?
@@ -91,9 +96,11 @@ MemberRoutes = module.exports = {
               res.redirect "/account"
             else
               # Couldn't refresh group.
-              res.redirect "/account?errors=#{JSON.stringify(err)}"
+              message = "Couldn't grab your new group information. Could you please log out and back in?"
+              res.redirect "/account?message=#{message}"
         else
-          res.redirect "/account?errors=#{JSON.stringify(err.errors)}"
+          message = "Couldn't properly create that member... Try again?"
+          res.redirect "/account?message=#{message}"
   put:
     member: (req, res) ->
       unless !req.body.id?
@@ -130,24 +137,21 @@ MemberRoutes = module.exports = {
                       res.redirect "/account"
                     else
                       # Couldn't refresh group.
-                      res.redirect "/account?errors=#{JSON.stringify(err)}"
+                      message = "Couldn't grab your new group information. Could you please log out and back in?"
+                      res.redirect "/account?message=#{message}"
                 else
                   # Couldn't save member
-                  res.redirect "/account?errors=#{JSON.stringify(err)}"
+                  message = "Couldn't save that member's new information. Could you try again?"
+                  res.redirect "/account?message=#{message}"
        
             else
               # Member is not in the group.
-              errors = {
-                error: "You're not authorized to remove that member."
-                reason: "They're not in your group."
-              }
-              res.redirect "/account?errors=#{JSON.stringify(errors)}"
+              message = "That member is not a part of your group."
+              res.redirect "/account?message=#{message}"
       else
         # No ID.
-        error = {
-          error: "You didn't specifiy a member."
-        }
-        res.redirect "/account?errors=#{JSON.stringify(errors)}"
+        message = "You didn't specify a member."
+        res.redirect "/account?message=#{message}"
   delete:
     member: (req, res) ->
       unless !req.params.id?
@@ -168,27 +172,22 @@ MemberRoutes = module.exports = {
                       res.redirect "/account"
                     else
                       # Couldn't refresh group.
-                      res.redirect "/account?errors=#{JSON.stringify(err)}"
+                      message = "Couldn't grab your new group information. Could you please log out and back in?"
+                      res.redirect "/account?message=#{message}"
                 else
                   # Couldn't remove member.
-                  res.redirect "/account?errors=#{JSON.stringify(err)}"
+                  message = "Couldn't remove that member... Try again?"
+                  res.redirect "/account?message=#{message}"
             else
               # Not in the group
-              errors = {
-                error: "You're not authorized to remove that member."
-                reason: "They're not in your group."
-              }
-              res.redirect "/account?errors=#{JSON.stringify(errors)}"
+              message = "That member is not in your group."
+              res.redirect "/account?message=#{message}"
           else
             # Couldn't find member.
-            errors = {
-              error: "That member doesn't exist."
-            }
-            res.redirect "/account?errors=#{JSON.stringify(errors)}"
+            message = "That member doesn't exist."
+            res.redirect "/account?message=#{message}"
       else
         # No ID
-        error = {
-          error: "You didn't specifiy a member."
-        }
-        res.redirect "/account?errors=#{JSON.stringify(errors)}"
+        message = "You didn't specify a member."
+        res.redirect "/account?message=#{message}"
 }

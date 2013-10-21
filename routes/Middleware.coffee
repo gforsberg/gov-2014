@@ -5,18 +5,12 @@ General = module.exports = {
       next()
     else
       # The user isn't logged in.
-      errors = {
-        error: "You're not authorized to visit there."
-        fix: "Please log in."
-      }
-      res.redirect("/register?errors=#{JSON.stringify(errors)}")
+      message = "You're not authorized to visit this area. Please log in."
+      res.redirect("/register?message=#{message}")
   admin: (req, res, next) ->
     unless !req.session.isAdmin
       next()
     else
-      errors = {
-        error: "You're not authorized to do that."
-        fix: "Please log in as an admin."
-      }
-      res.redirect("/register?errors=#{JSON.stringify(errors)}")
+      message = "You're not an administrator, and thus cannot do this action."
+      res.redirect("/register?message=#{message}")
 }

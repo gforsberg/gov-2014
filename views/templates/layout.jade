@@ -33,10 +33,10 @@ html
                   h1= head.title
                   p= head.caption
       main
-        if errors
+        if session.message
           .container
               .row
-                pre.alert.alert-warning= errors
+                pre.alert.alert-warning= session.message
         block content
     footer
       .container

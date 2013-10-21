@@ -23,7 +23,6 @@ AccountRoutes = module.exports = {
           title: "Registration"
           caption: "Get started with your group, or access your existing cohort."
           bg: "/img/bg/register.jpg"
-        errors: req.query.errors
     logout: (req, res) ->
       req.session.regenerate ->
         res.redirect "/"
@@ -36,7 +35,6 @@ AccountRoutes = module.exports = {
             caption: "Manage, grow, or shrink your group as needed."
             bg: "/img/bg/account.jpg"
           members: group._members
-          errors: req.query.errors
     recover: (req, res) ->
       # Start recovery
       Group.model.findOne email: req.params.email, (err, group) ->
@@ -109,7 +107,18 @@ AccountRoutes = module.exports = {
               console.log err if err
               res.redirect "/account"
           else
-            res.redirect "/register?errors=#{JSON.stringify(err)}"
+            if err.code == 11000
+              # Duplicate key.
+              message = "That email has already registered a group. Try logging in?"
+            else if err.errors
+              # Not all information filled in.
+              message = "You didn't fill out the following fields: "
+              for key, val of err.errors
+                console.log val.path
+                message += val.path + " "
+            else
+              message = "Something went wrong that normally doesn't... Try again?"
+            res.redirect "/register?message=#{message}"
       else
         # Logging into an exiting group.
         Group.model.login req.body.email, req.body.password, (err, group) ->
@@ -118,30 +127,33 @@ AccountRoutes = module.exports = {
             req.session.group = group
             res.redirect "/account"
           else
-            errors = JSON.stringify({errors: err.toString()})
-            res.redirect "/register?errors=#{errors}"
+            message = "We were unable to log you in. Either your password, email, or both are incorrect."
+            res.redirect "/register?message=#{message}"
   put:
     account: (req, res) ->
       Group.model.findById req.session.group._id, (err, group) ->
-        # Login Details
-        group.email = req.body.email
-        group.password = req.body.password if req.body.password == req.body.passwordConfirm
-        # Group Details
-        group.name = req.body.name
-        group.affiliation = req.body.affiliation
-        group.address = req.body.address
-        group.city = req.body.city
-        group.province = req.body.province
-        group.postalCode = req.body.postalCode
-        group.phone = req.body.phone
-        group.fax = req.body.fax
-        group.save (err, group) ->
-          unless err
-            req.session.group = group
-            res.redirect "/account"
-          else
-            errors = JSON.stringify({err})
-            res.redirect "/account?errors=#{err}"
+        unless err or !group?
+          # Login Details
+          group.email = req.body.email
+          group.password = req.body.password if req.body.password == req.body.passwordConfirm
+          # Group Details
+          group.name = req.body.name
+          group.affiliation = req.body.affiliation
+          group.address = req.body.address
+          group.city = req.body.city
+          group.province = req.body.province
+          group.postalCode = req.body.postalCode
+          group.phone = req.body.phone
+          group.fax = req.body.fax
+          group.save (err, group) ->
+            unless err
+              req.session.group = group
+              res.redirect "/account"
+            else
+              message = # TODO
+              res.redirect "/account?message=#{message}"
+        else
+          # TODO
   delete:
     account: (req, res) ->
       Group.model.findById req.params.id, (err, group) ->

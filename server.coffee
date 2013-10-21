@@ -46,6 +46,12 @@ app.use express.session(
   secret: config.secret
   store: new RedisStore {client: redisClient}
 )
+app.use (req, res, next) ->
+  if req.query.message
+    req.session.message = req.query.message
+  else
+    req.session.message = null
+  next()
 app.use app.router    # Normal Routes
 app.use express.static "#{__dirname}/static"
 app.use (req, res) -> # 404 Error
