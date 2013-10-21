@@ -46,7 +46,7 @@ General = module.exports = {
         head:
           title: "Privacy Policy"
           caption: "How we handle your private information"
-          bg: "/img/bg/about.jpg"
+          bg: "/img/bg/privacy.jpg"
 
     faq: (req, res) ->
       res.render "faq",
@@ -54,5 +54,5 @@ General = module.exports = {
         head:
           title: "FAQ"
           caption: "Questions, of the frequently asked variety"
-          bg: "/img/bg/about.jpg"
+          bg: "/img/bg/faq.jpg"
 }
