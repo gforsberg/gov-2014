@@ -34,7 +34,8 @@ else
               .icon-plus
               |  Add Member
           else if conflicts
-            a(href="/workshop/#{conflicts._id}").btn.btn-xs.btn-warning.btn-disabled.btn-block View Conflict
+            -var message = "The conflicting workshop is in session " + workshopSession
+            a(href="/workshop/#{conflicts._id}?message=#{message}").btn.btn-xs.btn-warning.btn-disabled.btn-block View Conflict
           else
             a.btn.btn-xs.btn-default.btn-disabled.btn-block(href="/account") Complete Info
       br
