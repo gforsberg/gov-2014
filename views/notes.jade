@@ -22,26 +22,23 @@ block content
             .form-group
               label Registration Status
               select.form-control(name="registration")
-                option(value="New group - Unchecked", selected=group._state.registration == "New group - Unchecked") New group - Unchecked
-                option(value="New group - Reviewed", selected=group._state.registration == "New group - Reviewed") New group - Reviewed
-                option(value="Group waiting for info", selected=group._state.registration == "Group waiting for info") Group waiting for info
-                option(value="Group - Complete", selected=group._state.registration == "Group - Complete") Group - Complete
+                option(value="Unchecked", selected=group._state.registration == "Unchecked") Unchecked
+                option(value="New Members", selected=group._state.registration == "New Members") New Members
+                option(value="Reviewed", selected=group._state.registration == "Reviewed") Reviewed
             
             .form-group
               label Workshop Status
               select.form-control(name="workshops")
-                option(value="Not sent", selected=group._state.workshops == "Not sent") Not sent
-                option(value="Sent", selected=group._state.workshops == "Sent") Sent
-                option(value="Complete", selected=group._state.workshops == "Complete") Complete
+                option(value="Not Contacted", selected=group._state.workshops == "Not Contacted") Not Contacted
+                option(value="Needs help", selected=group._state.workshops == "Needs help") Needs help
+                option(value="Group Ok", selected=group._state.workshops == "Group Ok") Group Ok
 
             .form-group
               label Payment Status
               select.form-control(name="payment")
-                option(value="Need to contact", selected=group._state.payment == "Need to contact") Need to contact
+                option(value="Not Contacted", selected=group._state.payment == "Not Contacted") Not Contacted
                 option(value="Waiting", selected=group._state.payment == "Waiting") Waiting
-                option(value="Payment in mail", selected=group._state.payment == "Payment in mail") Payment in mail
-                option(value="Invoice sent", selected=group._state.payment == "Invoice sent") Invoice sent
-                option(value="Payment recieved", selected=group._state.payment == "Payment recieved") Payment recieved
+                option(value="Recieved", selected=group._state.payment == "Recieved") Recieved
             
             button.btn.btn-block.btn-primary 
               .icon-edit

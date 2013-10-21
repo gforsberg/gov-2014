@@ -28,6 +28,9 @@ block content
                   else
                     .label.label-default
                       .icon-remove
+                  if group._state.payment != "Recieved"
+                    .label.label-danger
+                      .icon-exclamation
                 td
                   case group._state.enoughChaperones
                     when true
@@ -41,22 +44,24 @@ block content
                 td= group.phone
                 td
                   case group._state.registration
-                    when "New group - Unchecked"
-                      .label.label-danger New group - Unchecked
-                    when "New group - Reviewed"
-                      .label.label-warning New group - Reviewed
-                    when "Group waiting for info"
-                      .label.label-default Group waiting for info
-                    when "Group - Complete"
-                      .label.label-success Group - Complete
+                    when "Unchecked"
+                      .label.label-danger Unchecked
+                    when "New Members"
+                      .label.label-warning New Members
+                    when "Reviewed"
+                      .label.label-success Reviewed
+                    default
+                      .label.label-default N/A (old entry)
                 td
                   case group._state.workshops
-                    when "Not sent"
-                      .label.label-danger Not sent
-                    when "Sent"
-                      .label.label-default Sent
-                    when "Complete"
-                      .label.label-success Complete
+                    when "Not Contacted"
+                      .label.label-danger Not Contacted
+                    when "Needs Help"
+                      .label.label-warning Needs Help
+                    when "Group Ok"
+                      .label.label-success Group Ok
+                    default
+                      .label.label-default N/A (old entry)
                 td
                   .btn-group
                     a.btn.btn-sm.btn-info(href="/notes/#{group._id}")

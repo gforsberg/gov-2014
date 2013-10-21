@@ -249,6 +249,7 @@ MemberSchema.pre "save", (next) ->
     if err or !group?
       next err || new Error("Group doesn't exist")
     else if group._members.indexOf(@_id) is -1
+      group._state.registration = "New Members"
       # Not in the group!
       group._members.push @_id
       group.enoughChaperones(() ->

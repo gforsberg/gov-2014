@@ -124,22 +124,21 @@ GroupSchema = new Schema {
   _state:
     registration:
       type: String
-      default: "New group - Unchecked"
+      default: "Unchecked"
       # TODO: Change these to be meaningful.
       enum: [
-        "New group - Unchecked",
-        "New group - Reviewed",
-        "Group waiting for info",
-        "Group - Complete"
+        "Unchecked",
+        "New Members",
+        "Reviewed"
       ]
     workshops:
       type: String
-      default: "Not sent"
+      default: "Not Contacted"
       # TODO: Change these to be meaningful
       enum: [
-        "Not sent",
-        "Sent",
-        "Complete"
+        "Not Contacted",
+        "Needs Help",
+        "Group Ok"
       ]
     payment:
       type: String
@@ -148,9 +147,7 @@ GroupSchema = new Schema {
       enum: [
         "Need to contact",
         "Waiting",
-        "Payment in mail",
-        "Invoice sent",
-        "Payment recieved"
+        "Recieved"
       ]
     checkedIn:
       # Did the group check in on registration day?
