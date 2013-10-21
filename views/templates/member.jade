@@ -18,7 +18,7 @@ form(action="/member", method="POST")
             option(value="Youth", selected=member && member.type == "Youth") Youth (14-17 years)
             option(value="Young Adult", selected=member && member.type == "Young Adult") Young Adult (18-24 years)
             option(value="Young Chaperone", selected=member && member.type == "Young Chaperone") Young Chaperone (21-24 years)
-            option(value="Chaperone", selected=member && member.type == "Chaperone") Chaperone (21+ years)
+            option(value="Chaperone", selected=member && member.type == "Chaperone") Chaperone (24+ years)
         .form-group
           label Gender*
           select.form-control(name="gender")
