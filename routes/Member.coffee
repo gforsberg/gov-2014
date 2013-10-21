@@ -20,7 +20,8 @@ MemberRoutes = module.exports = {
           unless err or !member?
             member.addWorkshop req.params.workshop, Number(req.params.session), (err, member) ->
               unless err
-                res.redirect "/workshop/#{req.params.workshop}"
+                message = "#{member.name} has been registered in session #{req.params.session} of this workshop."
+                res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
               else
                 message = "Couldn't add that member to the workshop... Something went wrong. Try again?"
                 res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
@@ -36,7 +37,8 @@ MemberRoutes = module.exports = {
           unless err or !member?
             member.removeWorkshop req.params.workshop, Number(req.params.session), (err, member) ->
               unless err
-                res.redirect "/workshop/#{req.params.workshop}"
+                message = "#{member.name} has been removed from session #{req.params.session} of this workshop."
+                res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
               else
                 message = "Couldn't remove that member from the workshop... Something went wrong. Try again?"
                 res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
