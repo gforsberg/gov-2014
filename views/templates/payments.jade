@@ -35,7 +35,7 @@
                 if session.isAdmin
                   td
                     a.btn.btn-xs.btn-danger(href="/payment/delete/#{payment._id}") 
-                      .icon-trash
+                      .fa.fa-trash-o
                       |  Del
       
     h3 How to Pay
@@ -120,5 +120,5 @@ if session.isAdmin
             textarea.form-control(name="description", placeholder="A description of the payment can go here.")
           .col-sm-12
             button.btn.btn-primary.btn-block
-              .icon-money
+              .fa.fa-money
               |  Submit Payment

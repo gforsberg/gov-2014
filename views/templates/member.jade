@@ -98,8 +98,8 @@ form(action="/member", method="POST")
           input(type="radio", name="youthInCare", value="Yes", checked=(member && member._state.youthInCare)? 'checked' : false))
       button.btn.btn-primary.btn-block(type="submit")
         if !member
-          i.icon-plus
+          i.fa.fa-plus
           |  Add Member
         else
-          i.icon-edit
+          i.fa.fa-edit
           |  Update Member Info

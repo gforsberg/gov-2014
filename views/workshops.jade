@@ -57,11 +57,11 @@ block content
                     td= workshop.description
                   td
                     a.btn.btn-sm.btn-info.btn-block(href="/workshop/#{workshop._id}")
-                      i.icon-calendar
+                      i.fa.fa-calendar
                       |  Schedule
                     if session.isAdmin
                       a.edit.btn.btn-sm.btn-primary.btn-block(data-id="#{workshop._id}")
-                        i.icon-edit
+                        i.fa.fa-edit
                         |  Edit
 
     #query
@@ -79,12 +79,12 @@ block content
         .row
           .col-sm-12
             button.btn.btn-primary.btn-block(type="submit")
-              i.icon-search
+              i.fa.fa-search
               |  Search
           if session.isAdmin
             .col-sm-12
               a.btn.btn-info.btn-block(data-toggle="collapse", href="#admin") 
-                i.icon-plus
+                i.fa.fa-plus
                 |  Add Workshop
 
 

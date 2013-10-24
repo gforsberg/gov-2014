@@ -41,7 +41,7 @@ block content
                 option(value="Recieved", selected=group._state.payment == "Recieved") Recieved
             
             button.btn.btn-block.btn-primary 
-              .icon-edit
+              .fa.fa-edit
               |  Update Private Data
 
   .container
@@ -59,13 +59,13 @@ block content
         br
         br
         button#confirm.btn.btn-xs.btn-danger
-          .icon-remove-sign
+          .fa.fa-times-circle
         small.text-muted  I confirm that I want to perform a very destructive and dangerous action. I have manually removed all members form this group to ensure that workshops are appropriately unpopulated and I have verified with both Andrew and Della that I should delete this group.
         br
         form(method="POST", action="/account/#{group._id}")
           input(type="hidden", name="_method", value="delete")
           button#delete.btn.btn-xs.btn-danger(disabled)
-            .icon-remove-sign
+            .fa.fa-times-circle
           small.text-danger  Remove this group, even though I shouldn't ever need do this. Seriously, don't do it.
       :coffeescript
         $('#confirm').click ->

@@ -47,5 +47,5 @@ form.form-horizontal(action="/workshop", method="POST")
           input.form-control(type="number", name="capacity[#{session}]", placeholder="55", value=(workshop && workshop.session(session))? workshop.session(session).capacity : '')
   br
   button.btn.btn-primary.btn-block(type="submit")
-    i.icon-edit
+    i.fa.fa-edit
     |  Update Details

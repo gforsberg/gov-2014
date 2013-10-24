@@ -26,7 +26,7 @@ block content
                 br
                 small.text-muted Allow?
                 button#allowRemove.btn.btn-xs.btn-link
-                  .icon-remove-sign
+                  .fa.fa-times-circle
           tbody
             if members.length > 0
               for member in members
@@ -60,7 +60,7 @@ block content
                     form(method="POST", action="/member/#{member._id}")
                       input(type="hidden", name="_method", value="delete")
                       button.removeButton.btn.btn-xs.btn-danger.tooltipped(disabled,data-toggle="tooltip", title="There is no undo!")
-                        i.icon-trash
+                        i.fa.fa-trash-o
                         |  Delete
             else
               tr
@@ -69,16 +69,16 @@ block content
       .row(style="text-align: center")
         .col-sm-4(style="padding-top: 15px")
           a#add.btn.btn-success(data-toggle="collapse") 
-            .icon-plus
+            .fa.fa-plus
             |  Add a member
         
         .col-sm-4(style="padding-top: 15px")
           a#group.btn.btn-info(data-toggle="collapse") 
-            .icon-edit
+            .fa.fa-edit
             |  Edit Group Details
         .col-sm-4(style="padding-top: 15px")
           a#payment.btn.btn-primary(data-toggle="collapse")
-            .icon-money
+            .fa.fa-money
             |  Manage Payments
   br
   #panels.panel-group
@@ -155,7 +155,7 @@ block content
             .col-sm-4
             .form-group.col-sm-4
               button.btn.btn-primary.btn-block(type="submit")
-                i.icon-edit
+                i.fa.fa-edit
                 |  Update Details
     .panel
       #payments.collapse.container

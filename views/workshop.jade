@@ -4,7 +4,7 @@ block content
   .container
     .row(style="text-align: center")
       a.btn.btn-small.btn-primary(href="/workshops") 
-        .icon-backward
+        .fa.fa-backward
         |  Back to workshop listing
   .container
     .row
@@ -83,17 +83,17 @@ block content
                 .col-xs-6
                   if locals.session.group
                     a.manage.btn.btn-xs.btn-block.btn-primary(data-toggle="collapse", href="##{session.session}-attending", data-id="#{workshop._id}", data-session="#{session.session}") 
-                      .icon-female
+                      .fa.fa-female
                       |  Manage Attendees 
-                      .icon-male
+                      .fa.fa-male
                   else
                     a.manage.btn.btn-xs.btn-block.btn-disabled.btn-default(data-toggle="collapse", href="##{session.session}-attending", data-id="#{workshop._id}", data-session="#{session.session}", disabled) 
-                      .icon-female
+                      .fa.fa-female
                       |  Manage Attendees 
-                      .icon-male
+                      .fa.fa-male
             .panel.collapse(id="#{session.session}-attending")
               p
-                .icon-cloud-download
+                .fa.fa-cloud-download
                 span.text-muted  Working....
             br
             br

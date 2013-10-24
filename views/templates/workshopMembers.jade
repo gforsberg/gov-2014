@@ -27,11 +27,11 @@ else
             .btn.btn-xs.btn-warning.btn-disabled.btn-block Ineligible
           else if workshop.session(workshopSession)._registered.indexOf(member._id) != -1
             a.remove.btn.btn-xs.btn-danger.btn-block(href="/member/#{member._id}/del/#{workshop._id}/#{workshopSession}")
-              .icon-minus
+              .fa.fa-minus
               |  Remove Member
           else if !conflicts && member._state.complete
             a.add.btn.btn-xs.btn-success.btn-block(href="/member/#{member._id}/add/#{workshop._id}/#{workshopSession}")
-              .icon-plus
+              .fa.fa-plus
               |  Add Member
           else if conflicts
             -var message = "The conflicting workshop is in session " + workshopSession
