@@ -123,6 +123,16 @@ block content
                 .form-group
                   label City
                   input.form-control(type="text", name="city", placeholder="Vancouver", value="#{session.group.city}")
+                .form-group
+                  label Region*
+                  select.form-control(name="region", required)
+                    option(value="", selected=session.group.region == "") Please choose...
+                    option(value="North", selected=session.group.region == "North") North
+                    option(value="Interior", selected=session.group.region == "Interior") Interior
+                    option(value="Fraser", selected=session.group.region == "Fraser") Fraser
+                    option(value="Vancouver Coastal", selected=session.group.region == "Vancouver Coastal") Vancouver Coastal
+                    option(value="Vancouver Island", selected=session.group.region == "Vancouver Island") Vancouver Island
+                    option(value="Out of Province", selected=session.group.region == "Out of Province") Out of Province
               .col-sm-4
                 .form-group
                   label Province
@@ -151,6 +161,14 @@ block content
                 .form-group
                   label Fax # (Optional)
                   input.form-control(type="text", name="fax", placeholder="(123) 456-7890", value="#{session.group.fax}")
+                .form-group
+                  label Group Type*
+                  select.form-control(name="affiliationType", required)
+                    option(value="", selected=session.group.affiliationType == "") Please Choose...
+                    option(value="Friendship Centre", selected=session.group.affiliationType == "Friendship Centre") Friendship Centre
+                    option(value="Off-reserve", selected=session.group.affiliationType == "Off-reserve") Off-reserve
+                    option(value="On-reserve", selected=session.group.affiliationType == "On-reserve") On-reserve
+                    option(value="Other", selected=session.group.affiliationType == "Other") Other
           .row
             .col-sm-4
             .form-group.col-sm-4

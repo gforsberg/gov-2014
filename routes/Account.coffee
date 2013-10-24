@@ -78,10 +78,12 @@ AccountRoutes = module.exports = {
           affiliation:  req.body.affiliation
           address:      req.body.address
           city:         req.body.city
+          region:       req.body.region
           province:     req.body.province
           postalCode:   req.body.postalCode
           fax:          req.body.fax
           phone:        req.body.phone
+          affiliationType: req.body.affiliationType
         }, (err, group) ->
           unless err?
             req.session.group = group
@@ -141,10 +143,12 @@ AccountRoutes = module.exports = {
           group.affiliation = req.body.affiliation
           group.address = req.body.address
           group.city = req.body.city
+          group.region = req.body.region
           group.province = req.body.province
           group.postalCode = req.body.postalCode
           group.phone = req.body.phone
           group.fax = req.body.fax
+          group.affiliationType = req.body.affiliationType
           group.save (err, group) ->
             unless err
               req.session.group = group
