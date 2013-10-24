@@ -53,16 +53,18 @@ describe "Group", ->
   describe "Group.create", ->
     it "Should register new groups with valid info", (done) ->
       Group.model.create {
-        email:          "foo@bar.baz"
-        password:       "foo"
-        name:           "foo bar"
-        affiliation:    "foo Native Friendship Centre"
-        address:        "123 Foo Ave"
-        city:           "Victoria"
-        province:       "British Columbia"
-        postalCode:     "A1B 2C3"
-        fax:            ""
-        phone:          "(123) 123-1234"
+        email:           "foo@bar.baz"
+        password:        "foo"
+        name:            "foo bar"
+        affiliation:     "foo Native Friendship Centre"
+        address:         "123 Foo Ave"
+        city:            "Victoria"
+        province:        "British Columbia"
+        postalCode:      "A1B 2C3"
+        fax:             ""
+        phone:           "(123) 123-1234"
+        affiliationType: "Off-reserve"
+        region:          "Vancouver Coastal"
       }, (err, group) =>
         should.equal group.email, "foo@bar.baz"
         should.exist group.hash

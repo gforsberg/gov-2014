@@ -82,6 +82,30 @@ GroupSchema = new Schema {
     type: String
     trim: true
     required: true
+  region:
+    type: String
+    trim: true
+    required: true
+    enum: [
+      "North",
+      "Interior",
+      "Fraser",
+      "Vancouver Coastal",
+      "Vancouver Island",
+      "Out of Province"
+    ]
+    default: "Out of Province"
+  affiliationType:
+    type: String
+    trim: true
+    required: true
+    enum: [
+      "Friendship Centre",
+      "Off-reserve",
+      "On-reserve",
+      "Other"
+    ]
+    default: "Other"
   registrationDate: 
     # Why not use a Date? Because Javascript dates are gross.
     # Besides, we only care about day, month, year.
