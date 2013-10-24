@@ -1,0 +1,182 @@
+extends templates/layout
+
+block content
+  .container.marketing
+    .row.featurette
+      .col-sm-7
+        h2.featurette-heading
+          | Attendee
+          span.text-muted  Statistics
+        p.lead Youth, Young Adults, Young Chaperones, and Chaperones 
+        table.table.table-striped
+          thead
+            tr
+              th Type
+              th Male
+              th Female
+              th Other
+              th Unmarked
+              th Total
+          tbody
+            each val, type in types
+              tr
+                td= type  || "Unmarked"
+                td= val['Male']
+                td= val['Female']
+                td= val['Other']
+                td= val['']
+                td= val['Male'] + val['Female'] + val['Other'] + val['']
+            tr
+              td 
+                emph Totals:
+              td= totals['Male']
+              td= totals['Female']
+              td= totals['Other']
+              td= totals['']
+              td= totals['Male'] + totals['Female'] + totals['Other'] + totals['']
+      .col-sm-5
+        #typeChart(style="width: 100%")
+
+    hr.featurette-divider
+
+    .row.featurette
+      .col-sm-7
+        h2.featurette-heading
+          | Age
+          span.text-muted  Statistics
+        p.lead Dates of Birth
+        table.table.table-striped
+          thead
+            tr
+              th Age
+              th Male
+              th Female
+              th Other
+              th Unmarked
+              th Total
+          tbody
+            each val, age in ages
+              tr
+                td= age  || "Unmarked"
+                td= val['Male']
+                td= val['Female']
+                td= val['Other']
+                td= val['']
+                td= val['Male'] + val['Female'] + val['Other'] + val['']
+            tr
+              td 
+                emph Totals:
+              td= totals['Male']
+              td= totals['Female']
+              td= totals['Other']
+              td= totals['']
+              td= totals['Male'] + totals['Female'] + totals['Other'] + totals['']
+      .col-sm-5
+        #ageChart(style="width: 100%")
+    
+    hr.featurette-divider
+
+    .row.featurette
+      .col-sm-7
+        h2.featurette-heading
+          | Region
+          span.text-muted  Statistics
+        p.lead Vancouver Coastal, Fraser, Etc...
+        table.table.table-striped
+          thead
+            tr
+              th Region
+              th Male
+              th Female
+              th Other
+              th Unmarked
+              th Total
+          tbody
+            for val, region in regions
+              tr
+                td= region
+                td= val['Male']
+                td= val['Female']
+                td= val['Other']
+                td= val['']
+                td= val['Male'] + val['Female'] + val['Other'] + val['']
+            tr
+              td 
+                emph Totals:
+              td= totals['Male']
+              td= totals['Female']
+              td= totals['Other']
+              td= totals['']
+              td= totals['Male'] + totals['Female'] + totals['Other'] + totals['']
+      .col-sm-5
+        #regionChart(style="width: 100%")
+    
+    hr.featurette-divider
+    //- Google Charts Tools
+    script(type="text/javascript" src="https://www.google.com/jsapi")
+    script(type="text/javascript").
+      var types = !{JSON.stringify(types)},
+          ages  = !{JSON.stringify(ages)},
+          regions = !{JSON.stringify(regions)},
+          totals = !{JSON.stringify(totals)}
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawCharts);
+      function drawCharts() {
+        drawTypes();
+        drawAges();
+        drawRegions();
+      }
+      function drawTypes() {
+        var data = google.visualization.arrayToDataTable([
+              ['Type',      'Amount'],
+              ['Youth',           types['Youth']['Male'] + types['Youth']['Female'] + types['Youth']['Other'] + types['Youth']['']],
+              ['Young Adult',     types['Young Adult']['Male'] + types['Young Adult']['Female'] + types['Young Adult']['Other'] + types['Young Adult']['']],
+              ['Young Chaperone', types['Young Chaperone']['Male'] + types['Young Chaperone']['Female'] + types['Young Chaperone']['Other'] + types['Young Chaperone']['']],
+              ['Chaperone',       types['Chaperone']['Male'] + types['Chaperone']['Female'] + types['Chaperone']['Other'] + types['Chaperone']['']],
+              ['Unmarked',        types['']['Male'] + types['']['Female'] + types['']['Other'] + types['']['']]
+            ]);
+          var options = {
+            title: 'Attendee Statistics'
+          };
+          var chart = new google.visualization.PieChart(document.getElementById('typeChart'));
+          chart.draw(data, options);
+      }
+      function drawAges() {
+        var data = google.visualization.arrayToDataTable([
+              ['Type',      'Amount'],
+              ['14',           ages[14]['Male'] + ages[14]['Female'] + ages[14]['Other'] + ages[14]['']],
+              ['15',           ages[15]['Male'] + ages[15]['Female'] + ages[15]['Other'] + ages[15]['']],
+              ['16',           ages[16]['Male'] + ages[16]['Female'] + ages[16]['Other'] + ages[16]['']],
+              ['17',           ages[17]['Male'] + ages[17]['Female'] + ages[17]['Other'] + ages[17]['']],
+              ['18',           ages[18]['Male'] + ages[18]['Female'] + ages[18]['Other'] + ages[18]['']],
+              ['19',           ages[19]['Male'] + ages[19]['Female'] + ages[19]['Other'] + ages[19]['']],
+              ['20',           ages[20]['Male'] + ages[20]['Female'] + ages[20]['Other'] + ages[20]['']],
+              ['21',           ages[21]['Male'] + ages[21]['Female'] + ages[21]['Other'] + ages[21]['']],
+              ['22',           ages[22]['Male'] + ages[22]['Female'] + ages[22]['Other'] + ages[22]['']],
+              ['23',           ages[23]['Male'] + ages[23]['Female'] + ages[23]['Other'] + ages[23]['']],
+              ['24',           ages[24]['Male'] + ages[24]['Female'] + ages[24]['Other'] + ages[24]['']],
+              ['Over',         ages['over']['Male'] + ages['over']['Female'] + ages['over']['Other'] + ages['over']['']],
+              ['Unmarked',     ages['']['Male'] + ages['']['Female'] + ages['']['Other'] + ages['']['']]
+            ]);
+          var options = {
+            title: 'Age Statistics'
+          };
+          var chart = new google.visualization.PieChart(document.getElementById('ageChart'));
+          chart.draw(data, options);
+      }
+      function drawRegions() {
+        var data = google.visualization.arrayToDataTable([
+              ['Type',      'Amount'],
+              ['North',             regions['North']['Male'] + regions['North']['Female'] + regions['North']['Other'] + regions['North']['']],
+              ['Fraser',            regions['Fraser']['Male'] + regions['Fraser']['Female'] + regions['Fraser']['Other'] + regions['Fraser']['']],
+              ['Interior',          regions['Interior']['Male'] + regions['Interior']['Female'] + regions['Interior']['Other'] + regions['Interior']['']],
+              ['Vancouver Coastal', regions['Vancouver Coastal']['Male'] + regions['Vancouver Coastal']['Female'] + regions['Vancouver Coastal']['Other'] + regions['Vancouver Coastal']['']],
+              ['Vancouver Island',  regions['Vancouver Island']['Male'] + regions['Vancouver Island']['Female'] + regions['Vancouver Island']['Other'] + regions['Vancouver Island']['']],
+              ['Out of Province',   regions['Out of Province']['Male'] + regions['Out of Province']['Female'] + regions['Out of Province']['Other'] + regions['Out of Province']['']]
+            ]);
+          var options = {
+            title: 'Region Statistics'
+          };
+          var chart = new google.visualization.PieChart(document.getElementById('regionChart'));
+          chart.draw(data, options);
+      }

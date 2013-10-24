@@ -3,6 +3,10 @@ extends templates/layout
 block content
   .container
     .row
+      a.pull-right.btn.btn-success(href="/statistics") 
+        .fa.fa-bar-chart-o
+        |  View Statistics
+    .row
       .table-responsive
         table.table.table-striped
           thead
@@ -24,21 +28,21 @@ block content
                 td
                   if group._state.checkedIn
                     .label.label-success
-                      .icon-check
+                      .fa.fa-check
                   else
                     .label.label-default
-                      .icon-remove
+                      .fa.fa-times
                   if group._state.payment != "Recieved"
                     .label.label-danger
-                      .icon-exclamation
+                      .fa.fa-exclamation
                 td
                   case group._state.enoughChaperones
                     when true
                       .label.label-success 
-                        .icon-check
+                        .fa.fa-check
                     when false
                       .label.label-danger
-                        .icon-remove
+                        .fa.fa-times
                 td #{group.affiliation}
                   .text-muted #{group.name}
                 td= group.phone
