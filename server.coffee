@@ -36,7 +36,7 @@ else
 app.use (req, res, next) ->
   # If running development, don't forward!
   # Otherwise, forward to https!
-  if req.headers['x-forwarded-proto'] != "https" && req.host != "localhost"
+  if config.ssl && req.headers['x-forwarded-proto'] != "https" && req.host != "localhost"
     res.redirect('https://' + req.host + req.url)
   next()
 app.use express.logger("dev")
