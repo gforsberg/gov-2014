@@ -2,7 +2,16 @@ extends templates/layout
 
 block content
   .container.marketing
-    .row.featurette
+    .row(style="text-align: center")
+      .btn-group
+        a.btn.btn-primary.btn-lg(href="#day1") Day 1
+        a.btn.btn-primary.btn-lg(href="#day2") Day 2
+        a.btn.btn-primary.btn-lg(href="#day3") Day 3
+        a.btn.btn-primary.btn-lg(href="#day4") Day 4
+
+    hr.featurette-divider
+
+    #day1.row.featurette
       .col-sm-7
         h2.featurette-heading
           span.text-muted Day 1: 
@@ -45,7 +54,7 @@ block content
 
 
     hr.featurette-divider
-    .row.featurette
+    #day2.row.featurette
       .col-sm-5(style="text-align: center")
         img.img-rounded(src="/img/schedule/breakfast.jpg", style="width: 100%")
       .col-sm-7
@@ -141,7 +150,7 @@ block content
 
 
     hr.featurette-divider
-    .row.featurette
+    #day3.row.featurette
       .col-sm-7
         h2.featurette-heading
           span.text-muted Day 3: 
@@ -232,7 +241,7 @@ block content
         img.img-rounded(src="/img/schedule/dance.jpg", style="width: 100%")
 
     hr.featurette-divider
-    .row.featurette
+    #day4.row.featurette
       .col-sm-5(style="text-align: center")
         img.img-rounded(src="/img/schedule/closing.jpg", style="width: 100%")
       .col-sm-7
