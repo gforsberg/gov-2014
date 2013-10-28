@@ -36,6 +36,7 @@ WorkshopRoutes = module.exports = {
               session: { group: group }
               workshop: workshop
               workshopSession: Number(req.params.session)
+              message: req.query.message || null
           else
             res.send "Error. :("
     edit: (req, res) ->

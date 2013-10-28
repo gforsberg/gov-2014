@@ -1,3 +1,5 @@
+if message
+  p.text-muted= message
 if session.group._members.length == 0
   p.text-muted There are no members in this group, you should add some first!
 else
@@ -26,11 +28,11 @@ else
           if workshop.allows.indexOf(member.type) == -1
             .btn.btn-xs.btn-warning.btn-disabled.btn-block Ineligible
           else if workshop.session(workshopSession)._registered.indexOf(member._id) != -1
-            a.remove.btn.btn-xs.btn-danger.btn-block(href="/member/#{member._id}/del/#{workshop._id}/#{workshopSession}")
+            a.remove.btn.btn-xs.btn-danger.btn-block(data-member="#{member._id}", data-workshop="#{workshop._id}", data-session="#{workshopSession}")
               .fa.fa-minus
               |  Remove Member
           else if !conflicts && member._state.complete
-            a.add.btn.btn-xs.btn-success.btn-block(href="/member/#{member._id}/add/#{workshop._id}/#{workshopSession}")
+            a.add.btn.btn-xs.btn-success.btn-block(data-member="#{member._id}", data-workshop="#{workshop._id}", data-session="#{workshopSession}")
               .fa.fa-plus
               |  Add Member
           else if conflicts
@@ -39,3 +41,17 @@ else
           else
             a.btn.btn-xs.btn-default.btn-disabled.btn-block(href="/account") Complete Info
       br
+    :coffee
+      $(".remove").click ->
+        member = $(this).data('member')
+        workshop = $(this).data('workshop')
+        session = $(this).data('session')
+        $.get "/member/#{member}/del/#{workshop}/#{session}", (data) ->
+          $("##{session}-attending").html(data)
+      $(".add").click ->
+        member = $(this).data('member')
+        workshop = $(this).data('workshop')
+        session = $(this).data('session')
+        $.get "/member/#{member}/add/#{workshop}/#{session}", (data) ->
+          console.log "#{session}-attending"
+          $("##{session}-attending").html(data)

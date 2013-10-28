@@ -1,4 +1,5 @@
 Member = require("../schema/Member")
+WorkshopRoutes = require('./Workshop')
 
 MemberRoutes = module.exports = {
   get:
@@ -21,13 +22,13 @@ MemberRoutes = module.exports = {
             member.addWorkshop req.params.workshop, Number(req.params.session), (err, member) ->
               unless err
                 message = "#{member.name} has been registered in session #{req.params.session} of this workshop."
-                res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
+                res.redirect("/workshop/members/#{req.params.workshop}/#{req.params.session}?message=#{message}")
               else
                 message = "Couldn't add that member to the workshop... Something went wrong. Try again?"
-                res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
+                res.redirect("/workshop/members/#{req.params.workshop}/#{req.params.session}?message=#{message}")
           else
             message = "Couldn't find that member... Try again?"
-            res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
+            res.redirect("/workshop/members/#{req.params.workshop}/#{req.params.session}?message=#{message}")
       else
         message = "That member is not a part of your group."
         res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
@@ -38,13 +39,13 @@ MemberRoutes = module.exports = {
             member.removeWorkshop req.params.workshop, Number(req.params.session), (err, member) ->
               unless err
                 message = "#{member.name} has been removed from session #{req.params.session} of this workshop."
-                res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
+                res.redirect("/workshop/members/#{req.params.workshop}/#{req.params.session}?message=#{message}")
               else
                 message = "Couldn't remove that member from the workshop... Something went wrong. Try again?"
-                res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
+                res.redirect("/workshop/members/#{req.params.workshop}/#{req.params.session}?message=#{message}")
           else
             message = "Couldn't find that member... Try again?"
-            res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
+            res.redirect("/workshop/members/#{req.params.workshop}/#{req.params.session}?message=#{message}")
       else
         message = "That member is not a part of your group."
         res.redirect "/workshop/#{req.params.workshop}?message=#{message}"
