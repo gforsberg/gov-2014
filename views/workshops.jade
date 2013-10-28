@@ -40,16 +40,16 @@ block content
                         |  
                   td
                     if workshop.allows.indexOf("Youth") != -1
-                      .label.label-info Y
+                      .label.label-info.tooltipped(data-toggle="tooltip", title="Youth") Y
                       |  
                     if workshop.allows.indexOf("Young Adult") != -1
-                      .label.label-success YA
+                      .label.label-success.tooltipped(data-toggle="tooltip", title="Young Adult") YA
                       |  
                     if workshop.allows.indexOf("Young Chaperone") != -1
-                      .label.label-warning YC
+                      .label.label-warning.tooltipped(data-toggle="tooltip", title="Young Chaperone") YC
                       |  
                     if workshop.allows.indexOf("Chaperone") != -1
-                      .label.label-danger Ch
+                      .label.label-danger.tooltipped(data-toggle="tooltip", title="Chaperone") Ch
                       |  
                   if workshop.description.length > 120
                     td= workshop.description.substr(0,120) + "..."
@@ -87,7 +87,9 @@ block content
                 i.fa.fa-plus
                 |  Add Workshop
 
-
+    :coffee
+      $('.tooltipped').tooltip()
+      
     if session.isAdmin
       .row
         .panel-group
