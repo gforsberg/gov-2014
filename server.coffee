@@ -8,6 +8,7 @@ mongoose = require("mongoose")
 redis    = require("redis")
 RedisStore = require("connect-redis")(express)
 url      = require("url")
+newrelic = require('newrelic');
 
 # Config Vars
 config = require("./config")

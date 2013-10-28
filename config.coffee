@@ -4,5 +4,6 @@ module.exports = {
   redis:        process.env.REDISCLOUD_URL  # No need for fallback
   secret:       process.env.secret          || "test"
   admins:       process.env.admins          || ["andrew@hoverbear.org"]
-  mandrill_key: process.env.mandrillKey     || null
+  mandrill_key: process.env.mandrill_Key     || null
+  newrelic_key: process.env.newrelic_Key     || null
 }
