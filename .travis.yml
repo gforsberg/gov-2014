@@ -6,7 +6,7 @@ language: node_js
 deploy:
   provider: heroku
   app: 
-    production: gov-2014
+    Production: gov-2014
     master: gov-2014-staging
   api_key:
     secure: "PYpvMtpT0oE0rPe7RHkAp0Glr+ZlJ097RFCoR9Ql8BStGFnyVsDlghsgZtJdRyTMsz+LZUi5YI/8jNtntSksujOWH5jWrNI2/xEV3MBisKw3sGKyVP0ZXuAPbFlBQOu5b/khW0iQ0Ao5Y4UgXPf5RlLfKfpNBJq47b04a7Bs4eY="
