@@ -53,6 +53,7 @@ app.use (req, res, next) ->
   else
     req.session.message = null
   next()
+app.use express.compress()
 app.use app.router    # Normal Routes
 app.use express.static "#{__dirname}/static", { maxAge: 86400000 * 4 } # 4 days.
 app.use (req, res) -> # 404 Error
