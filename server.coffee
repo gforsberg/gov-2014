@@ -54,7 +54,7 @@ app.use (req, res, next) ->
     req.session.message = null
   next()
 app.use app.router    # Normal Routes
-app.use express.static "#{__dirname}/static"
+app.use express.static "#{__dirname}/static", { maxAge: 86400000 * 4 } # 4 days.
 app.use (req, res) -> # 404 Error
   res.status 404
   console.log new Error("This page doesn't exist")
