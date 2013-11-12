@@ -38,7 +38,8 @@ app.use (req, res, next) ->
   # Otherwise, forward to https!
   if config.ssl && req.headers['x-forwarded-proto'] != "https" && req.host != "localhost"
     res.redirect('https://' + req.host + req.url)
-  next()
+  else
+    next()
 app.use express.logger("dev")
 app.use express.bodyParser()
 app.use express.methodOverride() # Allows PUT/DELETE in forms.
