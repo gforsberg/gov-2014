@@ -3,10 +3,13 @@ extends templates/layout
 block content
   .container.marketing
     .row.featurette
-      .col-sm-7
+      .col-sm-12
         h2.featurette-heading
           | Attendee
           span.text-muted  Statistics
+      .col-sm-12
+        #typeChart(style="height: 400px; width: 100%;")
+      .col-sm-12
         p.lead Youth, Young Adults, Young Chaperones, and Chaperones 
         table.table.table-striped
           thead
@@ -34,16 +37,17 @@ block content
               td= totals['Other']
               td= totals['']
               td= totals['Male'] + totals['Female'] + totals['Other'] + totals['']
-      .col-sm-5
-        #typeChart(style="width: 100%")
 
     hr.featurette-divider
 
     .row.featurette
-      .col-sm-7
+      .col-sm-12
         h2.featurette-heading
           | Age
           span.text-muted  Statistics
+      .col-sm-12
+        #ageChart(style="height: 400px; width: 100%;")
+      .col-sm-12
         p.lead Dates of Birth
         table.table.table-striped
           thead
@@ -71,16 +75,17 @@ block content
               td= totals['Other']
               td= totals['']
               td= totals['Male'] + totals['Female'] + totals['Other'] + totals['']
-      .col-sm-5
-        #ageChart(style="width: 100%")
     
     hr.featurette-divider
 
     .row.featurette
-      .col-sm-7
+      .col-sm-12
         h2.featurette-heading
           | Region
           span.text-muted  Statistics
+      .col-sm-12
+        #regionChart(style="height: 400px; width: 100%;")
+      .col-sm-12
         p.lead Vancouver Coastal, Fraser, Etc...
         table.table.table-striped
           thead
@@ -108,8 +113,6 @@ block content
               td= totals['Other']
               td= totals['']
               td= totals['Male'] + totals['Female'] + totals['Other'] + totals['']
-      .col-sm-5
-        #regionChart(style="width: 100%")
     
     hr.featurette-divider
     //- Google Charts Tools
