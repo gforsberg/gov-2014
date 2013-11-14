@@ -14,7 +14,8 @@ block content
               //- Checked in?
               th Checkin
               //- Enough Chaperones? 
-              th Chaperones
+              th Chap
+              th Mems
               th Affiliation
               th Phone #
               //- Reserved for Coordinators to declare what they want.
@@ -43,8 +44,11 @@ block content
                     when false
                       .label.label-danger
                         .fa.fa-times
+                td
+                  .label.label-default
+                    | #{group._members.length}
                 td #{group.affiliation}
-                  .text-muted #{group.name}
+                  .text-muted #{group.name} :: #{group._id}
                 td= group.phone
                 td
                   case group._state.registration
