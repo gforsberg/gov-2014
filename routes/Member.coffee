@@ -10,6 +10,7 @@ MemberRoutes = module.exports = {
           unless err or !member?
             res.render "templates/member", {
               member: member
+              session: req.session
             }
           else
             res.send err || "No member found."
@@ -129,6 +130,8 @@ MemberRoutes = module.exports = {
               member.emergencyInfo.allergies =    req.body.emergAllergies
               member.emergencyInfo.conditions =   req.body.emergConditions
               member._state.youthInCare =         (req.body.youthInCare == "Yes")
+              if req.session.isAdmin && req.body.ticketType
+                member._state.ticketType =        req.body.ticketType
               member.save (err) ->
                 unless err?
                   # Removed member.
