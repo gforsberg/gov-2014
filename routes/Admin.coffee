@@ -172,7 +172,9 @@ Admin = module.exports = {
           # Types
           types[val.type][val.gender] += 1
           # Ages
-          if ((val.birthDate.year - 2014) * -1) < 24
+          if !val.birthDate.year
+            ages[''][val.gender] += 1
+          else if ((val.birthDate.year - 2014) * -1) <= 24
             ages[(val.birthDate.year - 2014) * -1][val.gender] += 1
           else
             ages['over'][val.gender] += 1

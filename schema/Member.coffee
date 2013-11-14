@@ -289,7 +289,9 @@ MemberSchema.pre "save", (next) ->
 
 MemberSchema.pre "save", (next) ->
   # If their registration date is before February 8th, make them an early bird.
-  if @_state.registrationDate < Date.UTC(2014,2,8,5)
+  # It's important that if someone gets set to Earlybird, their ticket type isn't changed later.
+  # If they are regular, we bump them up regardless.
+  if Date.parse(@_state.registrationDate) < 1394147690000
     @_state.ticketType = "Early"
   next()
 
