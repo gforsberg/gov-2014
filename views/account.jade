@@ -187,24 +187,24 @@ block content
     $("a.edit").click ->
       $("#panels .in").collapse('hide')
       $.get "/member?id=#{$(this).data("id")}", (data) =>
-        $("#member").html(data).collapse('show')
-        $(document).scrollTop( $("#member").offset().top )
+        $("#member").html(data).collapse('show').one 'shown.bs.collapse', () ->
+          $(document).scrollTop( $("#member").offset().top )
     $("a#add").click ->
       $("#panels .in").collapse('hide')
       $.get "/member", (data) =>
-        $("#member").html(data).collapse('show')
-        $(document).scrollTop( $("#member").offset().top )
+        $("#member").html(data).collapse('show').one 'shown.bs.collapse', () ->
+          $(document).scrollTop( $("#member").offset().top )
     $("a#payment").click -> 
       $("#panels .in").collapse('hide')
       $.get "/payments", (data) =>
-        $("#payments").html(data).collapse('show')
-        $(document).scrollTop( $("#payments").offset().top )
+        $("#payments").html(data).collapse('show').one 'shown.bs.collapse', () ->
+          $(document).scrollTop( $("#payments").offset().top )
     $("a#group").click -> 
       $("#panels .in").collapse('hide')
-      $("#details").collapse('show')
-      $(document).scrollTop( $("#details").offset().top )
+      $("#details").collapse('show').one 'shown.bs.collapse', () ->
+        $(document).scrollTop( $("#details").offset().top )
     $("a.memberWorkshops").click -> 
       $("#panels .in").collapse('hide')
       $.get "/member/workshops?id=#{$(this).data("id")}", (data) =>
-        $("#memberWorkshops").html(data).collapse('show')
-        $(document).scrollTop( $("#memberWorkshops").offset().top )
+        $("#memberWorkshops").html(data).collapse('show').one 'shown.bs.collapse', () ->
+          $(document).scrollTop( $("#memberWorkshops").offset().top )
