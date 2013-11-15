@@ -101,8 +101,8 @@ form(action="/member", method="POST")
         label Ticket Type
         .text-muted Normally people can't see this, but you're an admin, feel free to change it. Do note that members registered before the earlybird deadline will be automatically bumped to Earlybirds.
         select.form-control(name="ticketType")
-          option(value="Regular", selected=member && member.ticketType == "Regular") Regular
-          option(value="Early", selected=member && member.ticketType == "Early") Early
+          option(value="Regular", selected=member && member._state.ticketType == "Regular") Regular
+          option(value="Early", selected=member && member._state.ticketType == "Early") Early
   .row
     .col-sm-2
     .col-sm-8
