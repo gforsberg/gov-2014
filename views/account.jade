@@ -30,6 +30,7 @@ block content
                   .fa.fa-times-circle
           tbody
             if members.length > 0
+              - var counts = [ 0, 0, 0, 0 ]
               for member in members
                 tr
                   td= member.name
@@ -37,12 +38,16 @@ block content
                     case member.type
                       when "Youth"
                         .label.label-info Y
+                        - counts[0] += 1
                       when "Young Adult"
                         .label.label-success YA
+                        - counts[1] += 1
                       when "Young Chaperone"
                         .label.label-warning YC
+                        - counts[2] += 1
                       when "Chaperone"
                         .label.label-danger Ch
+                        - counts[3] += 1
                       default
                         .label.label-default NA
                   td
@@ -65,9 +70,24 @@ block content
                       button.removeButton.btn.btn-xs.btn-danger.tooltipped(disabled,data-toggle="tooltip", title="There is no undo!")
                         i.fa.fa-trash-o
                         |  Delete
+              tr
+                td(colspan="2") 
+                  b.lead Totals
+                td 
+                  .label.label-info Y
+                  |  Youth: #{counts[0]}
+                td 
+                  .label.label-success YA
+                  |  Young Adults: #{counts[1]}
+                td 
+                  .label.label-warning YC
+                  |  Young Chaperones: #{counts[2]}
+                td 
+                  .label.label-danger Ch
+                  |  Chaperones: #{counts[3]} 
             else
               tr
-                td.warning(colspan="5") You currently don't have any members. To add members, please hit the big green "Add a member" button.
+                td.warning(colspan="6") You currently don't have any members. To add members, please hit the big green "Add a member" button.
     #controls
       .row(style="text-align: center")
         .col-sm-4(style="padding-top: 15px")
