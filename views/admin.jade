@@ -34,7 +34,7 @@ block content
                     .label.label-default
                       .fa.fa-times
                   if group._state.payment != "Recieved"
-                    .label.label-danger
+                    .label.label-danger.tooltipped(data-toggle="tooltip", title="Payment not recieved!!")
                       .fa.fa-exclamation
                 td
                   case group._state.enoughChaperones
@@ -78,4 +78,5 @@ block content
                     a.btn.btn-sm.btn-primary(href="/manage/#{group._id}")
                       .fa.fa-edit
                       |  Manage
-
+    :coffee
+      $(".tooltipped").tooltip()
