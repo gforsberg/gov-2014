@@ -67,6 +67,8 @@ body {
 
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
+  right: 5%;
+  text-align: right;
   z-index: 10;
   color: white;
   text-shadow: 0 0 15px black;
@@ -88,17 +90,17 @@ body {
 
 @media (min-width: 1000px) {
   .carousel-inner > .item {
-    height: 600px;
+    height: 400px;
   }
 }
 @media (min-width: 768px) and (max-width: 999px) {
   .carousel-inner > .item {
-    height: 500px;
+    height: 300px;
   }
 }
 @media (max-width: 767px) {
   .carousel-inner > .item {
-    height: 400px;
+    height: 300px;
   }
 }
 
