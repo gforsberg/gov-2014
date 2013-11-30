@@ -36,7 +36,7 @@ block content
             .form-group
               label Payment Status
               select.form-control(name="payment")
-                option(value="Not Contacted", selected=group._state.payment == "Not Contacted") Not Contacted
+                option(value="Need to contact", selected=group._state.payment == "Need to contact") Not Contacted
                 option(value="Waiting", selected=group._state.payment == "Waiting") Waiting
                 option(value="Recieved", selected=group._state.payment == "Recieved") Recieved
             
