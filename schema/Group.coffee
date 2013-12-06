@@ -293,8 +293,8 @@ GroupSchema.methods.enoughChaperones = (next, type, action) ->
         youth +=1
       return
     if youth > 0
-      @_state.enoughChaperones = ((youth / 5) < chaps)
-      next ((youth / 5) < chaps)
+      @_state.enoughChaperones = ((youth / 5) <= chaps)
+      next ((youth / 5) <= chaps)
     else
       @_state.enoughChaperones = true
       next true
