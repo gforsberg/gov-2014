@@ -22,6 +22,8 @@ routes = module.exports = (app) ->
   # # Register/Login/Logout
   app.post  "/login",     Account.post.login    #
   app.get  "/logout",     Account.get.logout   #
+  # Printout
+  app.get   "/printout",  Middle.auth, Account.get.printout
   # # Recovery
   app.get   "/recover/:email",  Account.get.recover   # Start recovery 
   app.get   "/recovery/:hash",  Account.get.recovery # Finish recovery

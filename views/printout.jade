@@ -23,5 +23,53 @@ html
     link(href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.min.css", rel="stylesheet")
     // Custom
     link(href="/css/styles.css", rel="stylesheet")
-  body
-    p Here your printout will go.
+  body.container
+    h1 Gathering Our Voices 2014
+    h2 Information Printout for #{group.affiliation}
+    p.lead Primary Contact: #{group.name}
+    p Phone: #{group.phone}
+    p Email: #{group.email}
+    hr
+    .col-sm-5
+      h2 Membership Counts
+      table.table
+        tr
+          td
+            .label.label-info Y
+          td Youth
+          td #{group.stats['Youth']}
+        tr
+          td
+            .label.label-success YA
+          td Young Adults
+          td #{group.stats['Young Adult']}
+        tr
+          td
+            .label.label-warning YC
+          td Young Chaperones
+          td #{group.stats['Young Chaperone']}
+        tr
+          td
+            .label.label-danger Ch
+          td Chaperones
+          td #{group.stats['Chaperone']}
+        tr
+          td
+          td Unmarked
+          td #{group.stats['']}
+      if group.stats['youthInCare'] != 0
+        p.alert
+          .alert-success Youth In Care Dinner Tickets: #{group.stats['youthInCare']}
+    .col-sm-2
+    .col-sm-5
+      h2 Payment History
+      table.table
+        for payment in group._payments
+          tr
+            td= payment.amount
+            td= payment.number
+            td #{payment.date.day}, #{payment.date.month}, #{payment.date.year}
+            h3 Totals
+      p Cost: $#{cost}
+      p Paid: $#{paid}
+      p Balance: $#{cost - paid}

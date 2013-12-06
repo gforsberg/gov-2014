@@ -391,7 +391,7 @@ describe "Group", ->
                 }, (err) ->
                   Group.model.findById testGroup, (err, group) ->
                     group.enoughChaperones (val) ->
-                      should.equal val, false
+                      should.equal val, true
                       done()
   
   describe "Group.find -> group.remove()", ->
