@@ -35,6 +35,32 @@ AccountRoutes = module.exports = {
             caption: "Manage, grow, or shrink your group as needed."
             bg: "/img/bg/account.jpg"
           members: group._members
+    printout: (req, res) ->
+      Group.model.findById(req.session.group._id).populate("_members").populate("_payments").exec (err, group) ->
+        if !group?
+          return
+        # Populate some data
+        group.getCost (err, cost) ->
+          group.getPaid (err, paid) ->
+            group.stats = {
+              "": 0,
+              "Youth": 0,
+              "Young Adult": 0,
+              "Chaperone": 0,
+              "Young Chaperone": 0,
+              "youthInCare": 0
+            }
+            group._members.map (val) ->
+              group.stats[val.type]++
+              if val._state.youthInCare
+                group.stats['youthInCare']++
+              return
+            # Render
+            res.render "printout",
+              session: req.session
+              group: group
+              cost: cost
+              paid: paid
     recover: (req, res) ->
       # Start recovery
       Group.model.findOne email: req.params.email, (err, group) ->
