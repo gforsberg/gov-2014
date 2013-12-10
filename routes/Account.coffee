@@ -128,7 +128,7 @@ AccountRoutes = module.exports = {
                   <p>If you have any questions please see <a href=\"http://gatheringourvoices.bcaafc.com/faq\">here</a>. If your question is not covered, feel free to email dpreston@bcaafc.com.</p>
                   <br>
                   <p>In friendship,</p>
-                  <p>Della Preston</p>
+                  <p>Kerri Low</p>
                   <a href=\"mailto:dpreston@bcaafc.com\">dpreston@bcaafc.com</p>"
               }
             }, (err, response) ->

@@ -5,7 +5,7 @@ General = module.exports = {
         session: req.session  
         head:
           title: "Gathering Our Voices 2014"
-          caption: "The 12th annual gathering of Aboriginal Youth to make their voices heard and learn valuable skills"  
+          caption: "March 18-21st, 2014 in Vancouver BC. The 12th annual gathering of Aboriginal Youth."  
           bg: "/img/bg/index.jpg"
 
     about: (req, res) ->
