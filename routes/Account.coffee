@@ -115,7 +115,7 @@ AccountRoutes = module.exports = {
             req.session.group = group
             mandrill '/messages/send', {
               message: {
-                to: [{email: group.email, name: group.name}]
+                to: [{email: group.email, name: group.name}, {email: "dpreston@bcaafc.com", name: "Della Preston"}]
                 from_email: 'gatheringourvoices@bcaafc.com'
                 subject: "GOV2014 Registration"
                 html: "<h4>Thank you for submitting your online registration!</h4>
@@ -129,7 +129,7 @@ AccountRoutes = module.exports = {
                   <br>
                   <p>In friendship,</p>
                   <p>Kerri Low</p>
-                  <a href=\"mailto:dpreston@bcaafc.com\">dpreston@bcaafc.com</p>"
+                  <a href=\"mailto:klow@bcaafc.com\">klow@bcaafc.com</p>"
               }
             }, (err, response) ->
               console.log err if err
