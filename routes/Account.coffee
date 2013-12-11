@@ -116,6 +116,7 @@ AccountRoutes = module.exports = {
             mandrill '/messages/send', {
               message: {
                 to: [{email: group.email, name: group.name}]
+                cc: [{email: "dpreston@bcaafc.com", name: "Della Preston"}]
                 from_email: 'gatheringourvoices@bcaafc.com'
                 subject: "GOV2014 Registration"
                 html: "<h4>Thank you for submitting your online registration!</h4>
