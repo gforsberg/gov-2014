@@ -115,7 +115,7 @@ AccountRoutes = module.exports = {
             req.session.group = group
             mandrill '/messages/send', {
               message: {
-                to: [{email: group.email, name: group.name}, {email: "dpreston@bcaafc.com", name: "Della Preston"}]
+                to: [{email: group.email, name: group.name}, {email: "dpreston@bcaafc.com", name: "Della Preston"}, {email: "klow@bcaafc.com", name: "Kerri Low"}]
                 from_email: 'gatheringourvoices@bcaafc.com'
                 subject: "GOV2014 Registration"
                 html: "<h4>Thank you for submitting your online registration!</h4>
@@ -125,10 +125,12 @@ AccountRoutes = module.exports = {
                       <li>Payment: You can view your current payment status from the \"Account\" Page, just hit the orange \"Manage Payments\" button.</li>
                       <li>Workshops: Starting in late January / early February, the team will have confirmed facilitators for workshops. At this point we will start to populate the listings on the \"Workshops\" page. Members with <b>complete</b> information will be permitted to register in workshops automatically. We will send out an email when this begins.</li>
                     </ul>
-                  <p>If you have any questions please see <a href=\"http://gatheringourvoices.bcaafc.com/faq\">here</a>. If your question is not covered, feel free to email dpreston@bcaafc.com.</p>
+                  <p>If you have any questions take a look at our <a href=\"http://gatheringourvoices.bcaafc.com/faq\">FAQ</a>, or connect with me!</p>
                   <br>
                   <p>In friendship,</p>
                   <p>Kerri Low</p>
+                  <p>Conference Registration Coordinator</p>
+                  <p>Phone: (250) 388-5522 or toll-free: 1-800-990-2432</p>
                   <a href=\"mailto:klow@bcaafc.com\">klow@bcaafc.com</p>"
               }
             }, (err, response) ->
