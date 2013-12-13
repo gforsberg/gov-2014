@@ -16,7 +16,10 @@ block content
               th Description
               th 
           tbody
-            if workshops
+            if workshops.length == 0
+              tr
+                td.lead(colspan='6') Please check back in early February! We haven't confirmed our schedule yet with our Facilitators quite yet.
+            else
               for workshop in workshops
                 tr
                   td= workshop.name
