@@ -78,5 +78,8 @@ block content
                     a.btn.btn-sm.btn-primary(href="/manage/#{group._id}")
                       .fa.fa-edit
                       |  Manage
+            tr
+              td(colspan='8')
+                p Total # of Groups: #{groups.length}
     :coffee
       $(".tooltipped").tooltip()
