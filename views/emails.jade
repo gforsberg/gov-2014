@@ -1,0 +1,20 @@
+extends templates/layout
+
+block content
+  .container
+    .row
+      h1 Advice
+      p.lead Use BCC, do not use CC or TO.
+      p Please avoid emailing more than once a month to delegates, and more than twice a month to groups.
+    .row
+      h1 Group Emails
+      p 
+        for group in groups
+          span #{group.email}; 
+      
+    .row
+      h1 Member Emails
+      p 
+        for member in members
+          span #{member.email}; 
+      

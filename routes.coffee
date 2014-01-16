@@ -81,3 +81,4 @@ routes = module.exports = (app) ->
   app.get   "/notes/:id",   Middle.admin, Admin.get.notes       # Gets the notes for the group :id
   app.put   "/notes/:id",   Middle.admin, Admin.put.notes       # Saves the notes for the gorup :id
   app.get   "/statistics",  Middle.admin, Admin.get.statistics  # Statistics that are asked for.
+  app.get   "/emails",  Middle.admin, Admin.get.emails      # Email addresses that are used.
