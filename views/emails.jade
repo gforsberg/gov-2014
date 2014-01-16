@@ -10,11 +10,13 @@ block content
       h1 Group Emails
       p 
         for group in groups
-          span #{group.email}; 
+          if group.email
+            span #{group.email}; 
       
     .row
       h1 Member Emails
       p 
         for member in members
-          span #{member.email}; 
+          if member.email
+            span #{member.email}; 
       

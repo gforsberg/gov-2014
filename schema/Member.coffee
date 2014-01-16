@@ -252,6 +252,7 @@ MemberSchema.pre "save", (next) ->
       group._state.registration = "New Members"
       # Not in the group!
       group._members.push @_id
+      # Does it have enough chaperones?
       group.enoughChaperones(() ->
         group.save (err) ->
           unless err
@@ -304,6 +305,7 @@ MemberSchema.pre "remove", (next) ->
       unless index is -1
         # Group exists, member is a part of it.
         group._members.splice index, 1
+        # Do they have enough chaperones?
         group.enoughChaperones(() ->
           group.save (err) =>
             unless err
