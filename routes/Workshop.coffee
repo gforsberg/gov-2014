@@ -131,7 +131,18 @@ WorkshopRoutes = module.exports = {
           }
       Workshop.model.create workshop, (err, workshop) ->
         if err
-          res.redirect "/workshops?errors=#{JSON.stringify(err)}"
+          res.redirect "/workshops?message=#{JSON.stringify(err)}"
         else
           res.redirect "/workshops"
+  delete:
+    workshop: (req, res) ->
+      Workshop.model.findById req.params.id, (err, workshop) ->
+        unless err?
+          workshop.remove (err) ->
+            unless err?
+              res.redirect "/workshops?message=Workshop deleted!"
+            else
+              res.redirect "/workshops?message=Couldn't delete workshop."
+        else
+          res.redirect "/workshops?message=Couldn't find workshop."
 }
