@@ -45,7 +45,7 @@ routes = module.exports = (app) ->
   app.get     "/workshop/members/:id/:session", Middle.auth, Workshop.get.members   # Displays state of members in the group and allows for toggling of workshops.
   app.post     "/workshop",      Middle.admin, Workshop.post.workshop   # Displays :id details
   app.put      "/workshop",      Middle.admin, Workshop.put.workshop    # Displays information about the :workshop.
-  # app.delete   "/workshop/:id",  Middle.admin, Workshop.delete.workshop # Delete's :id
+  app.get      "/workshop/delete/:id",  Middle.admin, Workshop.delete.workshop # Delete's :id
   
   ###
   Member Routes
@@ -81,4 +81,4 @@ routes = module.exports = (app) ->
   app.get   "/notes/:id",   Middle.admin, Admin.get.notes       # Gets the notes for the group :id
   app.put   "/notes/:id",   Middle.admin, Admin.put.notes       # Saves the notes for the gorup :id
   app.get   "/statistics",  Middle.admin, Admin.get.statistics  # Statistics that are asked for.
-  app.get   "/emails",  Middle.admin, Admin.get.emails      # Email addresses that are used.
+  app.get   "/emails",      Middle.admin, Admin.get.emails      # Email addresses that are used.
