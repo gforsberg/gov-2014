@@ -3,9 +3,13 @@ extends templates/layout
 block content
   .container
     .row
-      a.pull-right.btn.btn-success(href="/statistics") 
-        .fa.fa-bar-chart-o
-        |  View Statistics
+      .btn-group.pull-right
+        a.btn.btn-success(href="/statistics") 
+          .fa.fa-bar-chart-o
+          |  View Statistics
+        a.pull-right.btn.btn-warning(href="/emails") 
+          .fa.fa-mail-reply-all
+          |  Get Email Addresses
     .row
       .table-responsive
         table.table.table-striped

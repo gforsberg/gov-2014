@@ -34,6 +34,20 @@ Admin = module.exports = {
             group: group
         else
           res.send err
+    emails: (req, res) ->
+      Group.model.find {}, "name email", (err, groups) ->
+        Member.model.find { email: { $exists: true } }, "name email", (err, members) ->
+          unless err
+            res.render "emails",
+              session: req.session
+              head:
+                title: "Email Listings"
+                caption: "Speak to your people!"
+                bg: "/img/bg/statistics.jpg"
+              groups: groups
+              members: members
+          else
+            res.send err
     statistics: (req, res) ->
       types = {
         'Youth':
