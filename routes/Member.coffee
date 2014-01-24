@@ -15,7 +15,9 @@ MemberRoutes = module.exports = {
           else
             res.send err || "No member found."
       else
-        res.render "templates/member", {}
+        res.render "templates/member", {
+          session: req.session
+        }
     addWorkshop: (req, res) ->
       if req.session.group._members.indexOf(req.params.member) != -1
         Member.model.findById req.params.member, (err, member) ->
