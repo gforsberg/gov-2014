@@ -2,7 +2,7 @@ extends templates/layout
 
 block content
   .container
-    p.text-muted(style="text-align: center;") First time visiting? You might want to take a look at the 
+    p(style="text-align: center;") First time visiting? You might want to take a look at the 
       a(href="/documents/reg-package.pdf", target="_blank") registration package.
     form.form-horizontal(style="text-align: center", method="POST", action="/login")
       .row
@@ -17,14 +17,14 @@ block content
               label Password
               input.form-control(type="password", name="password", placeholder="°°°°°°°°")
       .row
-        small.col-sm-5.col-sm-offset-3 If you forgot your password, don't worry it's ok. Enter your email above, then click 
+        p.col-sm-5.col-sm-offset-3 If you forgot your password, don't worry it's ok. Enter your email above, then click 
           a#recover here
       .row
         .col-sm-5.col-sm-offset-3
           .form-group
             a.btn.btn-info.btn-block(data-toggle="collapse", data-target="#new") 
               i.fa.fa.fa-plus
-              |  Click this button if you're registering a new group
+              |  Registering a new group? Click here and fill out the rest
       #new.collapse
         .row
           fieldset
