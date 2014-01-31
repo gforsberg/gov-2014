@@ -181,6 +181,9 @@ Admin = module.exports = {
         'Other':  0
         '':       0
       }
+      # Days between Sept 1 and Mar 21.
+      num_of_days = 203
+      dates = Array.apply(null, new Array(num_of_days)).map(Number.prototype.valueOf,0);
       Member.model.find({}).populate("_group").exec (err, members) ->
         members.map (val) ->
           # Types
@@ -196,6 +199,11 @@ Admin = module.exports = {
           regions[val._group.region][val.gender] += 1
           # Totals
           totals[val.gender] += 1
+          # Dates
+          normalized = Date.parse(val._state.registrationDate) - Date.UTC(2013, 8, 1)
+          normalized = normalized / Date.UTC(1970, 0, 2)
+          normalized = Math.floor(normalized)
+          dates[normalized] += 1
         res.render "statistics", {
           # Normal Stuff
           session: req.session
@@ -208,6 +216,7 @@ Admin = module.exports = {
           ages: ages
           regions: regions
           totals: totals
+          dates: dates
         }
 
   put:

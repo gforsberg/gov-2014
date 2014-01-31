@@ -113,6 +113,16 @@ block content
               td= totals['Other']
               td= totals['']
               td= totals['Male'] + totals['Female'] + totals['Other'] + totals['']
+              
+    hr.featurette-divider
+
+    .row.featurette
+      .col-sm-12
+        h2.featurette-heading
+          | Region
+          span.text-muted  Statistics
+      .col-sm-12
+        #dateChart(style="height: 400px; width: 100%;")
     
     hr.featurette-divider
     //- Google Charts Tools
@@ -122,12 +132,14 @@ block content
           ages  = !{JSON.stringify(ages)},
           regions = !{JSON.stringify(regions)},
           totals = !{JSON.stringify(totals)}
+          dates = !{JSON.stringify(dates)}
       google.load("visualization", "1", {packages:["corechart"]});
       google.setOnLoadCallback(drawCharts);
       function drawCharts() {
         drawTypes();
         drawAges();
         drawRegions();
+        drawDates();
       }
       function drawTypes() {
         var data = google.visualization.arrayToDataTable([
@@ -182,4 +194,21 @@ block content
           };
           var chart = new google.visualization.PieChart(document.getElementById('regionChart'));
           chart.draw(data, options);
+      }
+      function drawDates() {
+        var total = 0;
+        dates = dates.map(function(val, index) {
+          total += val;
+          return [index, total, new Date(Date.UTC(2013, 8, 1) + (86400000 * index)).toString() + ": " + total]; // 
+        })
+        dates.unshift(["Days since Sept 1, 2013", "Members", { type: 'string', role: 'tooltip' } ])
+        var data = google.visualization.arrayToDataTable(dates);
+
+        var options = {
+          title: 'Members over time (since Sept 1, 2013)'
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('dateChart'));
+        chart.draw(data, options);
+        
       }
