@@ -10,11 +10,10 @@ block content
           thead
             tr
               th.col-sm-2 Name
-              th.col-sm-1 Host
               th(style="width: 170px") Sessions
               th(style="width: 80px") Allows
               th Description
-              th 
+              th.col-sm-2
           tbody
             if workshops.length == 0
               tr
@@ -23,7 +22,6 @@ block content
               for workshop in workshops
                 tr
                   td= workshop.name
-                  td= workshop.host
                   td
                     for session in workshop.sessions
                       if session.capacity == session._registered.length
@@ -59,11 +57,11 @@ block content
                   else
                     td= workshop.description
                   td
-                    a.btn.btn-sm.btn-info.btn-block(href="/workshop/#{workshop._id}")
+                    a.btn.btn-info.btn-block(href="/workshop/#{workshop._id}")
                       i.fa.fa-calendar
-                      |  Schedule
+                      |  Details / Join
                     if session.isAdmin
-                      a.edit.btn.btn-sm.btn-primary.btn-block(data-id="#{workshop._id}")
+                      a.edit.btn.btn-primary.btn-block(data-id="#{workshop._id}")
                         i.fa.fa-edit
                         |  Edit
 
