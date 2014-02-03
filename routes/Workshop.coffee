@@ -18,7 +18,7 @@ WorkshopRoutes = module.exports = {
             title: "Workshops"
             caption: "There it stood before me, my passion, my future."
             bg: "/img/bg/workshops.jpg"
-          workshops: workshops
+          workshops: workshops || {}
     id: (req, res) ->
       Workshop.model.findById req.params.id, (err, workshop) ->
         res.render "workshop",
