@@ -39,7 +39,8 @@ routes = module.exports = (app) ->
   Workshop Routes
   ###
   Workshop = require("./routes/Workshop")
-  app.get      "/workshops",     Workshop.get.index                     # Lists workshops. (Query Sensitive)
+  app.get      "/workshops",     Workshop.get.defer                     # Lists workshops. (Query Sensitive)
+  app.get      "/workshopses",   Workshop.get.index                     # Lists workshops. (Query Sensitive)
   app.get      "/workshop",      Middle.admin, Workshop.get.edit        # Gets details of a workshop to edit.
   app.get      "/workshop/:id",  Workshop.get.id                        # Displays :id details
   app.get     "/workshop/members/:id/:session", Middle.auth, Workshop.get.members   # Displays state of members in the group and allows for toggling of workshops.
