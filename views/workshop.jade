@@ -26,7 +26,8 @@ block content
             |  
         br
         br
-        p= workshop.description
+        for paragraph in workshop.description.split("\n")
+          p= paragraph
     .row
       h2 Sessions
       #sessions.panel-group
