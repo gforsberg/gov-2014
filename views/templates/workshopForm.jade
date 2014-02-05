@@ -21,7 +21,8 @@ form.form-horizontal(action="/workshop", method="POST")
         option(value="all", selected=workshop && JSON.stringify(workshop.allows)===JSON.stringify(["Youth", "Young Adult", "Young Chaperone", "Chaperone"])) All Allowed (Including Chaperones)
         option(value="chaperones", selected=workshop && JSON.stringify(workshop.allows)===JSON.stringify(["Young Chaperone", "Chaperone"])) Only Chaperones, Young Chaperones.
         option(value="young", selected=workshop && JSON.stringify(workshop.allows)===JSON.stringify(["Youth", "Young Adult"])) Only Youth, Young Adults.
-        option(value="youth", selected=workshop && JSON.stringify(workshop.allows)===JSON.stringify(["Youth"])) Only 14-18 (Youth).
+        option(value="youngAdult", selected=workshop && JSON.stringify(workshop.allows)===JSON.stringify(["Young Adult"])) Only Young Adults.
+        option(value="youth", selected=workshop && JSON.stringify(workshop.allows)===JSON.stringify(["Youth"])) Only Youth.
 
   br
   fieldset

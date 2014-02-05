@@ -73,6 +73,8 @@ WorkshopRoutes = module.exports = {
               workshop.allows = ["Young Chaperone", "Chaperone"]
             when "young"
               workshop.allows = ["Youth", "Young Adult"]
+            when "youngAdult"
+              workshop.allows = ["Young Adult"]
             when "youth"
               workshop.allows = ["Youth"]
           # Populate Sessions.
@@ -129,6 +131,8 @@ WorkshopRoutes = module.exports = {
           workshop.allows = ["Young Chaperone", "Chaperone"]
         when "young"
           workshop.allows = ["Youth", "Young Adult"]
+        when "youngAdult"
+          workshop.allows = ["Young Adult"]
         when "youth"
           workshop.allows = ["Youth"]
       # Populate Sessions.
