@@ -125,8 +125,10 @@ WorkshopRoutes = module.exports = {
           workshop.allows = ["Youth", "Young Adult", "Young Chaperone", "Chaperone"]
         when "chaperones"
           workshop.allows = ["Young Chaperone", "Chaperone"]
+        when "young"
+          workshop.allows = ["Youth", "Young Adult"]
         when "youth"
-          workshop.allows = ["Younth", "Young Adult"]
+          workshop.allows = ["Youth"]
       # Populate Sessions.
       for x in [1..12]
         # x-1 for array indexing.
