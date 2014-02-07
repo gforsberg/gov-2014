@@ -243,6 +243,10 @@ Pre/Post Middleware
   `MemberSchema.post 'bar', (next) ->`
 ###
 MemberSchema.pre "save", (next) ->
+  # Ensure they're not too young.
+  if @birthDate["year"]? and @birthDate["year"] == 2000
+    if @birthDate["month"]? and ["January", "February", "March"].indexOf(@birthDate["month"]) == -1
+      next(new Error("Too young."))
   Group = require("./Group")
   # Make sure their group knows they're part of them.
   Group.model.findById @_group, (err, group) =>
