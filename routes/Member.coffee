@@ -92,7 +92,10 @@ MemberRoutes = module.exports = {
         _state:
           youthInCare: inCare
       }, (err, member) ->
-        unless err?
+        if err?
+          message = "Couldn't properly create that member... Try again?"
+          res.redirect "/account?message=#{message}"
+        else
           # Created member.
           Group = require("../schema/Group")
           Group.model.findById member._group, (err, group) ->
@@ -104,9 +107,7 @@ MemberRoutes = module.exports = {
               # Couldn't refresh group.
               message = "Couldn't grab your new group information. Could you please log out and back in?"
               res.redirect "/account?message=#{message}"
-        else
-          message = "Couldn't properly create that member... Try again?"
-          res.redirect "/account?message=#{message}"
+          
   put:
     member: (req, res) ->
       unless !req.body.id?
