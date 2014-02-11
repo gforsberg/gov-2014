@@ -78,4 +78,4 @@ Base = require("./schema/Member")
 Base.model.find {}, (err, val) ->
   for item in val
     if Date.parse(item._state.registrationDate) > Date.UTC(2014,1,8)
-      console.log item.name + " " + item._group
+      console.log item.name + " " + item._group + " " + item._state.registrationDate
