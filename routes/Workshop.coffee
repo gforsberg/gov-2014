@@ -19,14 +19,6 @@ WorkshopRoutes = module.exports = {
             caption: "There it stood before me, my passion, my future."
             bg: "/img/bg/workshops.jpg"
           workshops: workshops || {}
-    defer: (req, res) ->
-      res.render "workshops",
-        session: req.session
-        head:
-          title: "Workshops"
-          caption: "There it stood before me, my passion, my future."
-          bg: "/img/bg/workshops.jpg"
-        workshops: []
     id: (req, res) ->
       Workshop.model.findById req.params.id, (err, workshop) ->
         res.render "workshop",
