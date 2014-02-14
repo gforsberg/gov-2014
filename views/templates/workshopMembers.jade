@@ -42,14 +42,14 @@ else
             a.btn.btn-xs.btn-default.btn-disabled.btn-block(href="/account") Complete Info
       br
     :coffee
-      $(".remove").click ->
+      $(".remove").unbind("click").click ->
         console.log "Remove Clicked"
         member = $(this).data('member')
         workshop = $(this).data('workshop')
         session = $(this).data('session')
         $.get "/member/#{member}/del/#{workshop}/#{session}", (data) ->
           $("##{session}-attending").html(data)
-      $(".add").click ->
+      $(".add").unbind("click").click ->
         console.log "Add clicked"
         member = $(this).data('member')
         workshop = $(this).data('workshop')
