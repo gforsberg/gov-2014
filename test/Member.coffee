@@ -164,6 +164,16 @@ describe "Member", ->
           room: "Beaver"
           venue: "Bear"
           capacity: 1
+        ,
+          session: 11
+          room: "Beaver"
+          venue: "Bear"
+          capacity: 2
+        ,
+          session: 7
+          room: "Beaver"
+          venue: "Bear"
+          capacity: 2
         ]
       }, (err, workshop) ->
         testWorkshop = workshop._id
@@ -179,16 +189,21 @@ describe "Member", ->
           session: 1
         member.save (err) ->
           member.hasConflicts(testWorkshop, 1).should.be.ok # True
-          member.hasConflicts(testWorkshop, 2).should.be.ok 
+          member.hasConflicts(testWorkshop, 2).should.be.ok
           member.hasConflicts(testWorkshop, 3).should.be.ok 
           member._workshops.push
             _id: testWorkshop
             session: 5
           member.save (err) ->
             member.hasConflicts(testWorkshop, 4).should.be.ok 
-            member.hasConflicts(testWorkshop, 5).should.be.ok 
+            member.hasConflicts(testWorkshop, 5).should.be.ok
             member.hasConflicts(testWorkshop, 6).should.not.be.ok 
-            done()
+            member._workshops.push
+              _id: testWorkshop
+              session: 7
+            member.save (err) ->
+              member.hasConflicts(testWorkshop, 11).should.not.be.ok # False
+              done()
 
   describe "Member.find -> member.save()", ->
     it "Should verify completeness", (done) ->

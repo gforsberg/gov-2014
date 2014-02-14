@@ -172,10 +172,12 @@ Methods
   `MemberSchema.methods.foo =`
 ###
 MemberSchema.methods.hasConflicts = (workshopId, session) ->
-  if session % 3 is 1
+  if (session % 3) is 0
+    blocks = [session, session-2]
+  else if (session % 3) is 1
     blocks = [session..session+2]
-  else
-    blocks = [session, Math.floor(session / 4)*3 + 1]
+  else if (session % 3) is 2
+    blocks = [session, session-1]
   conflicts = @_workshops.filter (val) ->
     return blocks.indexOf(val.session) != -1 # Don't return blocks
   if conflicts.length > 0
