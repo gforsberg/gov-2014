@@ -272,7 +272,7 @@ MemberSchema.pre "save", (next) ->
 
 MemberSchema.pre "save", (next) ->
   complete = true
-  for item in ["type", "gender", "email", "phone"]
+  for item in ["type", "gender", "phone"]
     if @[item]? and @[item] == ""
       complete = false
       break
