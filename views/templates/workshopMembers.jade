@@ -55,5 +55,4 @@ else
         workshop = $(this).data('workshop')
         session = $(this).data('session')
         $.get "/member/#{member}/add/#{workshop}/#{session}", (data) ->
-          console.log "#{session}-attending"
           $("##{session}-attending").html(data)
