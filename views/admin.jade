@@ -32,10 +32,10 @@ block content
               tr
                 td
                   if group._state.checkedIn
-                    .label.label-success
+                    a.label.label-success(href="/checkin/#{group._id}")
                       .fa.fa-check
                   else
-                    .label.label-default
+                    a.label.label-default(href="/checkin/#{group._id}")
                       .fa.fa-times
                   if group._state.payment != "Recieved"
                     .label.label-danger.tooltipped(data-toggle="tooltip", title="Payment not recieved!!")

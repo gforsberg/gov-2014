@@ -61,6 +61,22 @@ AccountRoutes = module.exports = {
               group: group
               cost: cost
               paid: paid
+    checkin: (req, res) ->
+      # Check in a group
+      if req.params.id?
+        Group.model.findOne _id: req.params.id, (err, group) ->
+          if err or !group?
+            res.redirect "/admin?message=No Group Found."
+          else
+            group._state.checkedIn = !group._state.checkedIn
+            group.save (err) ->
+              if err
+                res.redirect "/admin?message=Group not checked in."
+              else
+                res.redirect "/admin?message=#{group.affiliation} checked in."
+      else
+        # Didn't get an ID.
+        res.redirect "/admin"
     recover: (req, res) ->
       # Start recovery
       Group.model.findOne email: req.params.email, (err, group) ->

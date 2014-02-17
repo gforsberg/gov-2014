@@ -29,7 +29,8 @@ routes = module.exports = (app) ->
   app.get   "/recovery/:hash",  Account.get.recovery # Finish recovery
   # # Edit/See details
   app.get   "/account",   Middle.auth, Account.get.account   # Edit group details.
-  app.put   "/account",   Middle.auth, Account.put.account   # 
+  app.put   "/account",   Middle.auth, Account.put.account   #
+  app.get   "/checkin/:id",   Middle.admin, Account.get.checkin  # Checkin for groups
   # # Main information pages, actions can be accessed here.
   # app.get   "/members",   Middle.auth, Account.get.members   # Add/remove/edit members.
   # app.get   "/billing",   Middle.auth, Account.get.billing   # Add/remove/edit payments.
