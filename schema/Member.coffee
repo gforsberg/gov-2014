@@ -142,7 +142,7 @@ MemberSchema = new Schema {
       type: Boolean
       default: false
   # Aggregations
-  _workshops: 
+  _workshops:
     type: [ # Store both the session and the id itself.
       session:    # This lets us do validation really quickly and easily.
         type: Number
@@ -265,10 +265,16 @@ MemberSchema.pre "save", (next) ->
             next()
           else
             next err
-      , @type, "New")
+      , @, "New")
     else
       # In the group already.
-      next()
+      group.enoughChaperones(() ->
+        group.save (err) ->
+          unless err
+            next()
+          else
+            next err
+      , @, "Edit")
 
 MemberSchema.pre "save", (next) ->
   complete = true

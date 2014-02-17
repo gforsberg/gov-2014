@@ -269,25 +269,36 @@ GroupSchema.methods.getBalance = (next) ->
       else
         next err, -1
 
-GroupSchema.methods.enoughChaperones = (next, type, action) ->
+GroupSchema.methods.enoughChaperones = (next, the_member, action) ->
   Member = require("./Member")
   # Member counts
   Member.model.find _id: $in: @_members, (err, members) =>
     youth = 0
     chaps = 0
-    if type
-      if type == "Youth"
+    # If it's a new member
+    if the_member && action && action == "New"
+      if the_member.type == "Youth"
         if action == "New"
           youth += 1
         else
           youth -= 1
-      else if ["Young Chaperone", "Chaperone"].indexOf(type) != -1
+      else if ["Young Chaperone", "Chaperone"].indexOf(the_member.type) != -1
         if action == "New"
           chaps += 1
         else
           chaps -= 1
     members.map (val) ->
-      if ["Young Chaperone", "Chaperone"].indexOf(val.type) != -1
+      # If it's an edited member, we need to handle it specifically.
+      if the_member && String(val._id) == String(the_member._id)
+        if action == "Edit"
+          # Need to add their new count instead.
+          if the_member.type == "Youth"
+            youth += 1
+          else if ["Young Chaperone", "Chaperone"].indexOf(the_member.type) != -1
+            chaps += 1
+        else
+          return
+      else if ["Young Chaperone", "Chaperone"].indexOf(val.type) != -1
         chaps += 1
       else if val.type == "Youth"
         youth +=1
