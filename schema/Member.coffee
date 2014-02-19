@@ -259,7 +259,7 @@ MemberSchema.pre "save", (next) ->
       # Not in the group!
       group._members.push @_id
       # Does it have enough chaperones?
-      group.enoughChaperones(() ->
+      group.checkFlags(() ->
         group.save (err) ->
           unless err
             next()
@@ -268,7 +268,7 @@ MemberSchema.pre "save", (next) ->
       , @, "New")
     else
       # In the group already.
-      group.enoughChaperones(() ->
+      group.checkFlags(() ->
         group.save (err) ->
           unless err
             next()
@@ -318,7 +318,7 @@ MemberSchema.pre "remove", (next) ->
         # Group exists, member is a part of it.
         group._members.splice index, 1
         # Do they have enough chaperones?
-        group.enoughChaperones(() ->
+        group.checkFlags(() ->
           group.save (err) =>
             unless err
               next()

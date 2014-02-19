@@ -342,7 +342,7 @@ describe "Group", ->
           should.equal balance, (125*11 - 100)
           done()
 
-  describe "Group.find -> group.enoughChaperones", ->
+  describe "Group.find -> group.checkFlags", ->
     it "Should return false if not enough!", (done) ->
       Group.model.findById testGroup, (err, group) ->
         # Has 13 young adults right now, should be balanced.
@@ -353,7 +353,7 @@ describe "Group", ->
           _group: group._id
         }, (err) ->
           Group.model.findById testGroup, (err, group) ->
-            group.enoughChaperones (val) ->
+            group.checkFlags (val) ->
               should.equal val, false
               done()
     it "Should return true if enough!", (done) ->
@@ -390,7 +390,7 @@ describe "Group", ->
                   _group: group._id
                 }, (err) ->
                   Group.model.findById testGroup, (err, group) ->
-                    group.enoughChaperones (val) ->
+                    group.checkFlags (val) ->
                       should.equal val, true
                       done()
   

@@ -40,6 +40,11 @@ block content
                   if group._state.payment != "Recieved"
                     .label.label-danger.tooltipped(data-toggle="tooltip", title="Payment not recieved!!")
                       .fa.fa-exclamation
+                  if group._state.youthInCare
+                    .label.label-success.tooltipped(data-toggle="tooltip", title="This group has Youth In Care!")
+                      .fa.fa-flag
+                      |  
+                      | #{group._state.youthInCare}
                 td
                   case group._state.enoughChaperones
                     when true

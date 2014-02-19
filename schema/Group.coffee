@@ -180,6 +180,9 @@ GroupSchema = new Schema {
     enoughChaperones:
       type: Boolean
       default: true
+    youthInCare:
+      type: Number
+      default: 0
   # Aggregations
   _members: # A list of members.
     type: [
@@ -269,12 +272,13 @@ GroupSchema.methods.getBalance = (next) ->
       else
         next err, -1
 
-GroupSchema.methods.enoughChaperones = (next, the_member, action) ->
+GroupSchema.methods.checkFlags = (next, the_member, action) ->
   Member = require("./Member")
   # Member counts
   Member.model.find _id: $in: @_members, (err, members) =>
     youth = 0
     chaps = 0
+    youthInCare = 0
     # If it's a new member
     if the_member && action && action == "New"
       if the_member.type == "Youth"
@@ -288,6 +292,9 @@ GroupSchema.methods.enoughChaperones = (next, the_member, action) ->
         else
           chaps -= 1
     members.map (val) ->
+      # Is this a YIC?
+      if val?._state?.youthInCare
+        youthInCare += 1
       # If it's an edited member, we need to handle it specifically.
       if the_member && String(val._id) == String(the_member._id)
         if action == "Edit"
@@ -303,6 +310,7 @@ GroupSchema.methods.enoughChaperones = (next, the_member, action) ->
       else if val.type == "Youth"
         youth +=1
       return
+    @_state.youthInCare = youthInCare
     if youth > 0
       @_state.enoughChaperones = ((youth / 5) <= chaps)
       next ((youth / 5) <= chaps)
