@@ -113,7 +113,7 @@ MemberRoutes = module.exports = {
       unless !req.body.id?
         # Has an ID.
         Member.model.findById req.body.id, (err, member) ->
-          unless err
+          unless err or !member?
             # Found member.
             if String(member._group) == req.session.group._id
               # Member is in the group.
