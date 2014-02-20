@@ -37,6 +37,14 @@ Admin = module.exports = {
     emails: (req, res) ->
       Group.model.find {}, "name email", (err, groups) ->
         Member.model.find { email: { $exists: true } }, "name email", (err, members) ->
+          members = members.map((val) ->
+            return val.email
+          ).filter((val, index, array) ->
+            if val != "" and array.indexOf(val) == index
+              return true
+            else
+              return false
+          )
           unless err
             res.render "emails",
               session: req.session
