@@ -75,7 +75,12 @@ app.listen config.port, () ->
   
 Group = require("./schema/Group")
 Group.model.find {}, (err, groups) ->
-  for group in groups
-    group.checkFlags () ->
-      console.log group.name + " " + group._state.youthInCare
-      group.save()
+  looper = (groups) ->
+    group = groups.pop()
+    if group?
+      group.checkFlags () ->
+        console.log group.name + " " + group._state.youthInCare
+        group.save () ->
+          looper(groups)
+  looper(groups)
+      
