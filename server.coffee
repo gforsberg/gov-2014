@@ -77,5 +77,5 @@ Group = require("./schema/Group")
 Group.model.find {}, (err, groups) ->
   for group in groups
     group.checkFlags () ->
-      console.log group.name + " " group._state.youthInCare
+      console.log group.name + " " + group._state.youthInCare
       group.save()
