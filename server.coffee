@@ -72,3 +72,9 @@ require("./routes")(app)
 # Listen on the configured port.
 app.listen config.port, () ->
   console.log "Listening on port #{config.port}."
+  
+Group = require("./schema/Group")
+Group.model.find {}, (err, groups) ->
+  for group in groups
+    group.checkFlags () ->
+      group.save()
