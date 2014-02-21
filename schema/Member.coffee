@@ -141,6 +141,9 @@ MemberSchema = new Schema {
     youthInCare:
       type: Boolean
       default: false
+    youthInCareSupport:
+      type: Boolean
+      default: false
   # Aggregations
   _workshops:
     type: [ # Store both the session and the id itself.

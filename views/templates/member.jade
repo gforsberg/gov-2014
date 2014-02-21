@@ -91,12 +91,21 @@ form(action="/member", method="POST")
     .col-sm-4
       .form-group
         label Is this person a Youth In Care?
+        p One of the events taking place during the conference is a special feast to honour youth in care. If this delegate is or has been a youth in the care of the Ministry of Children and Family Development or an Aboriginal Delegated Agency and would like to attend the feast, please mark so below.
         .radio
           label No
           input(type="radio", name="youthInCare", value="No", checked=(member && member._state.youthInCare)? false : 'checked'))
         .radio
           label Yes
           input(type="radio", name="youthInCare", value="Yes", checked=(member && member._state.youthInCare)? 'checked' : false))
+      .form-group
+        label Are you coming to the feast as a support person? (Someone in your group is a youth in care, and you are joining them for support.)
+        .radio
+          label No
+          input(type="radio", name="youthInCareSupport", value="No", checked=(member && member._state.youthInCareSupport)? false : 'checked'))
+        .radio
+          label Yes
+          input(type="radio", name="youthInCareSupport", value="Yes", checked=(member && member._state.youthInCareSupport)? 'checked' : false))
       if session.isAdmin
         .form-group
           label Ticket Type

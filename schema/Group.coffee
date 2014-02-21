@@ -183,6 +183,9 @@ GroupSchema = new Schema {
     youthInCare:
       type: Number
       default: 0
+    youthInCareSupport:
+      type: Number
+      default: 0
   # Aggregations
   _members: # A list of members.
     type: [
@@ -279,6 +282,7 @@ GroupSchema.methods.checkFlags = (next, the_member, action) ->
     youth = 0
     chaps = 0
     youthInCare = 0
+    youthInCareSupport = 0
     # If it's a new member
     if the_member && action && action == "New"
       if the_member.type == "Youth"
@@ -291,12 +295,23 @@ GroupSchema.methods.checkFlags = (next, the_member, action) ->
           chaps += 1
         else
           chaps -= 1
-    members.map (val) ->
       # Is this a YIC?
-      if val?._state?.youthInCare
+      if the_member?._state?.youthInCare
+        console.log "300 HAS YIC " + the_member.name
         youthInCare += 1
+      if the_member?._state?.youthInCareSupport
+        console.log "303 HAS SUPPORT " + the_member.name
+        youthInCareSupport += 1
+    members.map (val) ->
       # If it's an edited member, we need to handle it specifically.
       if the_member && String(val._id) == String(the_member._id)
+        # Is this a YIC?
+        if (val?._state?.youthInCare and the_member?._state?.youthInCare) or the_member?._state?.youthInCare
+          console.log "308 HAS YIC " + val.name + " " + val._state.youthInCare
+          youthInCare += 1
+        if (val?._state?.youthInCareSupport and the_member?._state?.youthInCareSupport) or the_member?._state?.youthInCareSupport
+          console.log "311 HAS SUPPORT " + val.name + " " + val._state.youthInCareSupport
+          youthInCareSupport += 1
         if action == "Edit"
           # Need to add their new count instead.
           if the_member.type == "Youth"
@@ -309,8 +324,16 @@ GroupSchema.methods.checkFlags = (next, the_member, action) ->
         chaps += 1
       else if val.type == "Youth"
         youth +=1
+      # Is this a YIC?
+      if val?._state?.youthInCare && !(String(val._id) == String(the_member?._id))
+        console.log "326 HAS YIC " + val.name + " " + val._state.youthInCare
+        youthInCare += 1
+      if val?._state?.youthInCareSupport && !(String(val._id) == String(the_member?._id))
+        console.log "329 HAS SUPPORT " + val.name + " " + val._state.youthInCareSupport
+        youthInCareSupport += 1
       return
     @_state.youthInCare = youthInCare
+    @_state.youthInCareSupport = youthInCareSupport
     if youth > 0
       @_state.enoughChaperones = ((youth / 5) <= chaps)
       next ((youth / 5) <= chaps)

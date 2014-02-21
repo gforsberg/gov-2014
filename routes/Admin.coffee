@@ -190,6 +190,7 @@ Admin = module.exports = {
         '':       0
       }
       youthInCareCount = 0
+      youthInCareSupportCount = 0
       # Days between Sept 1 and Mar 21.
       num_of_days = 203
       dates = Array.apply(null, new Array(num_of_days)).map(Number.prototype.valueOf,0);
@@ -216,6 +217,8 @@ Admin = module.exports = {
           # Youth In care?
           if val._state.youthInCare
             youthInCareCount += 1
+          if val._state.youthInCareSupport
+            youthInCareSupportCount += 1
         res.render "statistics", {
           # Normal Stuff
           session: req.session
@@ -230,6 +233,7 @@ Admin = module.exports = {
           totals: totals
           dates: dates
           youthInCareCount: youthInCareCount
+          youthInCareSupportCount: youthInCareSupportCount
         }
 
   put:

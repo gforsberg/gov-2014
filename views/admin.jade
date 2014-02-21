@@ -44,7 +44,7 @@ block content
                     .label.label-success.tooltipped(data-toggle="tooltip", title="This group has Youth In Care!")
                       .fa.fa-flag
                       |  
-                      | #{group._state.youthInCare}
+                      | #{group._state.youthInCare} + #{group._state.youthInCareSupport}
                 td
                   case group._state.enoughChaperones
                     when true

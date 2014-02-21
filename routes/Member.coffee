@@ -70,6 +70,7 @@ MemberRoutes = module.exports = {
     member: (req, res) ->
       # Is it a youth in care?
       inCare = (req.body.youthInCare == "Yes")
+      inCareSupport = (req.body.youthInCareSupport == "Yes")
       Member.model.create {
         name:         req.body.name
         _group:       req.session.group._id
@@ -91,6 +92,7 @@ MemberRoutes = module.exports = {
           conditions: req.body.emergConditions
         _state:
           youthInCare: inCare
+          youthInCareSupport: inCareSupport
       }, (err, member) ->
         if err?
           message = "Couldn't properly create that member... Try again?"
@@ -133,6 +135,7 @@ MemberRoutes = module.exports = {
               member.emergencyInfo.allergies =    req.body.emergAllergies
               member.emergencyInfo.conditions =   req.body.emergConditions
               member._state.youthInCare =         (req.body.youthInCare == "Yes")
+              member._state.youthInCareSupport =  (req.body.youthInCareSupport == "Yes")
               if req.session.isAdmin && req.body.ticketType
                 member._state.ticketType =        req.body.ticketType
               member.save (err) ->
