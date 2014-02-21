@@ -73,14 +73,14 @@ require("./routes")(app)
 app.listen config.port, () ->
   console.log "Listening on port #{config.port}."
   
-Group = require("./schema/Group")
-Group.model.find {}, (err, groups) ->
-  looper = (groups) ->
-    group = groups.pop()
-    if group?
-      group.checkFlags () ->
-        console.log group.name + " " + group._state.youthInCare
-        group.save () ->
-          looper(groups)
-  looper(groups)
-      
+# Group = require("./schema/Group")
+# Group.model.find {}, (err, groups) ->
+#   looper = (groups) ->
+#     group = groups.pop()
+#     if group?
+#       group.checkFlags () ->
+#         console.log group.name + " " + group._state.youthInCare
+#         group.save () ->
+#           looper(groups)
+#   looper(groups)
+#       
