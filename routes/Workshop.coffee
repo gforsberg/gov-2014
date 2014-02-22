@@ -55,6 +55,7 @@ WorkshopRoutes = module.exports = {
           workshop.name = req.body.name
           workshop.host = req.body.host
           workshop.description = req.body.description
+          workshop.label = req.body.label
           # Handle the "allows"
           switch req.body.allows
             when "default"    
@@ -110,6 +111,7 @@ WorkshopRoutes = module.exports = {
         name: req.body.name
         host: req.body.host
         description: req.body.description
+        label: req.body.label
         allows: []
         sessions: []
       }

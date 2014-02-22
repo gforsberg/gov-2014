@@ -55,4 +55,11 @@ General = module.exports = {
           title: "FAQ"
           caption: "Questions, of the frequently asked variety"
           bg: "/img/bg/faq.jpg"
+    fnha: (req, res) ->
+      res.render "fnha",
+        session: req.session
+        head:
+          title: "Wellness Journey"
+          caption: "Brought to you by the First Nations Health Authority"
+          bg: "/img/bg/fnha.jpg"
 }

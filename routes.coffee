@@ -13,6 +13,7 @@ routes = module.exports = (app) ->
   app.get   "/privacy",   General.get.privacy   # Privacy Policy
   app.get   "/faq",       General.get.faq       # Frequently Asked Questions
   app.get   "/venues",    General.get.venues    # Venues
+  app.get   "/fnha-journey", General.get.fnha   # FNHA Journey
 
   ###
   Account Routes

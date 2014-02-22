@@ -46,6 +46,16 @@ WorkshopSchema = new Schema {
     ]
     required: true
     default: ["Youth", "Young Adult", "Young Chaperone"]
+  label:
+    type: String
+    enum: [
+      "Be Active"
+      "Respecting Tobacco"
+      "Nurturing Spirit"
+      "Healthy Eating"
+      ""
+    ]
+    default: ""
   sessions: [ # Determines start/end time, as well as day.
     session:
       type: Number

@@ -23,6 +23,14 @@ form.form-horizontal(action="/workshop", method="POST")
         option(value="young", selected=workshop && JSON.stringify(workshop.allows)===JSON.stringify(["Youth", "Young Adult"])) Only Youth, Young Adults.
         option(value="youngAdult", selected=workshop && JSON.stringify(workshop.allows)===JSON.stringify(["Young Adult"])) Only Young Adults.
         option(value="youth", selected=workshop && JSON.stringify(workshop.allows)===JSON.stringify(["Youth"])) Only Youth.
+    .control-group
+      label Label
+      select.form-control(name="label")
+        option(value="", selected=workshop && workshop.label == "") None
+        option(value="Be Active", selected=workshop && workshop.label == "Be Active") Be Active
+        option(value="Respecting Tobacco", selected=workshop && workshop.label == "Respecting Tobacco") Respecting Tobacco
+        option(value="Nurturing Spirit", selected=workshop && workshop.label == "Nurturing Spirit") Nurturing Spirit
+        option(value="Healthy Eating", selected=workshop && workshop.label == "Healthy Eating") Healthy Eating
 
   br
   fieldset

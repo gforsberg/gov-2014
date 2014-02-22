@@ -234,3 +234,20 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+/* Labels */
+.label-active {
+  background-color: #CC0A17;
+}
+
+.label-tobacco {
+  background-color: #0ACCBF;
+}
+
+.label-spirit {
+  background-color: #cc0Ab5;
+}
+
+.label-eating {
+  background-color: #78CC0A;
+}

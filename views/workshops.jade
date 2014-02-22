@@ -4,11 +4,14 @@ block content
   .container
     p.text-muted(style="text-align: center;") If this is your first time at Gathering Our Voices, or you'd like a refresher on the workshop schedule, please check our FAQ
       a(href="/faq#workshops")  here.
+    .alert.alert-success The First Nations Health Authority has identified 4 key wellness streams that represent areas that could greatly improve your health and wellness.
+      a(href="/fnha-journey")  Click here for more information.
     #listing.row
       .table-responsive
         table.table.table-striped
           thead
             tr
+              th
               th.col-sm-2 Name
               th(style="width: 170px") Sessions
               th(style="width: 80px") Allows
@@ -21,6 +24,23 @@ block content
             else
               for workshop in workshops
                 tr
+                  td
+                    if workshop.label == "Be Active"
+                      a(href="/fnha-journey")
+                        .label.label-active.tooltipped(data-toggle="tooltip", title="Be Active (Click for more info!)")
+                          .fa.fa-comment
+                    if workshop.label == "Respecting Tobacco"
+                      a(href="/fnha-journey")
+                        .label.label-tobacco.tooltipped(data-toggle="tooltip", title="Respecting Tobacco (Click for more info!)")
+                          .fa.fa-comment
+                    if workshop.label == "Nurturing Spirit"
+                      a(href="/fnha-journey")
+                        .label.label-spirit.tooltipped(data-toggle="tooltip", title="Nurturing Spirit (Click for more info!)")
+                          .fa.fa-comment
+                    if workshop.label == "Healthy Eating"
+                      a(href="/fnha-journey")
+                        .label.label-eating.tooltipped(data-toggle="tooltip", title="Healthy Eating (Click for more info!)")
+                          .fa.fa-comment
                   td= workshop.name
                   td
                     for session in workshop.sessions
