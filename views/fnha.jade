@@ -3,34 +3,99 @@ extends templates/layout
 block content
   .container
     .row
+      .col-sm-8
+        h2 Take the Wellness Journey and Become a Wellness Champion!
+        p The First Nations Health Authority has identified 4 key wellness streams that represent areas that could greatly improve your health and wellness. Embark on the Wellness Journey by registering for workshops in each of the 4 streams: Being Active, Healthy Eating, Nurturing Spirit and Respecting Tobacco. If you complete the journey by attending all 4 workshops, you will become a Wellness Champion and be eligible to win a prize! Space is limited for this program so the sooner you register – the sooner you can start the Wellness Journey!
+      .col-sm-4(style="text-align: center;")
+        img(src="/img/fnha.jpg")
+    p.lead Space is very limited for this program so please register EARLY for the workshops that will ensure your eligibility for the prize!
+    
+    .row
       .col-sm-12
-        .container
-          .col-sm-8
-            h2 Take the Wellness Journey and Become a Wellness Champion!
-            p The First Nations Health Authority has identified 4 key wellness streams that represent areas that could greatly improve your health and wellness. Embark on the Wellness Journey by registering for workshops in each of the 4 streams: Being Active, Healthy Eating, Nurturing Spirit and Respecting Tobacco. If you complete the journey by attending all 4 workshops, you will become a Wellness Champion and be eligible to win a prize! Space is limited for this program so the sooner you register – the sooner you can start the Wellness Journey!
-          .col-sm-4(style="text-align: center;")
-            img(src="/img/fnha.jpg")
-        p.lead Space is very limited for this program so please register EARLY for the workshops that will ensure your eligibility for the prize!
-        
         p.lead Take one workshop in each Wellness Stream:
-        ul
-          li 
-            .label.label-active.tooltipped(data-toggle="tooltip", title="Be Active")
-              .fa.fa-comment
-            |  Being Active
-          li 
-            .label.label-eating.tooltipped(data-toggle="tooltip", title="Healthy Eating")
-              .fa.fa-comment
-            |  Healthy Eating
-          li 
-            .label.label-spirit.tooltipped(data-toggle="tooltip", title="Nurturing Spirit")
-              .fa.fa-comment
-            |  Nurturing Spirit
-          li 
-            .label.label-tobacco.tooltipped(data-toggle="tooltip", title="Respecting Tobacco")
-              .fa.fa-comment
-            |  Respecting Tobacco
-        
+          table.table.table-hover
+            tbody
+              tr
+                td
+                  .label.label-active.tooltipped(data-toggle="tooltip", title="Be Active")
+                    .fa.fa-comment
+                  |  Being Active
+                  ul(style="list-style: none;")
+                    li
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f2760e7c1550020000004e") Introductory Lacrosse
+                    li
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f3dd9c3bfba902000000b4") Metis Getting Jiggy.. Hip Hop Dance
+                    li
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f291e51187600200000032") Get Up, Get Moving – Leading With Play
+                    li
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52efef9a7db068020000000a") Ancient Traditional Native Games
+                    li
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/53078b240579870200000032") Be Active
+                td
+                  .label.label-eating.tooltipped(data-toggle="tooltip", title="Healthy Eating")
+                    .fa.fa-comment
+                  |  Healthy Eating
+                  ul(style="list-style: none;")
+                    li
+                     a(href="https://gatheringourvoices.bcaafc.com/workshop/52f28efa1187600200000010") Indig-A-Fit - Healthy Lifestyles with the Indigenous Mindset
+                    li
+                     a(href="https://gatheringourvoices.bcaafc.com/workshop/53078ec1ab77eb0200000007") Delicious, Nutritious Supermarket Shopping
+                    li
+                     a(href="https://gatheringourvoices.bcaafc.com/workshop/5307915eab77eb020000000b") Eat More Traditional Foods
+                    li
+                     a(href="https://gatheringourvoices.bcaafc.com/workshop/530792f8ab77eb0200000010") Healthy Eating Ideas For Your School, Team or Community
+              tr
+                td
+                  .label.label-spirit.tooltipped(data-toggle="tooltip", title="Nurturing Spirit")
+                    .fa.fa-comment
+                  |  Nurturing Spirit
+                  ul(style="list-style: none;")
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f27b3d7c15500200000078") Live Your Language: Mentor-Apprentice Language Learning Workshop
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f28ddf118760020000000a") Cedar Bark Basket Weaving
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f276797c15500200000053") Promoting Healthy Youth Relationships
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f2749a7c1550020000003f") Medicine Wheel: Self-Care Toolkit
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52fa9eb325d3320200000003") Wheel of Wellbeing: Balance & Self care
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f3de383bfba902000000bc") Spirit-driven Woodland Art: Concepts and Composition
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f53aa8285f7c020000001a") Aboriginal Arts & Stories
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52efef9a7db068020000000a") Anti-Bullying and Two Spirited Youth
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f27a7b7c1550020000006e") Beyond The Hurt: Bullying Prevention
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f283c825e168020000000a") Ceremonial Arts
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f290a01187600200000027") Discovering The Stories Within Us
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f5543e285f7c0200000072") Elders Don’t Bite
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f26f5a7c1550020000003a") Empowering Aboriginal Youth In Care
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52efeff87db0680200000013") Freedom From Violence: Decolonizing Our Love Partnership
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f2827925e1680200000002") Girl Power!
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f2916b118760020000002d") Masculinity: Tough Guys
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f294ba1187600200000042") History, Ancient Tools, and the Arts
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f3c2d13bfba90200000084") Honouring Our Sacred Gifts
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/52f28d1d1187600200000002") Finding Balance Through Yoga
+                td
+                  .label.label-tobacco.tooltipped(data-toggle="tooltip", title="Respecting Tobacco")
+                    .fa.fa-comment
+                  |  Respecting Tobacco
+                  ul(style="list-style: none;")
+                    li 
+                      a(href="https://gatheringourvoices.bcaafc.com/workshop/53078df4ab77eb0200000002") Once Tobacco Was Sacred
+    
         p.lead Prizes:
         ul
           li Age 14-17: Wellness Award of $200 to one youth in each region. (Use the funds to support your personal wellness activities and share your experience.)
