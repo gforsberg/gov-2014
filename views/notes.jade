@@ -2,6 +2,9 @@ extends templates/layout
 
 block content
   .container
+    .row(style="text-align: center;")
+      a.btn.btn-primary(href="/admin")
+        | Go Back
     .row
       .col-sm-2
       .col-sm-8
@@ -31,7 +34,9 @@ block content
               select.form-control(name="workshops")
                 option(value="Not Contacted", selected=group._state.workshops == "Not Contacted") Not Contacted
                 option(value="Needs Help", selected=group._state.workshops == "Needs Help") Needs help
-                option(value="Group Ok", selected=group._state.workshops == "Group Ok") Group Ok
+                option(value="Group Called", selected=group._state.workshops == "Group Called") Group Called
+                option(value="Workshops Complete", selected=group._state.workshops == "Workshops Complete") Workshops Complete
+                option(value="Workshops Incomplete", selected=group._state.workshops == "Workshops Incomplete") Workshops Incomplete
 
             .form-group
               label Payment Status

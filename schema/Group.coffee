@@ -162,7 +162,10 @@ GroupSchema = new Schema {
       enum: [
         "Not Contacted",
         "Needs Help",
-        "Group Ok"
+        "Group Ok",
+        "Group Called"
+        "Workshops Complete",
+        "Workshops Incomplete"
       ]
     payment:
       type: String
