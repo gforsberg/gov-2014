@@ -32,6 +32,7 @@ form(action="/member", method="POST")
     .col-sm-4
       fieldset
         legend(style="text-align: center") More Details
+        br
         .form-group
           label Birth Day*
           input.form-control(type="number", name="birthDay", min="1", max="31", placeholder="1", value=(member && member.birthDate.day)? member.birthDate.day : '')
@@ -96,6 +97,10 @@ form(action="/member", method="POST")
         .radio
           label Yes
           input(type="radio", name="youthInCare", value="Yes", checked=(member && member._state.youthInCare)? 'checked' : false))
+
+  .row
+    .col-sm-2
+    .col-sm-8
       button.btn.btn-primary.btn-block(type="submit")
         if !member
           i.fa.fa-plus

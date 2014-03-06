@@ -13,6 +13,7 @@ block content
             tr
               th Name
               th Type
+              th Ticket
               th 
                 | Information
                 br
@@ -44,6 +45,8 @@ block content
                         .label.label-danger Ch
                       default
                         .label.label-default NA
+                  td
+                    .label.label-default= member._state.ticketType
                   td
                     if member._state.complete
                       a.edit.btn.btn-xs.btn-success.tooltipped(data-id=member._id, data-toggle="collapse") Complete 
